@@ -1,0 +1,2950 @@
+<!doctype html>
+<meta name="robots" content="noindex, nofollow">
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+</head>
+<body>
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Elena's Year</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,0..100;1,9..144,300..600,0..100&family=Geist:wght@400;500;600&display=swap">
+<style>:root {
+  --paper:#FFFFFF;
+  --on:#FFFFFF;
+  --on-rgb:255 255 255;
+  --ink:#231C29;
+  --ink-2:#655C6B;
+  --ink-3:#A29BA8;
+  --rule:#E9E4EC;
+  --wash:#F5F2F7;
+  --plum:#443447;
+  --rasp:#A12E5A;
+  --pulse:#F08FB4;
+  --pulse-rgb:240 143 180;
+  --cobalt:#2F55C8;
+  --moss:#2F6B4F;
+  --marigold:#F2B632;
+  --tomato:#DE5237;
+  --lilac:#7461C9;
+  --marker:#FFE37E;
+  --shade:35 28 41;
+  --night:#0C0E13;
+  --night-ink:#F7F2F4;
+  --night-ink-2:#A1A1A6;
+  --night-pink:#E2588F;
+  --glow-a:162 40 88;
+  --glow-b:110 26 60;
+  --logo-ink:#15120D;
+  --logo-dot:#A12E5A;
+  --logo-w:3;
+  --vj:24 26 22;
+  --vj-cream:#F6F1E6;
+  --vj-cream-rgb:246 241 230;
+  --sage:#8FA886;
+  --sage-rgb:143 168 134;
+  --clay:#9A4A2C;
+  --clay-soft:#F4E3DA;
+  --display:"Fraunces",Georgia,"Times New Roman",serif;
+  --ui:"Geist",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --out:cubic-bezier(.23,1,.32,1);
+  --inout:cubic-bezier(.77,0,.175,1);
+  color-scheme: light;
+}
+* {
+  box-sizing: border-box;
+}
+[hidden] {
+  display: none !important;
+}
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--ui);
+  font-size: 15px;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+  font-variation-settings: "SOFT" 100;
+  overflow: hidden;
+  transition: background-color .7s ease;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+body[data-mode=land] {
+  background: var(--night);
+  --logo-ink:#FFFFFF;
+  --logo-dot:#E58AA8;
+  --logo-w:1.7;
+}
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+:focus-visible {
+  outline: 2px solid var(--cobalt);
+  outline-offset: 3px;
+}
+.app {
+  height: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+}
+.top {
+  grid-row: 1;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 12px;
+  padding-block: 14px 8px;
+}
+.mark {
+  justify-self: start;
+  display: block;
+  line-height: 0;
+}
+.logo {
+  display: block;
+  width: 113px;
+  height: 30px;
+}
+.logo path {
+  fill: var(--logo-ink);
+}
+.logo circle {
+  fill: var(--logo-dot);
+}
+.logo .km {
+  fill: none;
+  stroke: var(--logo-ink);
+  stroke-width: var(--logo-w);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.rail {
+  display: flex;
+  gap: 4px;
+}
+.rail button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 6px;
+  font-size: 13px;
+  color: var(--ink-3);
+  transition: color .2s;
+}
+.rail button:hover {
+  color: var(--ink);
+}
+.rail i {
+  display: block;
+  width: 22px;
+  height: 3px;
+  background: var(--rule);
+  transition: background .3s;
+}
+.rail .done i {
+  background: var(--ink);
+}
+.rail .now {
+  color: var(--ink);
+}
+.rail .now i {
+  background: var(--rasp);
+}
+.skip {
+  justify-self: end;
+  font-size: 13px;
+  color: var(--ink-2);
+  padding: 10px 2px;
+}
+.skip:hover {
+  color: var(--ink);
+}
+.skip.off {
+  visibility: hidden;
+}
+body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
+  display: none;
+}
+.guide {
+  grid-row: 2;
+  display: flex;
+  align-items: center;
+  gap: 6px 12px;
+  min-height: 50px;
+  padding: 10px 16px;
+  border-radius: 7px;
+  background: var(--ink);
+  color: var(--on);
+}
+.g-dot {
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgb(var(--on-rgb)/.34);
+}
+.guide.yours .g-dot {
+  background: var(--pulse);
+  animation: gp 1.3s ease-out infinite;
+}
+.g-tag {
+  flex: none;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: rgb(var(--on-rgb)/.62);
+}
+.g-say {
+  min-width: 0;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.3;
+  color: rgb(var(--on-rgb)/.8);
+}
+.guide.yours .g-say {
+  font-weight: 500;
+  color: var(--on);
+}
+.guide.flash {
+  animation: gflash .55s var(--out);
+}
+.stage {
+  grid-row: 3;
+  position: relative;
+  container-type: size;
+  min-height: 0;
+  margin-top: 8px;
+}
+.dock {
+  grid-row: 4;
+  position: relative;
+  border-top: 1px solid var(--rule);
+  padding-block: 16px 20px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 14px 28px;
+  align-items: end;
+  min-height: 150px;
+}
+.timer {
+  position: absolute;
+  left: 0;
+  top: -1px;
+  height: 2px;
+  width: 0;
+  background: var(--rasp);
+}
+.stamp {
+  margin: 0 0 8px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--rasp);
+}
+.say {
+  margin: 0;
+  font: 400 clamp(21px, 2.5vw, 31px)/1.18 var(--display);
+  letter-spacing: -.022em;
+  text-wrap: balance;
+  max-width: 27em;
+  min-height: 2.36em;
+}
+.say.in {
+  animation: sayin .36s var(--out) both;
+}
+.say em {
+  font-style: italic;
+}
+.act {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-end;
+  max-width: 25em;
+  min-height: 44px;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 7px;
+  border: 1px solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background .18s,
+    color .18s,
+    transform .18s;
+}
+.act .btn {
+  animation: sayin .3s var(--out) both;
+}
+.btn:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+.btn:active {
+  transform: scale(.98);
+}
+.btn.primary {
+  background: var(--plum);
+  border-color: var(--plum);
+  color: var(--on);
+}
+.btn.primary:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+}
+.btn.quiet {
+  border-color: transparent;
+  color: var(--ink-2);
+}
+.btn.quiet:hover {
+  background: var(--wash);
+  color: var(--ink);
+}
+.btn.big {
+  min-height: 52px;
+  padding: 0 24px;
+  font-size: 17px;
+}
+.btn.pulse {
+  animation: sayin .3s var(--out) both, bp 1.5s ease-out .4s infinite;
+}
+.scene {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: clamp(10px, min(1.5cqw, 2.6cqh), 20px);
+  transition: opacity .24s ease, transform .24s ease;
+}
+.scene[data-s=welcome] {
+  font-size: clamp(10px, min(1.9cqw, 3.4cqh), 20px);
+}
+.scene[data-s=days] {
+  font-size: clamp(10px, min(2cqw, 3.5cqh), 20px);
+}
+.scene[data-s=dots] {
+  font-size: clamp(10px, min(1.5cqw, 3cqh), 20px);
+}
+.scene[data-s=fit] {
+  font-size: clamp(10px, min(1.5cqw, 2.9cqh), 20px);
+}
+.scene[data-s=room] {
+  font-size: clamp(10px, min(1.6cqw, 2.85cqh), 20px);
+}
+.scene[data-s=end] {
+  font-size: clamp(10px, min(1.6cqw, 3.2cqh), 20px);
+}
+.scene.out {
+  opacity: 0;
+  transform: translateY(10px);
+}
+.label {
+  margin: 0;
+  font-size: max(.78em, 11.5px);
+  font-weight: 500;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+.sheetlike {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  box-shadow: 0 1.6em 3em -1.8em rgb(var(--shade)/.34), 0 .2em .6em -.3em rgb(var(--shade)/.12);
+}
+.poster {
+  --c:var(--rasp);
+  width: 10em;
+  aspect-ratio: 3/4;
+  padding: .85em;
+  display: flex;
+  flex-direction: column;
+  gap: .4em;
+  text-align: left;
+  color: var(--on);
+  background: var(--c);
+  box-shadow: 0 1.2em 2em -1.2em rgb(var(--shade)/.5);
+}
+.poster .p-date {
+  font: 500 max(.64em, 9px)/1 var(--ui);
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  opacity: .92;
+}
+.poster svg {
+  width: 70%;
+  margin: auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.poster .p-title {
+  font: 400 1.06em/1.1 var(--display);
+  letter-spacing: -.015em;
+}
+.c-rasp {
+  --c:var(--rasp);
+}
+.c-cobalt {
+  --c:var(--cobalt);
+}
+.c-moss {
+  --c:var(--moss);
+}
+.c-marigold {
+  --c:var(--marigold);
+}
+.c-tomato {
+  --c:var(--tomato);
+}
+.c-lilac {
+  --c:var(--lilac);
+}
+.c-ink {
+  --c:var(--ink);
+}
+.poster.c-marigold {
+  color: var(--ink);
+}
+.land {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-items: center;
+}
+.land canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.land .glow {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse 46% 54% at 22% 50%,
+      rgb(var(--glow-a)/.3) 0%,
+      rgb(var(--glow-b)/.16) 40%,
+      transparent 85%);
+}
+.land-in {
+  position: relative;
+  display: grid;
+  gap: 26px;
+  justify-items: start;
+}
+.land h1 {
+  margin: 0;
+  font: 400 clamp(46px, 7.6vw, 112px)/.98 var(--display);
+  letter-spacing: -.02em;
+  color: var(--night-ink);
+}
+.land h1 span {
+  display: block;
+}
+.land h1 b {
+  font-weight: 400;
+  color: var(--night-pink);
+}
+.land .sub {
+  margin: 0;
+  max-width: 30em;
+  font-size: clamp(17px, 1.45vw, 21px);
+  line-height: 1.5;
+  color: var(--night-ink-2);
+}
+.land-act {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 18px;
+}
+.cta {
+  height: 48px;
+  padding: 0 24px;
+  border-radius: 999px;
+  background: var(--night-ink);
+  color: var(--night);
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1;
+  transition: transform .18s, opacity .2s;
+}
+.cta:hover {
+  opacity: .88;
+}
+.cta:active {
+  transform: scale(.98);
+}
+.land-note {
+  font-size: 14px;
+  color: var(--night-ink-2);
+}
+.landframe {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: var(--night);
+  opacity: 0;
+  transition: opacity .5s ease;
+}
+.landframe.in {
+  opacity: 1;
+}
+.landpill {
+  position: fixed;
+  left: 50%;
+  bottom: max(18px, env(safe-area-inset-bottom, 0px));
+  z-index: 21;
+  translate: -50% 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: calc(100% - 32px);
+  padding: 11px 16px;
+  border-radius: 7px;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: clamp(13.5px, 3.6vw, 15px);
+  font-weight: 500;
+  line-height: 1.25;
+  white-space: nowrap;
+  box-shadow: 0 12px 34px -10px rgb(var(--shade)/.8);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .4s, translate .4s var(--out);
+}
+.landpill.in {
+  opacity: 1;
+  translate: -50% 0;
+  pointer-events: auto;
+}
+.landpill .g-dot {
+  background: var(--rasp);
+  animation: gp 1.3s ease-out infinite;
+}
+.welcome {
+  width: min(100%, 42em);
+  display: grid;
+  gap: 1.15em;
+  justify-items: start;
+}
+.welcome h1 {
+  margin: 0;
+  font: 400 3.7em/1 var(--display);
+  letter-spacing: -.035em;
+  text-wrap: balance;
+}
+.welcome .lede {
+  margin: 0;
+  max-width: 31em;
+  font-size: max(1.28em, 16px);
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+.how {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: .5em;
+  font-size: max(1.1em, 15px);
+}
+.how li {
+  display: flex;
+  gap: .7em;
+  align-items: baseline;
+}
+.how i {
+  flex: none;
+  width: 1.2em;
+  font-style: normal;
+  font-weight: 600;
+  color: var(--rasp);
+}
+.days {
+  width: min(100%, 46em);
+  display: grid;
+  gap: 1.2em;
+  justify-items: center;
+}
+.shelf {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .8em;
+  min-height: 1.8em;
+  width: 100%;
+}
+.shelf-dots {
+  display: flex;
+  gap: .35em;
+}
+.shelf-dots i {
+  width: .78em;
+  height: .78em;
+  border-radius: 50%;
+  background: var(--c);
+  animation: pop .45s var(--out) both;
+}
+.shelf-n {
+  font-size: max(.8em, 12px);
+  color: var(--ink-2);
+  min-width: 6em;
+}
+.days-main {
+  position: relative;
+  width: 100%;
+  height: 22.5em;
+  display: grid;
+  place-items: center;
+  transition: opacity .22s;
+}
+.days-main.out {
+  opacity: 0;
+}
+.scene.pin,
+.scene.pin .days-main {
+  place-items: start center;
+}
+.scene.pin .days {
+  padding-top: .4em;
+}
+.composer {
+  width: min(100%, 35em);
+  display: grid;
+  gap: .45em;
+  padding: 1.1em 1.3em .8em;
+  transition: transform .5s var(--inout), opacity .4s;
+}
+.composer.kept {
+  transform: scale(.6);
+  opacity: 0;
+}
+.composer header,
+.slip header {
+  display: flex;
+  gap: 1em;
+}
+.composer header .label:last-child,
+.slip header .label:last-child {
+  margin-left: auto;
+}
+.c-title {
+  margin: .5em 0 0;
+  font: 400 max(1.15em, 15px)/1.3 var(--display);
+  color: var(--ink-3);
+}
+.c-text {
+  margin: 0;
+  min-height: 4.3em;
+  font: 400 max(1.24em, 15px)/1.42 var(--display);
+  letter-spacing: -.012em;
+}
+.tw {
+  color: var(--ink-3);
+  transition:
+    color .25s,
+    font-size .35s var(--out),
+    opacity .3s,
+    background-color .3s;
+}
+.tw.heard {
+  color: var(--ink-2);
+}
+.c-text.landed .tw {
+  color: var(--ink);
+}
+.c-text.landed .tw.fil {
+  color: var(--rasp);
+  background: color-mix(in srgb, var(--rasp) 12%, transparent);
+  border-radius: .2em;
+}
+.c-text.landed.clean .tw.fil {
+  font-size: 0;
+  opacity: 0;
+}
+.w {
+  animation: w .28s ease both;
+}
+.mk {
+  background: var(--marker);
+  box-shadow: 0 .08em 0 .06em var(--marker);
+}
+.c-cue {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .4em .9em;
+  font-size: max(.8em, 12.5px);
+  color: var(--ink-2);
+}
+.c-cue .tip {
+  font-size: 1em;
+}
+.alt {
+  padding: .5em .2em;
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.alt:hover {
+  color: var(--rasp);
+}
+.vj-receipt {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  padding: 4px 0 2px;
+  font-size: 13px;
+  color: var(--ink-2);
+  animation: w .2s ease-out both;
+}
+.vj-receipt-mark {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--sage);
+  box-shadow: 0 0 0 3px rgb(var(--sage-rgb)/.2);
+}
+.vj-receipt-text {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.vj-receipt-text b {
+  color: var(--ink);
+  font-weight: 600;
+}
+.vj-shimmer {
+  background:
+    linear-gradient(
+      90deg,
+      var(--ink-3) 0%,
+      var(--ink) 45%,
+      var(--ink-3) 90%) 0 0/200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: vjsh 1.6s linear infinite;
+}
+.vj-seg {
+  display: inline-flex;
+  padding: 2px;
+  border-radius: 6px;
+  background: var(--wash);
+}
+.vj-seg button {
+  height: 26px;
+  padding: 0 10px;
+  border-radius: 4px;
+  font-size: 12.5px;
+  color: var(--ink-2);
+}
+.vj-seg button[aria-pressed=true] {
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 0 1px 2px rgb(var(--shade)/.18);
+}
+.c-foot {
+  display: flex;
+  align-items: center;
+  gap: .6em;
+  margin-top: .2em;
+  padding-top: .6em;
+  border-top: 1px solid var(--rule);
+  color: var(--ink-2);
+}
+.c-foot svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.c-words {
+  font-size: max(.8em, 12px);
+  min-width: 4.6em;
+}
+.c-icon {
+  position: relative;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 7px;
+  color: var(--ink-2);
+}
+.c-mic {
+  color: var(--ink);
+}
+.c-mic.ready::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 7px;
+  border: 1.5px solid var(--rasp);
+  animation: ring 1.6s ease-out infinite;
+}
+.c-mic.is-live {
+  color: var(--clay);
+  background: var(--clay-soft);
+}
+.c-save {
+  margin-left: auto;
+  min-height: 36px;
+  padding: 0 16px;
+}
+.c-save:disabled {
+  opacity: .4;
+  pointer-events: none;
+}
+.vj-float {
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  z-index: 8;
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  width: min(560px, calc(100% - 4px));
+  transform: translate(-50%, 12px);
+  opacity: 0;
+  transition: transform .22s cubic-bezier(.2, .8, .2, 1), opacity .18s ease;
+  pointer-events: none;
+}
+.vj-float.is-open {
+  transform: translate(-50%, 0);
+  opacity: 1;
+  pointer-events: auto;
+}
+.vj-float-card {
+  max-width: 100%;
+  padding: 12px 16px;
+  border-radius: 14px;
+  background: rgb(var(--vj)/.9);
+  color: var(--vj-cream);
+  box-shadow: 0 12px 32px -12px rgb(var(--vj)/.45);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+.vj-float-text {
+  margin: 0;
+  max-height: 4.8em;
+  overflow-y: auto;
+  scrollbar-width: none;
+  font-size: 15px;
+  line-height: 1.6;
+}
+.vj-float-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: rgb(var(--vj)/.94);
+  box-shadow: 0 10px 28px -10px rgb(var(--vj)/.5), 0 0 0 1px rgb(var(--on-rgb)/.06) inset;
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+.vj-float-wave {
+  width: 132px;
+  height: 24px;
+}
+.vj-float-pill button {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+}
+.vj-float-pill svg {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.vj-float-x {
+  background: rgb(var(--vj-cream-rgb)/.12);
+  color: rgb(var(--vj-cream-rgb)/.8);
+}
+.vj-float-x:hover {
+  background: rgb(var(--vj-cream-rgb)/.2);
+  color: var(--on);
+}
+.vj-float-ok {
+  background: var(--vj-cream);
+  color: var(--ink);
+}
+.vj-float-ok:disabled {
+  opacity: .5;
+  cursor: default;
+}
+.vj-float-ok.pulse {
+  animation: okp 1.3s ease-out infinite;
+}
+.vj-float-pill button:focus-visible {
+  outline: 2px solid var(--vj-cream);
+  outline-offset: 2px;
+}
+.vj-float-hint {
+  margin: 0;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  color: var(--ink-2);
+  background: rgb(var(--on-rgb)/.88);
+  text-align: center;
+}
+.keep {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  scale: .7;
+  opacity: 0;
+  transition:
+    scale .5s var(--out),
+    opacity .3s,
+    transform .6s var(--inout);
+}
+.keep.in {
+  scale: 1;
+  opacity: 1;
+}
+.tbl {
+  display: grid;
+  justify-items: center;
+  gap: .7em;
+}
+.tabletop {
+  position: relative;
+  width: 32em;
+  height: 15.5em;
+  background: var(--wash);
+  border: 1px solid var(--rule);
+  border-radius: 1.4em;
+}
+.laptop {
+  position: absolute;
+  left: 50%;
+  bottom: 1em;
+  width: 8.6em;
+  translate: -50% 0;
+  color: var(--ink);
+  transition: transform 1s var(--inout);
+}
+.laptop svg {
+  display: block;
+  width: 100%;
+  fill: var(--paper);
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.laptop.back {
+  transform: translateY(-5.4em) rotate(180deg);
+}
+.sent {
+  position: absolute;
+  left: 50%;
+  bottom: 8.4em;
+  translate: -50% 0;
+  padding: .3em .7em;
+  border-radius: 2em;
+  background: var(--ink);
+  color: var(--on);
+  font-size: max(.8em, 12px);
+  font-weight: 500;
+  opacity: 0;
+  transition: opacity .3s;
+}
+.sent.in {
+  opacity: 1;
+}
+.card3 {
+  position: absolute;
+  right: 1.6em;
+  top: 50%;
+  translate: 0 -50%;
+  rotate: 3deg;
+  width: 10em;
+  padding: .8em .9em;
+  font-size: max(.86em, 11.5px);
+  opacity: 0;
+  transition: opacity .4s;
+}
+.card3.in {
+  opacity: 1;
+}
+.card3 ol {
+  margin: 0;
+  padding-left: 1.25em;
+  display: grid;
+  gap: .4em;
+}
+.card3 .old {
+  transition: color .3s;
+}
+.card3 .old.x {
+  text-decoration: line-through;
+  color: var(--ink-3);
+}
+.card3 em {
+  display: block;
+  font: italic 400 1.12em/1.1 var(--display);
+  color: var(--rasp);
+  opacity: 0;
+  transition: opacity .4s;
+}
+.card3 em.in {
+  opacity: 1;
+}
+.flash {
+  text-align: center;
+  animation: w .22s ease both;
+}
+.flash .label {
+  margin-bottom: .7em;
+}
+.flash b {
+  display: block;
+  font: italic 400 2.5em/1.08 var(--display);
+  letter-spacing: -.025em;
+  max-width: 13em;
+  text-wrap: balance;
+}
+.web {
+  position: absolute;
+  inset: 0;
+}
+.web svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.web line {
+  stroke: var(--ink);
+  stroke-width: 1.5;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+.web line.new {
+  stroke-dashoffset: 1;
+}
+.web line.go {
+  transition: stroke-dashoffset .7s var(--inout);
+}
+.node {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: .6em;
+  padding: .6em;
+  translate: -1.3em -50%;
+  font-size: max(1em, 12.5px);
+  color: var(--ink-2);
+  white-space: nowrap;
+  opacity: 0;
+  scale: .6;
+  transition:
+    opacity .45s,
+    scale .5s var(--out),
+    color .2s;
+}
+.node.side-l {
+  flex-direction: row-reverse;
+  translate: calc(-100% + 1.3em) -50%;
+}
+.node.side-t {
+  flex-direction: column-reverse;
+  gap: .35em;
+  translate: -50% calc(-100% + 1.3em);
+}
+.node.side-b {
+  flex-direction: column;
+  gap: .35em;
+  translate: -50% -1.3em;
+}
+.node.show {
+  opacity: 1;
+  scale: 1;
+}
+.node i {
+  flex: none;
+  width: 1.4em;
+  height: 1.4em;
+  border-radius: 50%;
+  background: var(--c);
+  transition: transform .25s var(--out), box-shadow .25s;
+}
+.node:hover {
+  color: var(--ink);
+}
+.node:hover i {
+  transform: scale(1.15);
+}
+.node.sel {
+  color: var(--ink);
+}
+.node.sel i {
+  box-shadow: 0 0 0 .32em color-mix(in srgb, var(--c) 24%, transparent);
+}
+.node.found {
+  color: var(--ink);
+  font-weight: 500;
+}
+.node.found i {
+  box-shadow: 0 0 0 .2em var(--paper), 0 0 0 .32em var(--ink);
+}
+.node.nudge {
+  color: var(--ink);
+}
+.node.nudge i {
+  animation: nudge 1.5s ease-out infinite;
+}
+.web.done .node:not(.found) {
+  opacity: .22;
+  pointer-events: none;
+}
+.web.narrow .node:not(.thread) span,
+.web.narrow .speck {
+  display: none;
+}
+.speck {
+  position: absolute;
+  width: .55em;
+  height: .55em;
+  border-radius: 50%;
+  background: var(--c);
+  opacity: .45;
+  translate: -50% -50%;
+}
+.mid {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  width: 28em;
+  padding: 1em 1.2em;
+  background: var(--paper);
+  text-align: center;
+}
+.mid > * {
+  animation: w .3s ease both;
+}
+.mid-q {
+  margin: .6em 0 0;
+  font: italic 400 max(1.3em, 15px)/1.28 var(--display);
+  letter-spacing: -.012em;
+  text-wrap: balance;
+}
+.mid-tag {
+  margin: .8em 0 0;
+  font-size: max(.86em, 12px);
+  color: var(--ink-2);
+}
+.mid-tag.in {
+  color: var(--rasp);
+  font-weight: 500;
+}
+.mid h2 {
+  margin: .24em 0 0;
+  font: 400 3em/1 var(--display);
+  letter-spacing: -.035em;
+  text-wrap: balance;
+}
+.fit {
+  display: grid;
+  grid-template-columns: 27em 33em;
+  gap: 4.5em;
+  align-items: center;
+}
+.slip {
+  padding: 1.4em 1.6em 1.5em;
+  rotate: -1.2deg;
+}
+.slip p.j {
+  margin: .7em 0 0;
+  font: 400 max(1.32em, 15px)/1.52 var(--display);
+  letter-spacing: -.012em;
+}
+.ph {
+  display: inline;
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: inherit;
+  padding: 0 .08em;
+  border-radius: .15em;
+  background: linear-gradient(transparent 58%, color-mix(in srgb, var(--c) 34%, transparent) 58%);
+  transition: background .2s;
+}
+.ph:hover,
+.ph.used {
+  background: color-mix(in srgb, var(--c) 20%, transparent);
+}
+.ph:not(.used) {
+  animation: phn 1.4s ease-in-out infinite;
+}
+.tchip {
+  display: inline-flex;
+  align-items: center;
+  gap: .6em;
+  margin-top: 1.3em;
+  padding: .6em .9em;
+  border: 1px solid var(--ink);
+  border-radius: 2em;
+  font-size: max(.95em, 12.5px);
+  font-weight: 500;
+  line-height: 1;
+  animation: w .4s ease both;
+}
+.tchip i {
+  width: .7em;
+  height: .7em;
+  border-radius: 50%;
+  background: var(--ink);
+}
+.cols {
+  display: grid;
+  gap: .8em;
+}
+.col {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 1em;
+  padding: 1.05em 1.2em;
+  border: 1px dashed var(--rule);
+  transition:
+    border-color .3s,
+    opacity .4s,
+    box-shadow .3s;
+}
+.col i {
+  grid-row: 1/4;
+  width: .9em;
+  height: .9em;
+  margin-top: .45em;
+  border-radius: 50%;
+  background: var(--rule);
+  transition: background .2s;
+}
+.col .label {
+  color: var(--ink-3);
+  transition: color .3s;
+}
+.col .name {
+  font: 400 max(1.42em, 16px)/1.15 var(--display);
+  letter-spacing: -.02em;
+  color: var(--ink-3);
+  transition: color .3s;
+}
+.col .fact {
+  font-size: max(.96em, 13px);
+  color: var(--ink-2);
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition:
+    max-height .45s var(--out),
+    opacity .4s,
+    margin .4s;
+}
+.col.open {
+  border: 1px solid var(--rule);
+  box-shadow: 0 1.4em 2.4em -1.8em rgb(var(--shade)/.34);
+}
+.col.open i {
+  background: var(--c);
+}
+.col.open .label {
+  color: var(--ink-2);
+}
+.col.open .name {
+  color: var(--ink);
+}
+.col.open .fact {
+  max-height: 4.4em;
+  opacity: 1;
+  margin-top: .3em;
+}
+.col mark {
+  color: inherit;
+  background: linear-gradient(var(--marker), var(--marker)) no-repeat 0 0/0% 100%;
+  transition: background-size .6s var(--inout);
+}
+.col mark.on {
+  background-size: 100% 100%;
+}
+.col .tag {
+  display: none;
+  margin-top: .5em;
+  font-size: max(.8em, 12px);
+  font-weight: 500;
+  color: var(--rasp);
+}
+.col.listed {
+  border-color: var(--ink);
+}
+.col.listed .tag {
+  display: block;
+}
+.fit.picked .col:not(.listed) {
+  opacity: .4;
+}
+.trav {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 5;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--c);
+  pointer-events: none;
+  transition: transform .65s var(--inout);
+}
+.room {
+  display: grid;
+  grid-template-columns: 31em 25em;
+  gap: 4em;
+  align-items: center;
+}
+.page {
+  height: 34em;
+  padding: 1.6em 1.8em 1.2em;
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  overflow: hidden;
+}
+.room .pbody {
+  margin-top: 1.3em;
+}
+.page header,
+.page footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 1em;
+}
+.page .label {
+  font-size: max(.72em, 10.5px);
+}
+.page h2 {
+  margin: .7em 0 .5em;
+  min-height: 2.1em;
+  font: 400 2em/1.05 var(--display);
+  letter-spacing: -.03em;
+  text-wrap: balance;
+}
+.pbody p {
+  margin: 0 0 .7em;
+  font: 400 max(1.02em, 13px)/1.45 var(--display);
+}
+.pbody .blank {
+  color: var(--ink-3);
+  font-style: italic;
+}
+.said {
+  margin: 0 0 .9em;
+  padding-left: .9em;
+  border-left: 2px solid var(--c);
+  font: italic 400 max(1.08em, 13.5px)/1.4 var(--display);
+  animation: w .35s ease both;
+}
+.said .label {
+  display: block;
+  margin-bottom: .35em;
+  font-style: normal;
+}
+.picks .poster.wait {
+  opacity: .3;
+  pointer-events: none;
+  animation: none;
+}
+.tip {
+  display: inline-flex;
+  align-items: center;
+  padding: .4em .7em;
+  border-radius: 7px;
+  background: var(--ink);
+  color: var(--on);
+  font: 500 max(.8em, 12.5px)/1.2 var(--ui);
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+.mid .tip {
+  margin-top: .9em;
+}
+.slip .tip {
+  margin-top: 1.1em;
+}
+.coach {
+  margin: 0;
+  padding: .7em 0;
+  border-top: 1px solid var(--rule);
+  font-size: max(.9em, 12.5px);
+  color: var(--moss);
+  animation: w .4s ease both;
+}
+.coach b {
+  font-weight: 600;
+}
+.side {
+  display: grid;
+  gap: 1em;
+  justify-items: start;
+}
+.picks {
+  display: flex;
+  gap: .8em;
+}
+.ghost {
+  order: 1;
+}
+.picks .poster {
+  width: 7.6em;
+  transition: transform .25s var(--out), opacity .3s;
+}
+.picks .poster:not(.used):not(.wait) {
+  animation: pring 1.6s ease-out infinite;
+}
+.picks .poster:hover {
+  transform: translateY(-.3em) rotate(-1.5deg);
+}
+.picks .poster.used {
+  opacity: .28;
+  pointer-events: none;
+}
+.ghost {
+  padding: .65em 1em;
+  border: 1px dashed var(--ink-3);
+  border-radius: 7px;
+  font-size: max(.9em, 13px);
+  color: var(--ink-2);
+  transition: color .2s, border-color .2s;
+}
+.ghost:hover {
+  color: var(--ink);
+  border-color: var(--ink);
+}
+.ghost.no {
+  color: var(--rasp);
+  border: 1px solid var(--rasp);
+  animation: shake .4s;
+}
+.end {
+  display: grid;
+  grid-template-columns: 25em 31em;
+  gap: 4.5em;
+  align-items: center;
+}
+.end .page {
+  height: auto;
+  grid-template-rows: auto auto auto auto;
+  rotate: -1.5deg;
+}
+.end .page h2 {
+  min-height: 0;
+}
+.end .sig {
+  margin: .2em 0 0;
+  font: italic 400 1.9em/1 var(--display);
+  color: var(--rasp);
+  text-align: right;
+}
+.endcard {
+  display: grid;
+  gap: 1.1em;
+  justify-items: start;
+}
+.endcard h2 {
+  margin: 0;
+  font: 400 3.2em/1 var(--display);
+  letter-spacing: -.035em;
+}
+.endcard ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: .5em;
+  font-size: max(1.06em, 14.5px);
+  line-height: 1.4;
+  color: var(--ink-2);
+}
+.endcard li b {
+  font-weight: 600;
+  color: var(--ink);
+}
+.ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.fine {
+  margin: 0;
+  font-size: max(.86em, 12.5px);
+  color: var(--ink-2);
+}
+@keyframes sayin {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+@keyframes w {
+  from {
+    opacity: 0;
+    transform: translateY(.2em);
+  }
+}
+@keyframes pop {
+  from {
+    opacity: 0;
+    scale: .3;
+  }
+}
+@keyframes vjsh {
+  to {
+    background-position: -200% 0;
+  }
+}
+@keyframes okp {
+  0% {
+    box-shadow: 0 0 0 0 rgb(var(--vj-cream-rgb)/.75);
+  }
+  100% {
+    box-shadow: 0 0 0 10px rgb(var(--vj-cream-rgb)/0);
+  }
+}
+@keyframes ring {
+  from {
+    transform: scale(1);
+    opacity: .7;
+  }
+  to {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+@keyframes nudge {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--c) 65%, transparent);
+  }
+  100% {
+    box-shadow: 0 0 0 .95em color-mix(in srgb, var(--c) 0%, transparent);
+  }
+}
+@keyframes pring {
+  0% {
+    box-shadow: 0 1.2em 2em -1.2em rgb(var(--shade)/.5), 0 0 0 0 color-mix(in srgb, var(--c) 60%, transparent);
+  }
+  100% {
+    box-shadow: 0 1.2em 2em -1.2em rgb(var(--shade)/.5), 0 0 0 .8em color-mix(in srgb, var(--c) 0%, transparent);
+  }
+}
+@keyframes phn {
+  50% {
+    background-color: color-mix(in srgb, var(--c) 24%, transparent);
+  }
+}
+@keyframes shake {
+  25% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(4px);
+  }
+}
+@keyframes gp {
+  0% {
+    box-shadow: 0 0 0 0 rgb(var(--pulse-rgb)/.7);
+  }
+  100% {
+    box-shadow: 0 0 0 9px rgb(var(--pulse-rgb)/0);
+  }
+}
+@keyframes gflash {
+  from {
+    background: var(--rasp);
+    transform: translateY(-3px);
+  }
+}
+@keyframes bp {
+  0% {
+    box-shadow: 0 0 0 0 rgb(var(--shade)/.35);
+  }
+  100% {
+    box-shadow: 0 0 0 11px rgb(var(--shade)/0);
+  }
+}
+@container (max-width:620px) {
+  .scene,
+  .scene[data-s] {
+    font-size: clamp(10px, min(3.3cqw, 2.8cqh), 15px);
+  }
+  .welcome {
+    width: 30em;
+  }
+  .composer {
+    padding: 1em 1.1em .7em;
+  }
+  .c-foot .tip {
+    display: none;
+  }
+  .vj-float-text {
+    font-size: 14px;
+  }
+  .endcard {
+    gap: .75em;
+  }
+  .endcard ul {
+    font-size: 14px;
+    gap: .35em;
+  }
+  .welcome h1 {
+    font-size: 3em;
+  }
+  .days {
+    width: 30em;
+  }
+  .tabletop {
+    width: 29em;
+    height: 17em;
+  }
+  .laptop {
+    left: 34%;
+    width: 8em;
+  }
+  .sent {
+    left: 34%;
+  }
+  .card3 {
+    right: .9em;
+  }
+  .mid {
+    width: 17.5em;
+    padding: .6em;
+  }
+  .mid h2 {
+    font-size: 2.15em;
+  }
+  .fit {
+    grid-template-columns: 1fr;
+    gap: 1em;
+    width: 30em;
+  }
+  .slip p.j {
+    font-size: 14.5px;
+    line-height: 1.42;
+    margin-top: .5em;
+  }
+  .slip .tip {
+    margin-top: .7em;
+  }
+  .cols {
+    gap: .6em;
+  }
+  .col .name {
+    font-size: 15px;
+  }
+  .col.open .fact {
+    margin-top: .15em;
+  }
+  .col.open:not(.latest) .fact {
+    max-height: 0;
+    opacity: 0;
+    margin-top: 0;
+  }
+  .slip .tip {
+    display: none;
+  }
+  .slip {
+    rotate: 0deg;
+    padding: .9em 1.1em 1em;
+  }
+  .col {
+    padding: .6em .9em;
+  }
+  .scene[data-s=room] {
+    place-items: start center;
+  }
+  .room {
+    grid-template-columns: 1fr;
+    gap: 1em;
+    width: 30em;
+  }
+  .room .side {
+    order: -1;
+  }
+  .page {
+    height: auto;
+    min-height: 11em;
+    padding: 1.1em 1.2em .8em;
+  }
+  .page h2 {
+    font-size: 1.5em;
+    min-height: 1.1em;
+    margin: .5em 0 .35em;
+  }
+  .side {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: .8em;
+    width: 100%;
+  }
+  .picks {
+    grid-column: 1/-1;
+    order: 3;
+  }
+  .ghost {
+    order: 0;
+    padding: .45em .8em;
+  }
+  .picks .poster {
+    width: 9.4em;
+    height: 6.4em;
+    aspect-ratio: auto;
+  }
+  .picks .poster svg {
+    display: none;
+  }
+  .picks .poster .p-title {
+    margin-top: auto;
+  }
+  .end {
+    grid-template-columns: 1fr;
+    width: 30em;
+  }
+  .end .page {
+    display: none;
+  }
+  .endcard h2 {
+    font-size: 2.6em;
+  }
+}
+@media (max-width: 760px) {
+  .rail span {
+    display: none;
+  }
+  .rail button {
+    gap: 6px;
+    padding: 10px 3px;
+  }
+  .rail i {
+    width: 16px;
+  }
+  .guide {
+    flex-wrap: wrap;
+    padding: 9px 12px;
+  }
+  .g-say {
+    flex-basis: 100%;
+    font-size: 15px;
+  }
+  .dock {
+    grid-template-columns: 1fr;
+    min-height: 200px;
+    align-content: start;
+  }
+  .say {
+    min-height: 3.54em;
+  }
+  .act {
+    justify-content: flex-start;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+</style>
+<script>document.body.dataset.mode = "land";
+</script>
+
+<div class="app">
+  <header class="top">
+    <a class="mark" href="https://bookae.ai" target="_blank" rel="noopener" aria-label="Bookae"><svg class="logo" viewBox="-85.5 0 437.5 116" width="113" height="30" role="img" aria-label="Bookae"><path class="km" d="M-69.59 33.21L-74.55 35.53M-59.65 21.55L-64.61 23.88M-65.67 47.19L-71.45 49.90M-42.88 15.59L-47.84 17.91M-51.15 19.47L-56.11 21.79M-53.39 36.15L-59.18 38.86M-59.34 61.37L-65.13 64.09M-56.34 51.58L-62.12 54.29M-51.67 70.42L-53.52 71.29M-56.83 72.84L-61.79 75.17M-39.92 32.75L-42.01 33.74M-45.32 35.28L-50.28 37.61M-33.55 19.98L-38.51 22.30M-41.82 23.86L-46.78 26.18M-50.12 54.50L-55.90 57.22M-33.02 24.11L-37.98 26.44M-47.06 50.34L-52.85 53.05M-42.43 46.76L-46.56 48.70M-39.93 38.60L-49.85 43.25M-38.70 77.48L-43.66 79.81M-39.66 66.75L-49.58 71.40M-27.38 52.60L-27.87 52.83M-40.79 58.89L-46.58 61.61M-33.83 50.03L-34.65 50.42M-27.19 39.93L-28.85 40.71M-23.69 28.50L-28.65 30.83M-21.01 69.62L-25.97 71.95M-25.95 64.95L-30.91 67.28M-18.01 59.83L-22.96 62.15M-16.00 53.30L-20.96 55.62M-22.95 55.15L-27.90 57.48M-13.00 43.50L-17.96 45.83M-56.00 70.13L-53.52 71.29M-52.99 75.42L-43.66 79.81M-71.12 70.78L-61.79 75.17M-72.61 50.01L-71.63 50.47M-36.85 66.83L-25.97 71.95M-74.46 59.70L-65.13 64.09M-58.91 67.01L-49.58 71.40M-77.55 45.33L-69.65 49.05M-55.78 55.57L-54.10 56.37M-41.79 62.15L-30.91 67.28M-23.58 57.21L-18.01 59.83M-24.82 61.28L-22.96 62.15M-65.67 47.19L-56.34 51.58M-50.12 54.50L-40.79 58.89M-71.45 49.90L-62.12 54.29M-55.90 57.22L-46.58 61.61M-67.61 33.68L-60.74 36.91M-31.85 50.50L-20.96 55.62M-62.18 48.66L-52.85 53.05M-69.59 33.21L-60.86 37.31M-33.83 50.03L-22.95 55.15M-42.43 46.76L-34.65 50.42M-74.55 35.53L-62.11 41.39M-46.56 48.70L-27.90 57.48M-59.65 21.55L-56.49 23.04M-26.36 37.22L-13.00 43.50M-44.49 32.57L-42.01 33.74M-64.61 23.88L-57.74 27.11M-28.85 40.71L-17.96 45.83M-41.48 37.87L-39.93 38.60M-53.39 36.15L-50.28 37.61M-59.18 38.86L-49.85 43.25M-42.88 15.59L-33.55 19.98M-33.02 24.11L-23.69 28.50M-47.84 17.91L-38.51 22.30M-51.15 19.47L-41.82 23.86M-37.98 26.44L-28.65 30.83M-56.11 21.79L-46.78 26.18M-23.31 54.98L-23.19 54.58M-35.12 25.10L-33.55 19.98M-21.01 69.62L-18.01 59.83M-16.00 53.30L-13.00 43.50M-38.70 77.48L-35.61 67.41M-30.73 51.49L-30.61 51.09M-27.19 39.93L-23.69 28.50M-48.67 20.63L-47.84 17.91M-53.52 71.29L-53.05 69.77M-42.01 33.74L-38.51 22.30M-72.61 50.01L-71.98 47.95M-67.61 33.68L-64.61 23.88M-36.85 66.83L-36.22 64.78M-31.85 50.50L-28.85 40.71M-25.97 71.95L-22.96 62.15M-20.96 55.62L-17.96 45.83M-56.83 72.84L-55.53 68.60M-45.32 35.28L-41.82 23.86M-25.95 64.95L-22.95 55.15M-52.99 75.42L-51.48 70.51M-41.48 37.87L-37.98 26.44M-42.43 46.76L-39.93 38.60M-43.66 79.81L-39.66 66.75M-34.65 50.42L-28.65 30.83M-77.55 45.33L-74.55 35.53M-71.12 70.78L-68.57 62.47M-62.11 41.39L-56.11 21.79M-59.34 61.37L-56.34 51.58M-61.79 75.17L-55.78 55.57M-50.28 37.61L-46.78 26.18M-47.06 50.34L-46.56 48.70M-41.79 62.15L-40.79 58.89M-30.91 67.28L-27.90 57.48M-74.46 59.70L-71.45 49.90M-62.18 48.66L-59.18 38.86M-65.13 64.09L-62.12 54.29M-58.91 67.01L-55.90 57.22M-52.85 53.05L-49.85 43.25M-49.58 71.40L-46.58 61.61"/><g transform="translate(8,81.5)"><path d="M30.7 -61.7 33 -67.6H49Q55.6 -67.6 59.6 -65.8Q63.6 -64.1 65.4 -61Q67.3 -57.9 67.3 -54.1Q67.3 -49 64.8 -45Q62.3 -41.1 57.6 -38.8Q53 -36.4 46.4 -35.9L46.2 -36.7Q54.1 -36.2 58 -32.5Q61.9 -28.8 61.9 -23.1Q61.9 -16.7 58.7 -11.5Q55.4 -6.2 48.9 -3.1Q42.4 0 32.5 0.0H12.4L13.9 -6.0H30.1Q35.9 -6 40 -8.2Q44.1 -10.3 46.4 -14.3Q48.6 -18.3 48.6 -23.6Q48.6 -27.8 46 -30.4Q43.5 -32.9 37.6 -32.9H21.9L23.9 -38.8H40Q44.4 -38.8 47.7 -40.7Q50.9 -42.7 52.7 -46Q54.5 -49.4 54.5 -53.6Q54.5 -56.2 53.4 -58Q52.4 -59.8 50.2 -60.8Q48 -61.7 44.6 -61.7ZM23.8 -62.4 17.1 -65 17.9 -67.6H38.4L17.7 0.0H-2.6L-1.8 -2.6L6.3 -5.3Z"/><path d="M96.2 -45.7Q101.6 -45.7 105.3 -43.6Q109 -41.5 110.9 -37.8Q112.7 -34.1 112.7 -29.1Q112.7 -23 110.7 -17.5Q108.7 -12 105.1 -7.8Q101.4 -3.6 96.6 -1.2Q91.7 1.2 85.9 1.2Q80.6 1.2 76.9 -0.9Q73.2 -2.9 71.3 -6.7Q69.4 -10.4 69.4 -15.4Q69.4 -21.5 71.5 -27Q73.5 -32.4 77.1 -36.6Q80.8 -40.8 85.6 -43.3Q90.5 -45.7 96.2 -45.7ZM86.1 -3.8Q88.4 -3.8 90.6 -5.5Q92.9 -7.3 94.8 -10.2Q96.7 -13.2 98.2 -16.9Q99.7 -20.7 100.5 -24.8Q101.3 -28.9 101.3 -32.8Q101.3 -37 100 -38.8Q98.8 -40.7 96.1 -40.7Q93.8 -40.7 91.5 -38.9Q89.3 -37.2 87.4 -34.2Q85.4 -31.3 84 -27.5Q82.5 -23.8 81.7 -19.7Q80.9 -15.6 80.9 -11.6Q80.9 -7.5 82.2 -5.7Q83.4 -3.8 86.1 -3.8Z"/><path d="M145.4 -45.7Q150.8 -45.7 154.5 -43.6Q158.1 -41.5 160 -37.8Q161.9 -34.1 161.9 -29.1Q161.9 -23 159.9 -17.5Q157.8 -12 154.2 -7.8Q150.6 -3.6 145.7 -1.2Q140.8 1.2 135.1 1.2Q129.7 1.2 126.1 -0.9Q122.4 -2.9 120.5 -6.7Q118.6 -10.4 118.6 -15.4Q118.6 -21.5 120.6 -27Q122.6 -32.4 126.3 -36.6Q129.9 -40.8 134.8 -43.3Q139.7 -45.7 145.4 -45.7ZM135.2 -3.8Q137.6 -3.8 139.8 -5.5Q142 -7.3 143.9 -10.2Q145.9 -13.2 147.3 -16.9Q148.8 -20.7 149.6 -24.8Q150.5 -28.9 150.5 -32.8Q150.5 -37 149.2 -38.8Q147.9 -40.7 145.3 -40.7Q142.9 -40.7 140.7 -38.9Q138.4 -37.2 136.5 -34.2Q134.6 -31.3 133.1 -27.5Q131.7 -23.8 130.8 -19.7Q130 -15.6 130 -11.6Q130 -7.5 131.3 -5.7Q132.6 -3.8 135.2 -3.8Z"/><path d="M198.4 -71.7 176.7 0.0H165.1L183.7 -61.3Q182.8 -62.2 181.8 -63Q180.7 -63.9 179.5 -64.7Q178.3 -65.5 176.9 -66.2L177.5 -68.5L196.7 -71.7ZM183.5 -24.4 184.2 -26Q190.5 -32.1 194.9 -36Q199.3 -39.8 202.4 -41.9Q205.6 -44 208.1 -44.9Q210.6 -45.7 213 -45.7Q216.3 -45.7 218 -43.8Q219.8 -41.9 219.8 -39.3Q219.8 -36.9 218.7 -35.2Q217.7 -33.6 215.9 -32.7Q214.2 -31.8 212.3 -31.8Q211.6 -31.8 211 -32.5Q210.4 -33.1 209.6 -34.6Q208.8 -36.1 208 -36.7Q207.3 -37.4 206.4 -37.4Q205.1 -37.4 203.3 -36.6Q201.4 -35.7 199.1 -34.2Q196.8 -32.6 194.1 -30.4Q191.5 -28.2 188.7 -25.4L192.3 -30.7Q195.3 -22.8 197.3 -18.1Q199.3 -13.3 200.6 -10.9Q201.9 -8.6 202.8 -7.8Q203.8 -7 204.7 -7Q205.7 -7 207 -7.7Q208.4 -8.5 210 -10Q211.7 -11.5 213.7 -13.8L215.8 -11.8Q212.5 -7.3 209.5 -4.4Q206.5 -1.5 203.8 -0.1Q201.1 1.2 198.6 1.2Q196.9 1.2 195.5 0.3Q194 -0.7 192.3 -3.4Q190.7 -6.1 188.6 -11.1Q186.4 -16.1 183.5 -24.4Z"/><path d="M246.7 -3.8 252.3 -20.1H253.2Q249 -13.6 245.7 -9.4Q242.5 -5.3 239.7 -3Q237 -0.7 234.6 0.2Q232.2 1.2 229.8 1.2Q226.7 1.2 224.3 -0Q222 -1.2 220.6 -3.6Q219.3 -5.9 219.3 -9.6Q219.3 -13.9 220.8 -18.7Q222.4 -23.5 225.1 -28.2Q227.9 -32.9 231.6 -36.8Q235.3 -40.6 239.7 -42.9Q244.1 -45.2 248.8 -45.2Q252.5 -45.2 255 -43.7Q257.5 -42.1 259.5 -38.6L257.4 -35.5Q256.7 -37.3 255.1 -38.4Q253.6 -39.6 251.2 -39.6Q248.2 -39.6 245.3 -37.5Q242.4 -35.4 239.8 -32Q237.3 -28.6 235.4 -24.8Q233.6 -20.9 232.5 -17.3Q231.4 -13.7 231.4 -11.1Q231.4 -9 232.4 -8.1Q233.4 -7.1 235.2 -7.1Q236.9 -7.1 239.3 -8.6Q241.6 -10 244.1 -12.5Q246.6 -15 248.8 -18.4Q251 -21.7 252.4 -25.6L258.1 -40.9L263.9 -44.5H270.8L257.4 -3.6L255.5 -6.9Q257.7 -6.8 260 -7.5Q262.3 -8.2 264.8 -9.7Q267.3 -11.2 269.9 -13.6L271.9 -11.5Q265.9 -4.6 261 -1.7Q256.1 1.2 251.8 1.2Q248.4 1.2 247.1 0Q245.8 -1.2 246.7 -3.8Z"/><path d="M301.4 -41Q299 -41 296.9 -39.6Q294.8 -38.2 293.1 -35.7Q291.3 -33.3 290.1 -30.2Q288.9 -27 288.2 -23.6Q287.6 -20.1 287.6 -16.7Q287.6 -11.4 289.7 -9.2Q291.8 -7 295.6 -7Q298.2 -7 300.4 -7.8Q302.6 -8.6 304.6 -10.5Q306.6 -12.4 308.5 -15.9H311.9Q309.1 -9.3 306.1 -5.5Q303 -1.8 299.4 -0.3Q295.8 1.2 291.2 1.2Q286.2 1.2 282.8 -0.6Q279.3 -2.4 277.4 -5.8Q275.6 -9.3 275.6 -14.2Q275.6 -19.5 277 -24.3Q278.5 -29.1 281 -33Q283.6 -36.9 287.1 -39.7Q290.5 -42.6 294.6 -44.1Q298.7 -45.7 303.1 -45.7Q307.7 -45.7 310.4 -44.4Q313.2 -43.1 314.5 -40.9Q315.8 -38.7 315.8 -36Q315.8 -33.7 314.9 -31.3Q314 -29 312.5 -27.4Q309.3 -26.2 305.9 -25.1Q302.5 -23.9 299 -22.9Q295.6 -21.9 292 -21Q288.5 -20.1 285.1 -19.3L285.3 -23.5Q290.5 -25 294.1 -26.3Q297.7 -27.6 299.9 -28.7Q302.2 -29.9 303.5 -31.2Q304.7 -32.4 305.1 -33.7Q305.6 -35 305.6 -36.5Q305.6 -37.9 305.1 -38.9Q304.7 -39.9 303.7 -40.5Q302.8 -41 301.4 -41Z"/></g><circle cx="337.6" cy="75.3" r="6.2"/></svg></a>
+    <nav class="rail" id="rail" aria-label="Chapters">
+      <button type="button" data-go="2"><i></i><span>Voice journal</span></button>
+      <button type="button" data-go="3"><i></i><span>Connect the dots</span></button>
+      <button type="button" data-go="4"><i></i><span>School fit</span></button>
+      <button type="button" data-go="5"><i></i><span>Essay room</span></button>
+    </nav>
+    <button type="button" class="skip" id="skip">Skip</button>
+  </header>
+
+  <div class="guide" id="guide" role="status">
+    <span class="g-dot" aria-hidden="true"></span>
+    <span class="g-tag" id="gtag">Guide</span>
+    <span class="g-say" id="gsay"></span>
+  </div>
+
+  <main class="stage">
+    <div class="scene" id="scene" data-s="land">
+      <div class="land">
+        <canvas id="field" aria-hidden="true"></canvas>
+        <div class="glow"></div>
+        <div class="land-in">
+          <h1><span>College</span><span>Applications,</span><span><b>Done</b>.</span></h1>
+          <p class="sub">Talk through your life. Bookae keeps your deadlines, ideas and future in one place. Onward, upward.</p>
+          <div class="land-act"><button type="button" class="cta" id="jump">Jump in</button><span class="land-note">A 90-second guided demo. No sign-up.</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="vj-float" id="vjf" aria-hidden="true">
+      <div class="vj-float-card" id="vjcard" hidden><p class="vj-float-text" id="vjtext"></p></div>
+      <div class="vj-float-pill" role="group" aria-label="Recording"><button type="button" class="vj-float-x" id="vjx" aria-label="Cancel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button><canvas class="vj-float-wave" id="vjwave" aria-hidden="true"></canvas><button type="button" class="vj-float-ok" id="vjok" aria-label="Done" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button></div>
+      <p class="vj-float-hint" role="status" id="vjhint"></p>
+    </div>
+  </main>
+
+  <footer class="dock" id="dock">
+    <i class="timer" id="timer"></i>
+    <div>
+      <p class="stamp" id="stamp"></p>
+      <p class="say" id="say" aria-live="polite"></p>
+    </div>
+    <div class="act" id="act"></div>
+  </footer>
+</div>
+
+<script>(() => {
+  "use strict";
+  const LINKS = {
+    workspace: "workspace.html",
+    /* the redesigned "Ask Bookae" page, built next to this one */
+    films: "https://bookae-demo.vercel.app/demo/watch",
+    /* The full landing page the story opens on. It must sit on the same site as this page and
+       post {bookaeDemo:'ready'} / {bookaeDemo:'jump'} to its parent (see build.py). */
+    landing: "landing.html"
+  };
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const scene = $("#scene"), sayEl = $("#say"), stampEl = $("#stamp"), actEl = $("#act"), timerEl = $("#timer");
+  const rail = $("#rail"), skipBtn = $("#skip"), dock = $("#dock"), guideEl = $("#guide"), gtag = $("#gtag"), gsay = $("#gsay");
+  const ICON = {
+    poster: '<rect x="20" y="7" width="24" height="34"/><path d="M24 14h16M24 19h10M24 24h13"/><rect x="33" y="29" width="7" height="7"/><path d="M17 9l5-4M47 9l-5-4"/>',
+    laptop: '<rect x="17" y="4" width="30" height="19" rx="1.5"/><path d="M11 29h42l-4-6H15z"/><path d="M32 46V35M27 40l5-5 5 5"/>',
+    checklist: '<rect x="12" y="6" width="25" height="36"/><path d="M17 15l2 2 4-4M17 24l2 2 4-4M17 33l2 2 4-4M27 15h6M27 24h6M27 33h6"/><circle cx="48" cy="17" r="4"/><path d="M48 21v15M48 29h4M48 34h3"/>',
+    table: '<rect x="12" y="17" width="40" height="17" rx="2"/><path d="M19 10h9M36 10h9"/><path d="M27 41h10" stroke-dasharray="2 3.5"/>'
+  };
+  const M = {
+    transfer: {
+      d: "Jun 1",
+      t: "The missed transfer",
+      c: "cobalt",
+      q: "Missed the transfer again. On the map the two stops almost touch. In real life there’s a wide road and a light that takes forever."
+    },
+    checklist: {
+      d: "Jun 15",
+      t: "The closing checklist",
+      c: "marigold",
+      i: "checklist",
+      thread: true,
+      p: "His drawing was better.",
+      q: "My closing checklist was all words. He drew which key goes in which drawer. His is better."
+    },
+    poster: {
+      d: "Jun 29",
+      t: "The unused poster",
+      c: "rasp",
+      i: "poster",
+      thread: true,
+      p: "The poster nobody used.",
+      q: "Nobody used my poster. I had designed it before asking whether anybody wanted it."
+    },
+    laptop: {
+      d: "Jul 13",
+      t: "The laptop I moved",
+      c: "moss",
+      i: "laptop",
+      thread: true,
+      p: "So I moved it back.",
+      q: "She wanted to send it herself. I had already pulled the laptop toward me. I pushed it back."
+    },
+    sample: {
+      d: "Jul 27",
+      t: "Twenty-three visits",
+      c: "lilac",
+      q: "I said it showed what the neighborhood needs. It showed 23 visits to one table. I changed the heading."
+    },
+    table: {
+      d: "Sep 7",
+      t: "The table without me",
+      c: "tomato",
+      i: "table",
+      thread: true,
+      p: "The table ran without me.",
+      q: "The library table ran without me. June changed the order of two instructions. A tiny offended feeling, then relief."
+    },
+    number: {
+      d: "Oct 5",
+      t: "The blue notebook",
+      c: "cobalt",
+      q: "Mom wrote $12,000 a year in the blue notebook as a first guess. A starting question, not a promise."
+    },
+    map: {
+      d: "Oct 19",
+      t: "Seven colleges",
+      c: "lilac",
+      q: "I ranked seven colleges by which would sound best. Then I tried again with different questions."
+    }
+  };
+  const SAID = "Okay so,{ um,} my library poster sat there three Saturdays and{, like,} nobody used it. Today someone asked me what a QR code was.";
+  const said = [];
+  SAID.replace(/\{([^}]*)\}|[^\s{}]+/g, (m, f, i) => {
+    said.push({ t: f !== void 0 ? f : m, fil: f !== void 0, sp: SAID[i + m.length] === " " });
+    return m;
+  });
+  const heardText = (n) => said.slice(0, n).map((w) => w.t + (w.sp ? " " : "")).join("");
+  const REST = [
+    ["Jun 1", "The missed transfer", "cobalt"],
+    ["Jun 15", "The closing checklist", "marigold"],
+    ["Jul 27", "Twenty-three visits", "lilac"],
+    ["Aug 10", "The red notebook", "tomato"],
+    ["Aug 24", "One good table", "moss"],
+    ["Sep 7", "The table without me", "tomato"],
+    ["Sep 21", "What belongs to me to tell", "rasp"],
+    ["Oct 5", "The blue notebook", "cobalt"],
+    ["Oct 19", "Seven colleges", "lilac"]
+  ];
+  const NODES = [
+    ["poster", [24, 18, "l"], [19, 12, "t"]],
+    ["sample", [53, 9, "r"], [50, 25, "r"]],
+    ["laptop", [79, 23, "r"], [80, 14, "t"]],
+    ["number", [91, 55, "l"], [93, 50, "r"]],
+    ["table", [73, 83, "r"], [80, 90, "b"]],
+    ["map", [45, 92, "r"], [50, 79, "r"]],
+    ["checklist", [19, 74, "l"], [20, 88, "b"]],
+    ["transfer", [8, 45, "r"], [7, 50, "r"]]
+  ];
+  const RING = ["poster", "laptop", "table", "checklist"];
+  const SPECKS = [[[37, 27], [50, 5], "marigold"], [[65, 73], [50, 97], "rasp"], [[27, 54], [6, 52], "moss"], [[70, 46], [94, 50], "tomato"]];
+  const COLLEGES = [
+    {
+      id: "uwm",
+      c: "cobalt",
+      short: "UW–Milwaukee",
+      place: "Milwaukee, Wisconsin",
+      name: "University of Wisconsin–Milwaukee",
+      fact: "An urban research university in Milwaukee.",
+      ask: "What would staying in my home city make possible, and what would I want to change?"
+    },
+    {
+      id: "mad",
+      c: "rasp",
+      short: "UW–Madison",
+      place: "Madison, Wisconsin",
+      name: "University of Wisconsin–Madison",
+      fact: 'A public land-grant research university with a <mark id="mission">public-service mission</mark>.',
+      ask: "How could I explore my interests while learning to live away from home?"
+    },
+    {
+      id: "mac",
+      c: "moss",
+      short: "Macalester",
+      place: "Saint Paul, Minnesota",
+      name: "Macalester College",
+      fact: "A small liberal arts college in the Twin Cities.",
+      ask: "Would a smaller college in a different city give me the breadth and community I want?"
+    },
+    {
+      id: "uta",
+      c: "tomato",
+      short: "UT Austin",
+      place: "Austin, Texas",
+      name: "The University of Texas at Austin",
+      fact: "A public research university in Austin, Texas.",
+      ask: "What would it cost, in money and in distance, to start somewhere completely new?"
+    }
+  ];
+  const TAP = matchMedia("(pointer: coarse)").matches ? "Tap" : "Click";
+  const TAGS = ["", "1 of 4 · Voice journal", "2 of 4 · Connect the dots", "3 of 4 · School fit", "4 of 4 · Essay room"];
+  const posterHTML = (k, cls = "", tag = "div") => {
+    const m = M[k];
+    return `<${tag} ${tag === "button" ? 'type="button"' : ""} class="poster c-${m.c} ${cls}" data-k="${k}"><span class="p-date">${m.d}</span><svg viewBox="0 0 64 48" aria-hidden="true">${ICON[m.i]}</svg><strong class="p-title">${m.p}</strong></${tag}>`;
+  };
+  const S = { i: 0, next: null, relayout: null, listener: null, stopField: null, thread: true, land: null, onJump: null, wave: 0, floatKey: null };
+  let run = 0;
+  class Abort extends Error {
+  }
+  function ctx() {
+    const id = ++run;
+    const ok = (v) => {
+      if (id !== run) throw new Abort();
+      return v;
+    };
+    return {
+      ok,
+      /* animation beat: collapses under reduced motion */
+      sleep: (ms) => new Promise((r) => setTimeout(r, reduce ? Math.min(ms, 80) : ms)).then(ok),
+      /* reading beat: the hairline on the story shows the time left; "Next" ends it early */
+      hold: (ms) => new Promise((r) => {
+        const t = setTimeout(done, ms);
+        const mine = !actEl.children.length;
+        if (mine) actEl.innerHTML = '<button type="button" class="btn quiet" data-next>Next</button>';
+        timerEl.style.transition = "none";
+        timerEl.style.width = "0";
+        void timerEl.offsetWidth;
+        timerEl.style.transition = `width ${ms}ms linear`;
+        timerEl.style.width = "100%";
+        function done() {
+          clearTimeout(t);
+          if (S.next === done) S.next = null;
+          timerEl.style.transition = "none";
+          timerEl.style.width = "0";
+          if (mine && actEl.querySelector("[data-next]")) actEl.innerHTML = "";
+          r();
+        }
+        S.next = done;
+      }).then(ok)
+    };
+  }
+  const setStamp = (t) => {
+    stampEl.textContent = t;
+  };
+  function setSay(html) {
+    sayEl.classList.remove("in");
+    void sayEl.offsetWidth;
+    sayEl.innerHTML = html;
+    sayEl.classList.add("in");
+  }
+  async function say(c, html, ms) {
+    setSay(html);
+    const n = html.replace(/<[^>]+>/g, "").length;
+    await c.hold(ms ?? Math.max(2200, Math.min(1400 + n * 45, 5200)));
+  }
+  function guide(text, act = true) {
+    gsay.textContent = text;
+    guideEl.classList.toggle("yours", act);
+    guideEl.classList.remove("flash");
+    void guideEl.offsetWidth;
+    guideEl.classList.add("flash");
+  }
+  const watch = (text = "Just watch.") => guide(text, false);
+  function clearAct() {
+    actEl.onclick = null;
+    actEl.innerHTML = "";
+  }
+  function ask(c, opts) {
+    actEl.innerHTML = opts.map((o) => `<button type="button" class="btn ${o.primary ? "primary pulse" : ""}" data-id="${o.id}">${o.label}</button>`).join("");
+    return new Promise((res) => {
+      actEl.onclick = (e) => {
+        const b = e.target.closest("[data-id]");
+        if (!b) return;
+        clearAct();
+        res(b.dataset.id);
+      };
+    }).then(c.ok);
+  }
+  async function mount(c, html, name) {
+    scene.classList.add("out");
+    await c.sleep(230);
+    scene.classList.remove("pin");
+    scene.dataset.s = name;
+    scene.innerHTML = html;
+    void scene.offsetWidth;
+    scene.classList.remove("out");
+    await c.sleep(140);
+  }
+  function travel(from, to, color) {
+    return new Promise((res) => {
+      const a = from.getClientRects()[0] || from.getBoundingClientRect(), b = to.getBoundingClientRect();
+      const d = document.createElement("span");
+      d.className = "trav c-" + color;
+      d.style.transform = `translate(${a.left + a.width / 2 - 6}px,${a.top + a.height / 2 - 6}px)`;
+      document.body.appendChild(d);
+      void d.offsetWidth;
+      d.style.transform = `translate(${b.left + b.width / 2 - 6}px,${b.top + b.height / 2 - 6}px)`;
+      setTimeout(() => {
+        d.remove();
+        res();
+      }, reduce ? 20 : 670);
+    });
+  }
+  function setRail(n) {
+    $$("button", rail).forEach((b, k) => {
+      b.classList.toggle("done", k + 1 < n);
+      b.classList.toggle("now", k + 1 === n);
+      if (k + 1 === n) b.setAttribute("aria-current", "step");
+      else b.removeAttribute("aria-current");
+    });
+    skipBtn.classList.toggle("off", n >= 5);
+    if (TAGS[n]) gtag.textContent = TAGS[n];
+  }
+  const narrow = () => scene.clientWidth <= 620;
+  let DICT = null;
+  try {
+    window.claude?.use?.("dictation").then((d) => {
+      DICT = d;
+    }, () => {
+    });
+  } catch (_) {
+  }
+  const countWords = (t) => (String(t).trim().match(/\S+/g) || []).length;
+  function openMic() {
+    if (DICT) {
+      const d = DICT;
+      let fin = 0, n = 0, dead = false, bump = 0;
+      const heard = (v) => {
+        if (v > n) bump = 1;
+        n = v;
+      };
+      const offs = [
+        d.onPartial((e) => heard(fin + countWords(e.text))),
+        d.onFinal((e) => {
+          fin += countWords(e.text);
+          heard(fin);
+        }),
+        d.onState((e) => {
+          if (e.state === "idle") dead = true;
+        })
+      ];
+      const stop = () => {
+        offs.forEach((o) => o());
+        d.stop().catch(() => {
+        });
+      };
+      const level = () => {
+        bump *= 0.86;
+        return bump * (0.45 + Math.random() * 0.55);
+      };
+      return d.start().then(() => {
+        dead = false;
+        return { words: () => n, level, dead: () => dead, stop };
+      }, () => {
+        offs.forEach((o) => o());
+        return null;
+      });
+    }
+    const md = navigator.mediaDevices;
+    if (!md || !md.getUserMedia) return Promise.resolve(null);
+    return md.getUserMedia({ audio: true }).then((stream) => {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      const ac = new AC();
+      if (ac.resume) ac.resume();
+      const an = ac.createAnalyser();
+      an.fftSize = 1024;
+      ac.createMediaStreamSource(stream).connect(an);
+      const buf = new Float32Array(an.fftSize);
+      let voiced = 0, floor = 0.01, lvl = 0;
+      const id = setInterval(() => {
+        an.getFloatTimeDomainData(buf);
+        let sum = 0;
+        for (let i = 0; i < buf.length; i++) sum += buf[i] * buf[i];
+        const rms = Math.sqrt(sum / buf.length);
+        floor = rms < floor ? rms : floor * 1.01;
+        lvl = Math.max(0, Math.min(1, (rms - floor) / 0.1));
+        if (rms > Math.max(0.012, floor * 2.5)) voiced += 60;
+      }, 60);
+      return {
+        words: () => Math.floor(voiced / 230),
+        /* about one word per 230 ms of voice */
+        level: () => lvl,
+        dead: () => stream.getTracks().every((t) => t.readyState === "ended"),
+        stop() {
+          clearInterval(id);
+          stream.getTracks().forEach((t) => t.stop());
+          ac.close().catch(() => {
+          });
+        }
+      };
+    }, () => null);
+  }
+  function field(canvas) {
+    const g = canvas.getContext("2d"), dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const cols = ["#6F8BE8", "#E0563A", "#F2B632", "#B9A2E0", "#E2588F", "#3BA5A5"];
+    const spots = [[0.62, 0.06], [0.86, 0.2], [0.06, 0.28], [0.96, 0.62], [0.05, 0.86], [0.46, 0.97], [0.76, 0.82], [0.33, 0.08]];
+    let seed = 7, W = 0, H = 0, P = [], t = 0;
+    const rnd = () => (seed = seed * 16807 % 2147483647) / 2147483647;
+    function build() {
+      const r = canvas.getBoundingClientRect();
+      W = r.width;
+      H = r.height;
+      canvas.width = Math.max(1, W * dpr);
+      canvas.height = Math.max(1, H * dpr);
+      seed = 7;
+      P = [];
+      const n = Math.round(Math.min(3200, W * H / 330));
+      for (let i = 0; i < n; i++) {
+        const k = i % spots.length, [sx, sy] = spots[k], a = rnd() * 6.283, d = Math.sqrt(-2 * Math.log(1 - rnd() * 0.999)) * (46 + k % 4 * 22) * Math.max(0.7, W / 1100);
+        P.push({ x: sx * W + Math.cos(a) * d * 1.5, y: sy * H + Math.sin(a) * d, c: rnd() < 0.1 ? "#F7F2F4" : cols[k % cols.length], s: 1 + rnd() * 1.3, p: rnd() * 6.283, a: 0.4 + rnd() * 0.55 });
+      }
+    }
+    function draw() {
+      g.setTransform(dpr, 0, 0, dpr, 0, 0);
+      g.clearRect(0, 0, W, H);
+      for (const p of P) {
+        g.globalAlpha = p.a * (0.72 + 0.28 * Math.sin(t * 1.3 + p.p));
+        g.fillStyle = p.c;
+        g.fillRect(p.x + Math.sin(t * 0.4 + p.p) * 5, p.y + Math.cos(t * 0.33 + p.p) * 5, p.s, p.s);
+      }
+    }
+    build();
+    draw();
+    const id = reduce ? 0 : setInterval(() => {
+      t += 0.033;
+      draw();
+    }, 33);
+    const ro = new ResizeObserver(() => {
+      build();
+      draw();
+    });
+    ro.observe(canvas);
+    return () => {
+      clearInterval(id);
+      ro.disconnect();
+    };
+  }
+  const LAND = `<div class="land"><canvas id="field" aria-hidden="true"></canvas><div class="glow"></div><div class="land-in">
+  <h1><span>College</span><span>Applications,</span><span><b>Done</b>.</span></h1>
+  <p class="sub">Talk through your life. Bookae keeps your deadlines, ideas and future in one place. Onward, upward.</p>
+  <div class="land-act"><button type="button" class="cta" id="jump">Jump in</button><span class="land-note">A 90-second guided demo. No sign-up.</span></div></div></div>`;
+  function openLanding() {
+    closeLanding(true);
+    const f = document.createElement("iframe");
+    f.className = "landframe";
+    f.id = "landing";
+    f.title = "Bookae";
+    f.src = LINKS.landing;
+    const pill = document.createElement("button");
+    pill.type = "button";
+    pill.className = "landpill";
+    pill.id = "landpill";
+    pill.innerHTML = `<span class="g-dot" aria-hidden="true"></span>${TAP} “Jump in” to start the 90-second demo`;
+    pill.addEventListener("click", () => S.onJump && S.onJump());
+    document.body.append(f, pill);
+    const L = S.land = { f, pill, ready: false, t2: 0 };
+    L.t1 = setTimeout(() => {
+      if (S.land === L && !L.ready) closeLanding(true);
+    }, 4500);
+  }
+  function closeLanding(now) {
+    const L = S.land;
+    if (!L) return;
+    S.land = null;
+    clearTimeout(L.t1);
+    clearTimeout(L.t2);
+    L.pill.remove();
+    if (now) L.f.remove();
+    else {
+      L.f.classList.remove("in");
+      setTimeout(() => L.f.remove(), 560);
+    }
+  }
+  addEventListener("message", (e) => {
+    const L = S.land, m = e.data && e.data.bookaeDemo;
+    if (!L || !m || e.source !== L.f.contentWindow) return;
+    if (m === "hello" && !L.ready) {
+      clearTimeout(L.t1);
+      L.t1 = setTimeout(() => {
+        if (S.land === L && !L.ready) closeLanding(true);
+      }, 2e4);
+    }
+    if (m === "ready" && !L.ready) {
+      L.ready = true;
+      L.f.classList.add("in");
+      if (S.stopField) {
+        S.stopField();
+        S.stopField = null;
+      }
+      L.t2 = setTimeout(() => L.pill.classList.add("in"), 14e3);
+    }
+    if (m === "far") L.pill.classList.add("in");
+    if (m === "top") {
+      clearTimeout(L.t2);
+      L.pill.classList.remove("in");
+    }
+    if (m === "jump" && S.onJump) S.onJump();
+  });
+  async function land(c, first) {
+    document.body.dataset.mode = "land";
+    setRail(0);
+    if (!first) await mount(c, LAND, "land");
+    S.stopField = field($("#field"));
+    const jumped = new Promise((res) => {
+      S.onJump = res;
+      $("#jump").addEventListener("click", res, { once: true });
+    });
+    openLanding();
+    await jumped;
+    c.ok();
+    S.onJump = null;
+    closeLanding();
+    go(1);
+  }
+  async function welcome(c) {
+    setRail(0);
+    gtag.textContent = "Guide";
+    scene.classList.add("out");
+    await c.sleep(230);
+    if (S.stopField) {
+      S.stopField();
+      S.stopField = null;
+    }
+    document.body.dataset.mode = "play";
+    scene.dataset.s = "welcome";
+    scene.innerHTML = `<div class="welcome">
+    <p class="label">SXSW Pitch 2027</p>
+    <h1>Welcome, SXSW reviewers.</h1>
+    <p class="lede">For the next 90 seconds you’re Elena, a made-up high-school senior in Milwaukee who is sure nothing happened to her this year. You’ll use Bookae the way she would. No sign-up, and no sound or microphone needed.</p>
+    <ul class="how"><li><i>↑</i><span>The dark bar up top talks to you. It says what to ${TAP.toLowerCase()}.</span></li><li><i>↓</i><span>The line at the bottom is Elena’s story. When it says “you”, it means her.</span></li></ul>
+    <button type="button" class="btn primary big pulse" id="become">Become Elena</button>
+  </div>`;
+    void scene.offsetWidth;
+    scene.classList.remove("out");
+    guide(`This bar talks to you, the reviewer. It says what to ${TAP.toLowerCase()}.`, true);
+    setStamp("Elena’s story");
+    setSay("This line is her story. “You” means Elena.");
+    await new Promise((res) => $("#become").addEventListener("click", res, { once: true })).then(c.ok);
+    go(2);
+  }
+  function shelfAdd(color) {
+    const shelf = $("#shelf");
+    if (!shelf) return;
+    const d = document.createElement("i");
+    d.className = "c-" + color;
+    shelf.appendChild(d);
+    const n = shelf.children.length;
+    $("#shelfN").textContent = n + (n === 1 ? " day kept" : " days kept");
+  }
+  async function swap(c, el, html) {
+    el.classList.add("out");
+    await c.sleep(220);
+    el.innerHTML = html;
+    void el.offsetWidth;
+    el.classList.remove("out");
+    await c.sleep(160);
+  }
+  async function keep(c, k) {
+    const dm = $("#dm");
+    dm.insertAdjacentHTML("beforeend", posterHTML(k, "keep"));
+    const el = dm.lastElementChild;
+    void el.offsetWidth;
+    el.classList.add("in");
+    await c.sleep(1500);
+    const a = el.getBoundingClientRect(), b = $("#shelf").getBoundingClientRect();
+    el.style.transform = `translate(${b.right + 8 - (a.left + a.width / 2)}px,${b.top + b.height / 2 - (a.top + a.height / 2)}px) scale(.08)`;
+    await c.sleep(430);
+    el.style.opacity = "0";
+    await c.sleep(180);
+    el.remove();
+    shelfAdd(M[k].c);
+  }
+  const IC = {
+    mic: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M6 11a6 6 0 0012 0M12 17v4M8.5 21h7"/></svg>',
+    clip: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5l-8.2 8.2a5 5 0 01-7.1-7.1l8.5-8.5a3.3 3.3 0 014.7 4.7l-8.4 8.4a1.7 1.7 0 01-2.4-2.4l7.6-7.6"/></svg>',
+    check: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'
+  };
+  const COMPOSER = `<div class="composer sheetlike" id="sheet">
+  <header><span class="label">Journal</span><span class="label">Sat, Jun 29</span><span class="label">Private</span></header>
+  <p class="c-title">Title (optional)</p>
+  <p class="c-text" id="ctext">${said.map((w) => `<span class="tw${w.fil ? " fil" : ""}">${w.t}</span>${w.sp ? " " : ""}`).join("")}</p>
+  <div class="c-cue" id="ccue"><span class="tip">Elena’s line. Read the grey words out loud</span><span id="micnote">Your voice only moves the words. Nothing is kept.</span><button type="button" class="alt" id="alt">No mic? Play it for me</button></div>
+  <div class="vj-receipt" id="receipt" hidden></div>
+  <div class="c-foot"><span class="c-icon" title="Draft saved privately">${IC.check}</span><span class="c-words" id="cwords">0 words</span><span class="c-icon" aria-hidden="true">${IC.clip}</span><button type="button" class="c-icon c-mic ready" id="cmic" aria-label="Talk">${IC.mic}</button><span class="tip" id="mictip">${TAP} the mic to talk</span><button type="button" class="btn primary c-save" id="csave" disabled>Save</button></div>
+</div>`;
+  const TABLE = `<div class="tbl"><span class="label">The visitor</span>
+  <div class="tabletop">
+    <div class="laptop" id="lap"><svg viewBox="0 0 100 72" aria-hidden="true"><rect x="6" y="2" width="88" height="7" rx="3.5"/><rect x="6" y="12" width="88" height="58" rx="5"/><path d="M16 23h68M16 31h68M16 39h68" stroke-dasharray="5 4"/><rect x="38" y="48" width="24" height="15" rx="2.5"/></svg></div>
+    <span class="sent" id="sent">Sent</span>
+    <div class="card3 sheetlike" id="card3"><ol><li>Open your email</li><li><span class="old" id="old">Upload</span><em id="hers">choose my file</em></li><li>Press send</li></ol></div>
+  </div>
+  <span class="label">You</span></div>`;
+  function drawWave(el, levels) {
+    const w = el.clientWidth, h = el.clientHeight, dpr = window.devicePixelRatio || 1;
+    if (!w) return;
+    el.width = Math.round(w * dpr);
+    el.height = Math.round(h * dpr);
+    const g = el.getContext("2d");
+    g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    g.clearRect(0, 0, w, h);
+    g.fillStyle = "#F6F1E6";
+    const half = Math.floor(w / 12);
+    for (let k = 0; k < half; k++) {
+      const level = levels[levels.length - 1 - k] || 0, bh = Math.max(3, Math.min(h, 3 + level * (h - 3)));
+      g.globalAlpha = 1 - k / half * 0.65;
+      for (const side of [-1, 1]) {
+        const x = w / 2 + side * (k * 6 + 1.5) - (side < 0 ? 3 : 0);
+        g.beginPath();
+        if (g.roundRect) g.roundRect(x, (h - bh) / 2, 3, bh, 1.5);
+        else g.rect(x, (h - bh) / 2, 3, bh);
+        g.fill();
+      }
+    }
+  }
+  function floatClose() {
+    const f = $("#vjf");
+    f.classList.remove("is-open");
+    f.setAttribute("aria-hidden", "true");
+    f.inert = true;
+    clearInterval(S.wave);
+    S.wave = 0;
+    S.floatKey = null;
+  }
+  async function voiceEntry(c) {
+    const mic = $("#cmic"), alt = $("#alt"), note = $("#micnote"), tip = $("#mictip"), cue = $("#ccue"), text = $("#ctext"), words = $$(".tw", text);
+    const fl = $("#vjf"), card = $("#vjcard"), ftext = $("#vjtext"), hintEl = $("#vjhint"), wave = $("#vjwave"), okBtn = $("#vjok"), xBtn = $("#vjx");
+    const viaClaude = !!DICT;
+    for (; ; ) {
+      words.forEach((w) => w.classList.remove("heard"));
+      ftext.textContent = "";
+      card.hidden = true;
+      okBtn.disabled = true;
+      okBtn.classList.remove("pulse");
+      mic.classList.add("ready");
+      mic.classList.remove("is-live");
+      tip.hidden = false;
+      alt.hidden = false;
+      note.textContent = "Your voice only moves the words. Nothing is kept.";
+      guide(`${TAP} the mic in Elena’s journal, then read her line out loud.`);
+      let micP = null, fake = false, pickFake;
+      const fakeP = new Promise((r) => {
+        pickFake = r;
+      });
+      alt.onclick = () => {
+        fake = true;
+        pickFake("fake");
+      };
+      const first = await Promise.race([new Promise((r) => {
+        mic.onclick = () => {
+          mic.onclick = null;
+          micP = openMic();
+          r("mic");
+        };
+      }), fakeP]);
+      c.ok();
+      mic.onclick = null;
+      mic.classList.remove("ready");
+      mic.classList.add("is-live");
+      tip.hidden = true;
+      fl.classList.add("is-open");
+      fl.removeAttribute("aria-hidden");
+      fl.inert = false;
+      let L = null;
+      if (first === "mic") {
+        hintEl.textContent = "Allow the microphone to start.";
+        guide(`Allow the microphone if your browser asks. Or ${TAP.toLowerCase()} “No mic? Play it for me”.`);
+        const got = await Promise.race([micP, fakeP]);
+        c.ok();
+        if (got && got !== "fake") L = got;
+        else micP.then((l) => l && l.stop());
+      }
+      S.listener = L;
+      if (L) {
+        hintEl.textContent = "Enter when you’re done · Esc cancels";
+        note.textContent = viaClaude ? "Claude’s dictation is listening so the words can keep pace. This page keeps nothing." : "This page hears loudness only. Nothing is recorded or transcribed.";
+        guide("Read the grey words out loud. The voice bar shows what Bookae hears.");
+      } else {
+        alt.hidden = true;
+        hintEl.textContent = "Simulation · no microphone is used";
+        note.textContent = first === "mic" && !fake ? "No microphone here, so this is a simulation." : "Playing at talking pace. No microphone is used.";
+        watch(first === "mic" && !fake ? "No microphone here. This is a simulation of Elena talking." : "This is a simulation of Elena talking, at talking pace.");
+      }
+      const levels = [];
+      let talking = false, cancelled = false, pressed = false, shown = 0, last = Date.now(), nudged = false;
+      S.wave = setInterval(() => {
+        levels.push(L ? L.level() : talking ? 0.22 + Math.random() * 0.7 : 0.04);
+        if (levels.length > 40) levels.shift();
+        drawWave(wave, levels);
+      }, 50);
+      xBtn.onclick = () => {
+        cancelled = true;
+      };
+      okBtn.onclick = () => {
+        if (!okBtn.disabled) pressed = true;
+      };
+      S.floatKey = (e) => {
+        if (e.key === "Escape") cancelled = true;
+        else if (!okBtn.disabled) pressed = true;
+      };
+      const reveal = () => {
+        words[shown].classList.add("heard");
+        shown++;
+        card.hidden = false;
+        ftext.textContent = heardText(shown);
+        ftext.scrollTop = ftext.scrollHeight;
+      };
+      while (shown < said.length && !cancelled) {
+        if (L && (fake || L.dead() || Date.now() - last > 9e3)) {
+          L.stop();
+          L = S.listener = null;
+          alt.hidden = true;
+          hintEl.textContent = "No voice picked up · simulation";
+          note.textContent = "No voice picked up, so the rest is a simulation.";
+          watch("No voice picked up. The rest of Elena’s line is a simulation.");
+        }
+        if (!L) {
+          talking = true;
+          reveal();
+          const w = said[shown - 1].t;
+          await c.sleep(364 + (/[.,]$/.test(w) ? 260 : 0));
+          continue;
+        }
+        if (Math.min(said.length, L.words()) > shown) {
+          reveal();
+          last = Date.now();
+          await c.sleep(70);
+          continue;
+        }
+        if (!nudged && Date.now() - last > 4500) {
+          nudged = true;
+          guide(`We can’t hear you yet. Read it out loud, or ${TAP.toLowerCase()} “No mic? Play it for me”.`);
+        }
+        await c.sleep(80);
+      }
+      talking = false;
+      if (!cancelled) {
+        okBtn.disabled = false;
+        if (L) {
+          okBtn.classList.add("pulse");
+          guide(`${TAP} ✓ or press Enter when you’re done.`);
+          for (const t0 = Date.now(); !pressed && !cancelled && Date.now() - t0 < 5e3; ) await c.sleep(80);
+        } else await c.sleep(700);
+      }
+      if (L) {
+        L.stop();
+        S.listener = null;
+      }
+      alt.onclick = xBtn.onclick = okBtn.onclick = null;
+      okBtn.classList.remove("pulse");
+      if (cancelled) {
+        floatClose();
+        continue;
+      }
+      okBtn.disabled = true;
+      hintEl.textContent = "Catching your last words…";
+      await c.sleep(650);
+      floatClose();
+      break;
+    }
+    mic.classList.remove("is-live");
+    cue.hidden = true;
+    const fil = said.filter((w) => w.fil).length, clean = said.length - fil, rc = $("#receipt"), count = $("#cwords");
+    text.classList.add("landed");
+    count.textContent = said.length + " words";
+    rc.hidden = false;
+    rc.innerHTML = `<span class="vj-receipt-mark" aria-hidden="true"></span><span class="vj-receipt-text"><b>${said.length} words</b> <span class="vj-shimmer">taking out the ums…</span></span>`;
+    watch("Every word landed in the journal. Now Bookae takes out the ums.");
+    await c.sleep(1600);
+    const show = (raw) => {
+      text.classList.toggle("clean", !raw);
+      count.textContent = (raw ? said.length : clean) + " words";
+      rc.innerHTML = `<span class="vj-receipt-mark" aria-hidden="true"></span><span class="vj-receipt-text"><b>${raw ? said.length : clean} words</b> ${raw ? "exactly as you said them" : `took out ${fil} ums`}</span><span class="vj-seg" role="group" aria-label="Which version is on the page"><button type="button" aria-pressed="${!raw}" data-v="clean">Cleaned</button><button type="button" aria-pressed="${raw}" data-v="raw">As said</button></span>`;
+    };
+    rc.onclick = (e) => {
+      const b = e.target.closest("[data-v]");
+      if (b) show(b.dataset.v === "raw");
+    };
+    show(false);
+    const save = $("#csave");
+    save.disabled = false;
+    save.classList.add("pulse");
+    guide(`That’s a journal entry, no typing. Try “As said”, then ${TAP.toLowerCase()} Save.`);
+    await new Promise((r) => save.addEventListener("click", r, { once: true })).then(c.ok);
+  }
+  async function days(c) {
+    setRail(1);
+    setStamp("Saturday, June 29 · The bus home");
+    await mount(c, `<div class="days"><div class="shelf"><span class="label">Your days</span><span class="shelf-dots" id="shelf"></span><span class="shelf-n" id="shelfN">none kept yet</span></div><div class="days-main" id="dm">${COMPOSER}</div></div>`, "days");
+    scene.classList.add("pin");
+    const dm = $("#dm");
+    setSay("Your poster sat on the library help table for three Saturdays. Nobody used it.");
+    await voiceEntry(c);
+    watch("Bookae is turning the entry into a small poster.");
+    $("#sheet").classList.add("kept");
+    setSay("Bookae keeps the day and turns it into a small poster.");
+    await keep(c, "poster");
+    $("#sheet").remove();
+    scene.classList.remove("pin");
+    setStamp("Saturday, July 13 · The library table");
+    await swap(c, dm, TABLE);
+    setSay("A woman at your table needs to send a document. You’ve already pulled the laptop toward you.");
+    guide("Your call. Choose what Elena does.");
+    const pick = await ask(c, [{ id: "send", label: "Send it for her" }, { id: "back", label: "Push the laptop back" }]);
+    watch("This is what happened next.");
+    const lap = $("#lap");
+    if (pick === "send") {
+      $("#sent").classList.add("in");
+      await say(c, "Ten seconds, done. Then she says she wanted to do it herself.");
+      $("#sent").classList.remove("in");
+      lap.classList.add("back");
+      await say(c, "So you push the laptop back. Next time, she sends it.");
+    } else {
+      lap.classList.add("back");
+      await say(c, "You push it back, slowly. She sends it herself.");
+    }
+    $("#card3").classList.add("in");
+    await c.sleep(500);
+    $("#old").classList.add("x");
+    await c.sleep(350);
+    $("#hers").classList.add("in");
+    await say(c, "On your instruction card she crosses out “upload” and writes it her way: “choose my file.”");
+    await swap(c, dm, "");
+    watch("Elena keeps this day the same way.");
+    setSay("On the bus home, you tell Bookae about that one too.");
+    await keep(c, "laptop");
+    setStamp("July to October");
+    watch("Nine more days, kept the same way.");
+    setSay("Summer goes. Whenever something sticks, you say it out loud.");
+    for (const [d, t, col] of REST) {
+      dm.innerHTML = `<div class="flash"><p class="label">${d}</p><b>${t}</b></div>`;
+      shelfAdd(col);
+      await c.sleep(330);
+    }
+    await c.sleep(600);
+    go(3);
+  }
+  async function dots(c) {
+    setRail(2);
+    setStamp("October · Essay season");
+    await mount(c, `<div class="web" id="web"><svg id="wires" aria-hidden="true"></svg>${SPECKS.map(([, , col]) => `<span class="speck c-${col}"></span>`).join("")}${NODES.map(([k]) => `<button type="button" class="node c-${M[k].c}${M[k].thread ? " thread" : ""}" data-k="${k}" aria-label="${M[k].t}"><i></i><span>${M[k].t}</span></button>`).join("")}<div class="mid" id="mid"></div></div>`, "dots");
+    const web = $("#web"), wires = $("#wires"), mid = $("#mid");
+    const found = [], drawn = /* @__PURE__ */ new Set();
+    const quote = (k, tag) => {
+      const m = M[k];
+      mid.innerHTML = `<p class="label">${m.d} · ${m.t}</p><p class="mid-q">“${m.q}”</p>${tag}`;
+    };
+    function draw(animate) {
+      const r = web.getBoundingClientRect();
+      wires.setAttribute("viewBox", `0 0 ${r.width} ${r.height}`);
+      const pt = (k) => {
+        const d = $(`.node[data-k="${k}"] i`, web).getBoundingClientRect();
+        return [d.left + d.width / 2 - r.left, d.top + d.height / 2 - r.top];
+      };
+      wires.innerHTML = RING.map((a, i) => {
+        const b = RING[(i + 1) % RING.length];
+        if (!found.includes(a) || !found.includes(b)) return "";
+        const fresh2 = animate && !drawn.has(a + b);
+        drawn.add(a + b);
+        const [p, q] = [pt(a), pt(b)];
+        return `<line pathLength="1" x1="${p[0]}" y1="${p[1]}" x2="${q[0]}" y2="${q[1]}"${fresh2 ? ' class="new"' : ""}/>`;
+      }).join("");
+      const fresh = $$("line.new", wires);
+      if (fresh.length) setTimeout(() => fresh.forEach((l) => {
+        l.classList.add("go");
+        l.classList.remove("new");
+      }), 40);
+    }
+    function place() {
+      const n = narrow() ? 2 : 1;
+      web.classList.toggle("narrow", n === 2);
+      NODES.forEach((row) => {
+        const el = $(`.node[data-k="${row[0]}"]`, web), [x, y, side] = row[n];
+        el.style.left = x + "%";
+        el.style.top = y + "%";
+        ["l", "t", "b"].forEach((sd) => el.classList.toggle("side-" + sd, side === sd));
+      });
+      $$(".speck", web).forEach((el, i) => {
+        const [x, y] = SPECKS[i][n - 1];
+        el.style.left = x + "%";
+        el.style.top = y + "%";
+      });
+      draw(false);
+    }
+    place();
+    S.relayout = place;
+    $$(".node", web).forEach((el, i) => setTimeout(() => {
+      el.classList.add("show");
+      if (M[el.dataset.k].thread && !found.includes(el.dataset.k)) el.classList.add("nudge");
+    }, 80 * i));
+    let finish, done = false;
+    const complete = new Promise((r) => {
+      finish = r;
+    });
+    const left = () => {
+      const n = 4 - found.length;
+      return n ? `<span class="tip">${TAP} the next glowing day</span>` : "";
+    };
+    function open(k) {
+      const b = $(`.node[data-k="${k}"]`, web), m = M[k];
+      $$(".node.sel", web).forEach((n) => n.classList.remove("sel"));
+      b.classList.add("sel");
+      if (m.thread) {
+        if (!found.includes(k)) {
+          found.push(k);
+          b.classList.add("found");
+          b.classList.remove("nudge");
+          draw(true);
+        }
+        quote(k, `<p class="mid-tag in">${found.length} of 4 read</p>${left()}`);
+      } else quote(k, `<p class="mid-tag">Another day, another story.</p>${left()}`);
+      if (found.length >= 4 && !done) {
+        done = true;
+        setTimeout(finish, 2600);
+      }
+    }
+    web.addEventListener("click", (e) => {
+      const b = e.target.closest(".node");
+      if (b && !done) open(b.dataset.k);
+    });
+    setSay("Everyone is talking about essays. You’re sure nothing happened to you this year.");
+    guide(`Bookae noticed four days that may belong together. ${TAP} each glowing day to read it.`);
+    await c.sleep(900);
+    open("poster");
+    await complete;
+    c.ok();
+    $$(".node", web).forEach((n) => n.classList.remove("nudge", "sel"));
+    web.classList.add("done");
+    mid.innerHTML = '<p class="label">A possible thread</p><h2>Making room for someone else.</h2>';
+    setSay("Four days. Maybe one habit: stepping back so someone else can do it.");
+    guide("Bookae only suggests. Keep the thread, or leave it for now.");
+    S.thread = await ask(c, [{ id: "yes", label: "Keep this thread", primary: true }, { id: "hm", label: "Not sure yet" }]) === "yes";
+    watch("Elena’s call. Bookae goes with it.");
+    await say(c, S.thread ? "You keep the thread. It was yours all along." : "You leave it as a question. Bookae doesn’t push.", 2400);
+    go(4);
+  }
+  async function fit(c) {
+    const STAMP = "October 19 · Your bedroom floor";
+    setRail(3);
+    setStamp(STAMP);
+    await mount(c, `<div class="fit" id="fit">
+    <div class="slip sheetlike"><header><span class="label">Journal</span><span class="label">Oct 19</span></header>
+      <p class="j">Seven college names on paper. Milwaukee means <button type="button" class="ph c-cobalt" data-c="uwm">familiar streets</button>; another city means finding out what I do when <button type="button" class="ph c-rasp" data-c="mad">nobody already knows me</button>. <button type="button" class="ph c-moss" data-c="mac">A small school</button> might be worth considering too. And one name is <button type="button" class="ph c-tomato" data-c="uta">a plane ride away</button>.</p>
+      <span class="tip" id="fittip">${TAP} a highlighted phrase</span>
+      <div class="tchip" id="tchip" hidden><i></i>Making room for someone else</div>
+    </div>
+    <div class="cols">${COLLEGES.map((x) => `<div class="col c-${x.c}" data-c="${x.id}"><i></i><span class="label">${x.place}</span><span class="name">${x.name}</span><span class="fact">${x.fact}<span class="tag">On your list</span></span></div>`).join("")}</div>
+  </div>`, "fit");
+    const el = $("#fit"), opened = /* @__PURE__ */ new Set();
+    let finish;
+    const all = new Promise((r) => {
+      finish = r;
+    });
+    el.addEventListener("click", async (e) => {
+      const b = e.target.closest(".ph");
+      if (!b || b.classList.contains("used")) return;
+      const x = COLLEGES.find((q) => q.id === b.dataset.c), col = $(`.col[data-c="${x.id}"]`, el);
+      b.classList.add("used");
+      await travel(b, $("i", col), x.c);
+      $$(".col.latest", el).forEach((o) => o.classList.remove("latest"));
+      col.classList.add("open", "latest");
+      opened.add(x.id);
+      setStamp("Your question for " + x.short);
+      setSay(`<em>“${x.ask}”</em>`);
+      const tip = $("#fittip");
+      if (opened.size < COLLEGES.length) {
+        tip.textContent = `${TAP} the next phrase · ${COLLEGES.length - opened.size} to go`;
+        guide(`That’s Elena’s question for ${x.short}. ${TAP} the next highlighted phrase.`);
+      } else {
+        tip.hidden = true;
+        watch(`That’s Elena’s question for ${x.short}.`);
+        setTimeout(finish, 3200);
+      }
+    });
+    setSay("Seven college names on paper. You tell Bookae what you actually want to find out.");
+    guide(`${TAP} each highlighted phrase in Elena’s journal to see where it leads.`);
+    await all;
+    c.ok();
+    setStamp(STAMP);
+    watch("No chances, no rankings. Her list starts from her own questions.");
+    await say(c, "Four campuses, and for each one, something worth asking.");
+    if (S.thread) {
+      const chip = $("#tchip");
+      chip.hidden = false;
+      await c.sleep(700);
+      $$(".col.latest", el).forEach((o) => o.classList.remove("latest"));
+      $('.col[data-c="mad"]', el).classList.add("latest");
+      await c.sleep(250);
+      await travel($("i", chip), $("#mission"), "ink");
+      $("#mission").classList.add("on");
+      setSay("Madison talks about a public-service mission. That might be your thread, in their words.");
+    } else setSay("Madison’s question is the one you keep coming back to.");
+    guide(`${TAP} “Put Madison on my list” to keep it.`);
+    await ask(c, [{ id: "k", label: "Put Madison on my list", primary: true }]);
+    watch("Madison is on Elena’s list.");
+    $$(".col.latest", el).forEach((o) => o.classList.remove("latest"));
+    $('.col[data-c="mad"]', el).classList.add("listed", "latest");
+    el.classList.add("picked");
+    await say(c, "On your list, for a reason that’s yours.", 2200);
+    go(5);
+  }
+  async function room(c) {
+    setRail(4);
+    setStamp("November · The personal statement");
+    await mount(c, `<div class="room">
+    <article class="page sheetlike"><header><span class="label">Personal statement</span><span class="label">Elena Morales</span></header>
+      <div class="pbody" id="pbody"><p class="blank">The cursor blinks.</p></div>
+      <p class="coach" id="coach" hidden><b>Bookae asks</b> On July 13, what did your hands do when she said that?</p>
+      <footer><span class="label">Word for word, as you said it</span><span class="label">Nothing added</span></footer>
+    </article>
+    <div class="side"><p class="label">Your days</p>
+      <button type="button" class="ghost" id="ghost">Write it for me</button>
+      <div class="picks" id="picks">${["laptop", "checklist", "table"].map((k) => posterHTML(k, k === "laptop" ? "" : "wait", "button")).join("")}</div>
+      <span class="tip" id="roomtip">${TAP} the July 13 day</span>
+    </div></div>`, "room");
+    const pbody = $("#pbody"), waiters = [];
+    let placed = 0;
+    const nextPlaced = () => new Promise((r) => waiters.push(r)).then(c.ok);
+    $("#picks").addEventListener("click", (e) => {
+      const b = e.target.closest(".poster");
+      if (!b || b.classList.contains("used") || b.classList.contains("wait")) return;
+      const m = M[b.dataset.k];
+      b.classList.add("used");
+      $(".blank", pbody)?.remove();
+      pbody.insertAdjacentHTML("beforeend", `<blockquote class="said c-${m.c}"><span class="label">${m.d} · you said</span>“${m.q}”</blockquote>`);
+      placed++;
+      waiters.splice(0).forEach((w) => w(placed));
+    });
+    $("#ghost").addEventListener("click", (e) => {
+      const g = e.currentTarget;
+      g.textContent = "Bookae NEVER writes for you. It asks.";
+      g.classList.remove("no");
+      void g.offsetWidth;
+      g.classList.add("no");
+    });
+    setSay("The personal statement is due. The page is empty.");
+    guide(`${TAP} the July 13 day. Bookae puts what Elena said on the page, word for word.`);
+    await nextPlaced();
+    $$(".poster.wait", scene).forEach((p) => p.classList.remove("wait"));
+    $("#roomtip").textContent = `${TAP} one more day`;
+    setSay("Not an essay yet. But every word on the page is yours.");
+    guide("Add one more day, the same way.");
+    await nextPlaced();
+    $("#roomtip").hidden = true;
+    $$(".poster:not(.used)", $("#picks")).forEach((p) => p.classList.add("wait"));
+    await c.sleep(500);
+    $("#coach").hidden = false;
+    setSay("Bookae asks you a question. The answer stays yours.");
+    guide(`Try “Write it for me”. Then ${TAP.toLowerCase()} “Skip ahead three weeks”.`);
+    await ask(c, [{ id: "f", label: "Skip ahead three weeks", primary: true }]);
+    go(6);
+  }
+  async function finale(c) {
+    setRail(5);
+    gtag.textContent = "Guide";
+    setStamp("Three weeks later · Her own draft");
+    watch("Elena answered the question herself. This is her opening.");
+    await mount(c, `<div class="end">
+    <article class="page sheetlike"><header><span class="label">Personal statement</span><span class="label">Elena Morales</span></header>
+      <h2>Before I touched the keyboard</h2>
+      <div class="pbody"><p>I had already pulled the laptop toward me when the woman across the library table said she wanted to do it herself. <span class="mk">I moved the computer back, very slowly,</span> as if that would make the first movement less obvious.</p></div>
+      <p class="sig">Elena.</p>
+    </article>
+    <div class="endcard" id="endcard" hidden>
+      <p class="label">You’re a reviewer again</p>
+      <h2>That was Bookae.</h2>
+      <ul>
+        <li><b>Voice journal.</b> A day, kept by talking. The ums come out; her words stay.</li>
+        <li><b>Connect the dots.</b> Think Obsidian’s graph view, for her own days. Bookae suggests the thread; she decides if it’s true.</li>
+        <li><b>School fit.</b> A college list that starts from her questions.</li>
+        <li><b>Essay room.</b> What she said, on the page word for word. Bookae asks. It never writes for her.</li>
+      </ul>
+      <div class="ctas"><a class="btn primary" href="${LINKS.workspace}" target="_blank" rel="noopener">Open the live workspace</a><a class="btn" href="${LINKS.films}" target="_blank" rel="noopener">Watch the films</a><button type="button" class="btn quiet" id="again">Play again</button></div>
+      <p class="fine">Elena is made up. Bookae is live at bookae.ai as a free, invite-only pilot.</p>
+    </div></div>`, "end");
+    await say(c, "A small movement. A story only you could tell.", 3e3);
+    $("#endcard").hidden = false;
+    $("#again").addEventListener("click", () => go(0));
+    watch("Here’s what you just used, and where to see more.");
+  }
+  const SCENES = [land, welcome, days, dots, fit, room, finale];
+  async function go(i, first) {
+    S.i = i;
+    S.next = null;
+    S.relayout = null;
+    if (S.listener) {
+      S.listener.stop();
+      S.listener = null;
+    }
+    floatClose();
+    if (i !== 1) closeLanding(true);
+    S.onJump = null;
+    if (S.stopField && i !== 1) {
+      S.stopField();
+      S.stopField = null;
+    }
+    if (i > 1) document.body.dataset.mode = "play";
+    timerEl.style.transition = "none";
+    timerEl.style.width = "0";
+    $$(".trav").forEach((t) => t.remove());
+    const c = ctx();
+    clearAct();
+    try {
+      await SCENES[i](c, first);
+    } catch (e) {
+      if (!(e instanceof Abort)) throw e;
+    }
+  }
+  rail.addEventListener("click", (e) => {
+    const b = e.target.closest("[data-go]");
+    if (b) go(+b.dataset.go);
+  });
+  skipBtn.addEventListener("click", () => go(Math.min(S.i + 1, 6)));
+  actEl.addEventListener("click", (e) => {
+    if (e.target.closest("[data-next]")) S.next?.();
+  });
+  addEventListener("keydown", (e) => {
+    if (S.floatKey && (e.key === "Enter" || e.key === "Escape")) {
+      e.preventDefault();
+      S.floatKey(e);
+      return;
+    }
+    if (e.target.closest?.("button,a") || !["Enter", " ", "ArrowRight"].includes(e.key)) return;
+    const p = $(".btn.primary, .cta", document.body.dataset.mode === "land" ? scene : actEl) || $("#become");
+    if (S.next) {
+      e.preventDefault();
+      S.next();
+    } else if (p && p.tagName === "BUTTON") {
+      e.preventDefault();
+      p.click();
+    }
+  });
+  new ResizeObserver(() => S.relayout?.()).observe(scene);
+  go(0, true);
+})();
+</script>
+
+</body>
+</html>

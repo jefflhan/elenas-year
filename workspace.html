@@ -1,0 +1,1036 @@
+<!doctype html>
+<meta name="robots" content="noindex, nofollow">
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+</head>
+<body>
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Ask Bookae</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,0..100;1,9..144,300..600,0..100&family=Geist:wght@400;500;600&display=swap">
+<style>:root {
+  --paper:#FFFFFF;
+  --on:#FFFFFF;
+  --on-rgb:255 255 255;
+  --ink:#231C29;
+  --ink-2:#655C6B;
+  --ink-3:#A29BA8;
+  --rule:#E9E4EC;
+  --wash:#F5F2F7;
+  --plum:#443447;
+  --rasp:#A12E5A;
+  --pulse:#F08FB4;
+  --pulse-rgb:240 143 180;
+  --marker:#FFE37E;
+  --sage:#5E8A67;
+  --shade:35 28 41;
+  --logo-ink:#15120D;
+  --logo-dot:#A12E5A;
+  --logo-w:3;
+  --display:"Fraunces",Georgia,"Times New Roman",serif;
+  --ui:"Geist",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --out:cubic-bezier(.23,1,.32,1);
+  color-scheme: light;
+}
+* {
+  box-sizing: border-box;
+}
+[hidden] {
+  display: none !important;
+}
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--ui);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  font-variation-settings: "SOFT" 100;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+button,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+button {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+:focus-visible {
+  outline: 2px solid var(--rasp);
+  outline-offset: 2px;
+}
+textarea:focus,
+textarea:focus-visible {
+  outline: none;
+}
+.ws {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-block: 14px 56px;
+  display: grid;
+  gap: 18px;
+}
+.label {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.mark {
+  display: block;
+  line-height: 0;
+}
+.logo {
+  display: block;
+  width: 113px;
+  height: 30px;
+}
+.logo path {
+  fill: var(--logo-ink);
+}
+.logo circle {
+  fill: var(--logo-dot);
+}
+.logo .km {
+  fill: none;
+  stroke: var(--logo-ink);
+  stroke-width: var(--logo-w);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.links {
+  display: flex;
+  gap: 6px 20px;
+  flex-wrap: wrap;
+  font-size: 14px;
+}
+.links a {
+  color: var(--ink-2);
+  text-decoration: none;
+  padding: 6px 0;
+}
+.links a:hover {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.guide {
+  position: sticky;
+  top: 8px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 6px 12px;
+  min-height: 50px;
+  padding: 10px 16px;
+  border-radius: 7px;
+  background: var(--ink);
+  color: var(--on);
+}
+.g-dot {
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgb(var(--on-rgb)/.34);
+}
+.guide.yours .g-dot {
+  background: var(--pulse);
+  animation: gp 1.3s ease-out infinite;
+}
+.g-tag {
+  flex: none;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: rgb(var(--on-rgb)/.62);
+}
+.g-say {
+  min-width: 0;
+  font-size: 17px;
+  line-height: 1.3;
+  color: rgb(var(--on-rgb)/.8);
+}
+.guide.yours .g-say {
+  font-weight: 500;
+  color: var(--on);
+}
+.guide.flash {
+  animation: gflash .55s var(--out);
+}
+.intro {
+  display: grid;
+  gap: 6px;
+  padding-top: 4px;
+}
+.intro h1 {
+  margin: 0;
+  font: 400 clamp(30px, 3.7vw, 46px)/1.04 var(--display);
+  letter-spacing: -.035em;
+  text-wrap: balance;
+}
+.intro p {
+  margin: 0;
+  max-width: 46em;
+  font-size: 16px;
+  color: var(--ink-2);
+}
+.cols {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: 44px;
+  align-items: start;
+  padding-top: 8px;
+}
+.ask {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+.seats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border: 1px solid var(--ink);
+}
+.seat {
+  display: grid;
+  gap: 2px;
+  padding: 12px 14px;
+  text-align: left;
+  border-right: 1px solid var(--ink);
+  transition: background .15s, color .15s;
+}
+.seat:last-child {
+  border-right: 0;
+}
+.seat b {
+  font: 400 20px/1.15 var(--display);
+  letter-spacing: -.02em;
+}
+.seat span {
+  font-size: 13px;
+  color: var(--ink-2);
+}
+.seat:hover {
+  background: var(--wash);
+}
+.seat[aria-pressed=true] {
+  background: var(--ink);
+  color: var(--on);
+}
+.seat[aria-pressed=true] span {
+  color: rgb(var(--on-rgb)/.72);
+}
+.topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.chip {
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1px solid var(--rule);
+  border-radius: 7px;
+  font-size: 14px;
+  color: var(--ink-2);
+  background: var(--paper);
+  transition:
+    border-color .15s,
+    color .15s,
+    background .15s;
+}
+.chip:hover {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+.chip[aria-pressed=true] {
+  border-color: var(--ink);
+  color: var(--ink);
+  font-weight: 500;
+  box-shadow: inset 0 -2px 0 var(--rasp);
+}
+form {
+  display: grid;
+  gap: 10px;
+  margin: 6px 0 0;
+}
+#q {
+  display: block;
+  width: 100%;
+  min-height: 86px;
+  overflow: hidden;
+  padding: 14px 16px;
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  background: var(--paper);
+  font: 400 20px/1.35 var(--display);
+  letter-spacing: -.012em;
+  resize: none;
+}
+.sugg {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.sugg .chip {
+  font-size: 13.5px;
+  line-height: 1.35;
+  min-height: 32px;
+  padding: 6px 12px;
+  text-align: left;
+}
+.askrow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  min-height: 46px;
+  padding: 0 20px;
+  border-radius: 7px;
+  border: 1px solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background .18s,
+    color .18s,
+    transform .18s;
+}
+.btn:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+.btn:active {
+  transform: scale(.98);
+}
+.btn.primary {
+  background: var(--plum);
+  border-color: var(--plum);
+  color: var(--on);
+}
+.btn.primary:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+}
+.btn:disabled {
+  opacity: .45;
+  pointer-events: none;
+}
+.count {
+  font-size: 13px;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+.answer {
+  display: grid;
+  gap: 12px;
+  padding-top: 18px;
+  border-top: 1px solid var(--rule);
+  min-height: 120px;
+  scroll-margin-top: 74px;
+}
+.answer .kind {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--ink-2);
+}
+.answer .kind i {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--sage);
+}
+.answer .kind.rec i {
+  background: var(--ink-3);
+}
+.answer .kind.pre i {
+  background: var(--rasp);
+}
+.atext {
+  font-size: 16.5px;
+  line-height: 1.62;
+  max-width: 40em;
+}
+.atext p {
+  margin: 0 0 .85em;
+}
+.atext ol {
+  margin: 0 0 .85em;
+  padding-left: 1.3em;
+  display: grid;
+  gap: .6em;
+}
+.empty {
+  margin: 0;
+  font: 400 20px/1.35 var(--display);
+  letter-spacing: -.012em;
+  color: var(--ink-3);
+  max-width: 26em;
+}
+.shim {
+  height: 14px;
+  border-radius: 3px;
+  background:
+    linear-gradient(
+      90deg,
+      var(--wash) 0%,
+      var(--rule) 45%,
+      var(--wash) 90%) 0 0/200% 100%;
+  animation: sh 1.4s linear infinite;
+}
+.shim:nth-child(3) {
+  width: 92%;
+}
+.shim:nth-child(4) {
+  width: 97%;
+}
+.shim:nth-child(5) {
+  width: 64%;
+}
+.status {
+  margin: 0;
+  font-size: 14px;
+  color: var(--ink-2);
+}
+.srcs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.src {
+  min-height: 32px;
+  padding: 0 12px;
+  border-radius: 7px;
+  background: var(--wash);
+  font-size: 13.5px;
+  color: var(--ink);
+  transition: background .15s;
+}
+.src:hover {
+  background: var(--marker);
+}
+.note {
+  margin: 0;
+  font-size: 13.5px;
+  color: var(--ink-2);
+  max-width: 40em;
+}
+.note a {
+  color: var(--ink);
+}
+.reads {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+  position: sticky;
+  top: 72px;
+  max-height: calc(100vh - 84px);
+  overflow: auto;
+  padding: 0 2px 12px 0;
+  scrollbar-width: thin;
+}
+.scope {
+  margin: 0;
+  font: 400 19px/1.35 var(--display);
+  letter-spacing: -.012em;
+}
+.grp {
+  display: grid;
+  border-top: 1px solid var(--ink);
+}
+.grp h2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin: 0;
+  padding: 10px 0 6px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+.grp h2 span {
+  font-weight: 400;
+  color: var(--ink-2);
+}
+.item {
+  border-top: 1px solid var(--rule);
+  transition: opacity .25s;
+}
+.item summary {
+  display: grid;
+  grid-template-columns: 3.6em minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: baseline;
+  padding: 9px 0;
+  cursor: pointer;
+  list-style: none;
+}
+.item summary::-webkit-details-marker {
+  display: none;
+}
+.item .d {
+  font-size: 13px;
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+.item .t {
+  font: 400 17px/1.25 var(--display);
+  letter-spacing: -.012em;
+}
+.item .v {
+  font-size: 12px;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+.item .v.priv {
+  color: var(--rasp);
+}
+.item .body {
+  margin: 0;
+  padding: 0 0 14px 3.6em;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  white-space: pre-wrap;
+}
+.item.nodate summary {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+.item.nodate .body {
+  padding-left: 0;
+}
+.item textarea {
+  display: block;
+  width: 100%;
+  min-height: 180px;
+  margin: 0 0 6px;
+  padding: 12px;
+  border: 1px solid var(--rule);
+  border-radius: 0;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--ink);
+  resize: vertical;
+}
+.item .mini {
+  font-size: 12.5px;
+  color: var(--ink-2);
+  padding-bottom: 12px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.item .mini button {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  color: var(--ink);
+}
+.item.off {
+  opacity: .36;
+}
+.item.off .v::before {
+  content: "Closed to this seat";
+  color: var(--ink);
+}
+.item.off .v {
+  font-size: 0;
+}
+.item.off .v::before {
+  font-size: 12px;
+}
+.item.cited .t {
+  background: linear-gradient(var(--marker), var(--marker)) no-repeat 0 60%/100% 62%;
+}
+.item.flash {
+  animation: flash 1.2s var(--out);
+}
+.grp.off h2 {
+  color: var(--ink-3);
+}
+@keyframes gp {
+  0% {
+    box-shadow: 0 0 0 0 rgb(var(--pulse-rgb)/.7);
+  }
+  100% {
+    box-shadow: 0 0 0 9px rgb(var(--pulse-rgb)/0);
+  }
+}
+@keyframes gflash {
+  from {
+    background: var(--rasp);
+    transform: translateY(-3px);
+  }
+}
+@keyframes sh {
+  to {
+    background-position: -200% 0;
+  }
+}
+@keyframes flash {
+  from {
+    background: var(--marker);
+  }
+  to {
+    background: transparent;
+  }
+}
+@media (max-width: 860px) {
+  .cols {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+  }
+  .reads {
+    position: static;
+    max-height: none;
+    overflow: visible;
+  }
+  .guide {
+    flex-wrap: wrap;
+    padding: 9px 12px;
+  }
+  .g-say {
+    flex-basis: 100%;
+    font-size: 15px;
+  }
+  .seat {
+    padding: 10px;
+  }
+  .seat b {
+    font-size: 17px;
+  }
+  .seat span {
+    font-size: 12px;
+  }
+  #q {
+    font-size: 18px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+</style>
+
+<div class="ws">
+  <header class="top">
+    <a class="mark" href="https://bookae.ai" target="_blank" rel="noopener" aria-label="Bookae"><svg class="logo" viewBox="-85.5 0 437.5 116" width="113" height="30" role="img" aria-label="Bookae"><path class="km" d="M-69.59 33.21L-74.55 35.53M-59.65 21.55L-64.61 23.88M-65.67 47.19L-71.45 49.90M-42.88 15.59L-47.84 17.91M-51.15 19.47L-56.11 21.79M-53.39 36.15L-59.18 38.86M-59.34 61.37L-65.13 64.09M-56.34 51.58L-62.12 54.29M-51.67 70.42L-53.52 71.29M-56.83 72.84L-61.79 75.17M-39.92 32.75L-42.01 33.74M-45.32 35.28L-50.28 37.61M-33.55 19.98L-38.51 22.30M-41.82 23.86L-46.78 26.18M-50.12 54.50L-55.90 57.22M-33.02 24.11L-37.98 26.44M-47.06 50.34L-52.85 53.05M-42.43 46.76L-46.56 48.70M-39.93 38.60L-49.85 43.25M-38.70 77.48L-43.66 79.81M-39.66 66.75L-49.58 71.40M-27.38 52.60L-27.87 52.83M-40.79 58.89L-46.58 61.61M-33.83 50.03L-34.65 50.42M-27.19 39.93L-28.85 40.71M-23.69 28.50L-28.65 30.83M-21.01 69.62L-25.97 71.95M-25.95 64.95L-30.91 67.28M-18.01 59.83L-22.96 62.15M-16.00 53.30L-20.96 55.62M-22.95 55.15L-27.90 57.48M-13.00 43.50L-17.96 45.83M-56.00 70.13L-53.52 71.29M-52.99 75.42L-43.66 79.81M-71.12 70.78L-61.79 75.17M-72.61 50.01L-71.63 50.47M-36.85 66.83L-25.97 71.95M-74.46 59.70L-65.13 64.09M-58.91 67.01L-49.58 71.40M-77.55 45.33L-69.65 49.05M-55.78 55.57L-54.10 56.37M-41.79 62.15L-30.91 67.28M-23.58 57.21L-18.01 59.83M-24.82 61.28L-22.96 62.15M-65.67 47.19L-56.34 51.58M-50.12 54.50L-40.79 58.89M-71.45 49.90L-62.12 54.29M-55.90 57.22L-46.58 61.61M-67.61 33.68L-60.74 36.91M-31.85 50.50L-20.96 55.62M-62.18 48.66L-52.85 53.05M-69.59 33.21L-60.86 37.31M-33.83 50.03L-22.95 55.15M-42.43 46.76L-34.65 50.42M-74.55 35.53L-62.11 41.39M-46.56 48.70L-27.90 57.48M-59.65 21.55L-56.49 23.04M-26.36 37.22L-13.00 43.50M-44.49 32.57L-42.01 33.74M-64.61 23.88L-57.74 27.11M-28.85 40.71L-17.96 45.83M-41.48 37.87L-39.93 38.60M-53.39 36.15L-50.28 37.61M-59.18 38.86L-49.85 43.25M-42.88 15.59L-33.55 19.98M-33.02 24.11L-23.69 28.50M-47.84 17.91L-38.51 22.30M-51.15 19.47L-41.82 23.86M-37.98 26.44L-28.65 30.83M-56.11 21.79L-46.78 26.18M-23.31 54.98L-23.19 54.58M-35.12 25.10L-33.55 19.98M-21.01 69.62L-18.01 59.83M-16.00 53.30L-13.00 43.50M-38.70 77.48L-35.61 67.41M-30.73 51.49L-30.61 51.09M-27.19 39.93L-23.69 28.50M-48.67 20.63L-47.84 17.91M-53.52 71.29L-53.05 69.77M-42.01 33.74L-38.51 22.30M-72.61 50.01L-71.98 47.95M-67.61 33.68L-64.61 23.88M-36.85 66.83L-36.22 64.78M-31.85 50.50L-28.85 40.71M-25.97 71.95L-22.96 62.15M-20.96 55.62L-17.96 45.83M-56.83 72.84L-55.53 68.60M-45.32 35.28L-41.82 23.86M-25.95 64.95L-22.95 55.15M-52.99 75.42L-51.48 70.51M-41.48 37.87L-37.98 26.44M-42.43 46.76L-39.93 38.60M-43.66 79.81L-39.66 66.75M-34.65 50.42L-28.65 30.83M-77.55 45.33L-74.55 35.53M-71.12 70.78L-68.57 62.47M-62.11 41.39L-56.11 21.79M-59.34 61.37L-56.34 51.58M-61.79 75.17L-55.78 55.57M-50.28 37.61L-46.78 26.18M-47.06 50.34L-46.56 48.70M-41.79 62.15L-40.79 58.89M-30.91 67.28L-27.90 57.48M-74.46 59.70L-71.45 49.90M-62.18 48.66L-59.18 38.86M-65.13 64.09L-62.12 54.29M-58.91 67.01L-55.90 57.22M-52.85 53.05L-49.85 43.25M-49.58 71.40L-46.58 61.61"/><g transform="translate(8,81.5)"><path d="M30.7 -61.7 33 -67.6H49Q55.6 -67.6 59.6 -65.8Q63.6 -64.1 65.4 -61Q67.3 -57.9 67.3 -54.1Q67.3 -49 64.8 -45Q62.3 -41.1 57.6 -38.8Q53 -36.4 46.4 -35.9L46.2 -36.7Q54.1 -36.2 58 -32.5Q61.9 -28.8 61.9 -23.1Q61.9 -16.7 58.7 -11.5Q55.4 -6.2 48.9 -3.1Q42.4 0 32.5 0.0H12.4L13.9 -6.0H30.1Q35.9 -6 40 -8.2Q44.1 -10.3 46.4 -14.3Q48.6 -18.3 48.6 -23.6Q48.6 -27.8 46 -30.4Q43.5 -32.9 37.6 -32.9H21.9L23.9 -38.8H40Q44.4 -38.8 47.7 -40.7Q50.9 -42.7 52.7 -46Q54.5 -49.4 54.5 -53.6Q54.5 -56.2 53.4 -58Q52.4 -59.8 50.2 -60.8Q48 -61.7 44.6 -61.7ZM23.8 -62.4 17.1 -65 17.9 -67.6H38.4L17.7 0.0H-2.6L-1.8 -2.6L6.3 -5.3Z"/><path d="M96.2 -45.7Q101.6 -45.7 105.3 -43.6Q109 -41.5 110.9 -37.8Q112.7 -34.1 112.7 -29.1Q112.7 -23 110.7 -17.5Q108.7 -12 105.1 -7.8Q101.4 -3.6 96.6 -1.2Q91.7 1.2 85.9 1.2Q80.6 1.2 76.9 -0.9Q73.2 -2.9 71.3 -6.7Q69.4 -10.4 69.4 -15.4Q69.4 -21.5 71.5 -27Q73.5 -32.4 77.1 -36.6Q80.8 -40.8 85.6 -43.3Q90.5 -45.7 96.2 -45.7ZM86.1 -3.8Q88.4 -3.8 90.6 -5.5Q92.9 -7.3 94.8 -10.2Q96.7 -13.2 98.2 -16.9Q99.7 -20.7 100.5 -24.8Q101.3 -28.9 101.3 -32.8Q101.3 -37 100 -38.8Q98.8 -40.7 96.1 -40.7Q93.8 -40.7 91.5 -38.9Q89.3 -37.2 87.4 -34.2Q85.4 -31.3 84 -27.5Q82.5 -23.8 81.7 -19.7Q80.9 -15.6 80.9 -11.6Q80.9 -7.5 82.2 -5.7Q83.4 -3.8 86.1 -3.8Z"/><path d="M145.4 -45.7Q150.8 -45.7 154.5 -43.6Q158.1 -41.5 160 -37.8Q161.9 -34.1 161.9 -29.1Q161.9 -23 159.9 -17.5Q157.8 -12 154.2 -7.8Q150.6 -3.6 145.7 -1.2Q140.8 1.2 135.1 1.2Q129.7 1.2 126.1 -0.9Q122.4 -2.9 120.5 -6.7Q118.6 -10.4 118.6 -15.4Q118.6 -21.5 120.6 -27Q122.6 -32.4 126.3 -36.6Q129.9 -40.8 134.8 -43.3Q139.7 -45.7 145.4 -45.7ZM135.2 -3.8Q137.6 -3.8 139.8 -5.5Q142 -7.3 143.9 -10.2Q145.9 -13.2 147.3 -16.9Q148.8 -20.7 149.6 -24.8Q150.5 -28.9 150.5 -32.8Q150.5 -37 149.2 -38.8Q147.9 -40.7 145.3 -40.7Q142.9 -40.7 140.7 -38.9Q138.4 -37.2 136.5 -34.2Q134.6 -31.3 133.1 -27.5Q131.7 -23.8 130.8 -19.7Q130 -15.6 130 -11.6Q130 -7.5 131.3 -5.7Q132.6 -3.8 135.2 -3.8Z"/><path d="M198.4 -71.7 176.7 0.0H165.1L183.7 -61.3Q182.8 -62.2 181.8 -63Q180.7 -63.9 179.5 -64.7Q178.3 -65.5 176.9 -66.2L177.5 -68.5L196.7 -71.7ZM183.5 -24.4 184.2 -26Q190.5 -32.1 194.9 -36Q199.3 -39.8 202.4 -41.9Q205.6 -44 208.1 -44.9Q210.6 -45.7 213 -45.7Q216.3 -45.7 218 -43.8Q219.8 -41.9 219.8 -39.3Q219.8 -36.9 218.7 -35.2Q217.7 -33.6 215.9 -32.7Q214.2 -31.8 212.3 -31.8Q211.6 -31.8 211 -32.5Q210.4 -33.1 209.6 -34.6Q208.8 -36.1 208 -36.7Q207.3 -37.4 206.4 -37.4Q205.1 -37.4 203.3 -36.6Q201.4 -35.7 199.1 -34.2Q196.8 -32.6 194.1 -30.4Q191.5 -28.2 188.7 -25.4L192.3 -30.7Q195.3 -22.8 197.3 -18.1Q199.3 -13.3 200.6 -10.9Q201.9 -8.6 202.8 -7.8Q203.8 -7 204.7 -7Q205.7 -7 207 -7.7Q208.4 -8.5 210 -10Q211.7 -11.5 213.7 -13.8L215.8 -11.8Q212.5 -7.3 209.5 -4.4Q206.5 -1.5 203.8 -0.1Q201.1 1.2 198.6 1.2Q196.9 1.2 195.5 0.3Q194 -0.7 192.3 -3.4Q190.7 -6.1 188.6 -11.1Q186.4 -16.1 183.5 -24.4Z"/><path d="M246.7 -3.8 252.3 -20.1H253.2Q249 -13.6 245.7 -9.4Q242.5 -5.3 239.7 -3Q237 -0.7 234.6 0.2Q232.2 1.2 229.8 1.2Q226.7 1.2 224.3 -0Q222 -1.2 220.6 -3.6Q219.3 -5.9 219.3 -9.6Q219.3 -13.9 220.8 -18.7Q222.4 -23.5 225.1 -28.2Q227.9 -32.9 231.6 -36.8Q235.3 -40.6 239.7 -42.9Q244.1 -45.2 248.8 -45.2Q252.5 -45.2 255 -43.7Q257.5 -42.1 259.5 -38.6L257.4 -35.5Q256.7 -37.3 255.1 -38.4Q253.6 -39.6 251.2 -39.6Q248.2 -39.6 245.3 -37.5Q242.4 -35.4 239.8 -32Q237.3 -28.6 235.4 -24.8Q233.6 -20.9 232.5 -17.3Q231.4 -13.7 231.4 -11.1Q231.4 -9 232.4 -8.1Q233.4 -7.1 235.2 -7.1Q236.9 -7.1 239.3 -8.6Q241.6 -10 244.1 -12.5Q246.6 -15 248.8 -18.4Q251 -21.7 252.4 -25.6L258.1 -40.9L263.9 -44.5H270.8L257.4 -3.6L255.5 -6.9Q257.7 -6.8 260 -7.5Q262.3 -8.2 264.8 -9.7Q267.3 -11.2 269.9 -13.6L271.9 -11.5Q265.9 -4.6 261 -1.7Q256.1 1.2 251.8 1.2Q248.4 1.2 247.1 0Q245.8 -1.2 246.7 -3.8Z"/><path d="M301.4 -41Q299 -41 296.9 -39.6Q294.8 -38.2 293.1 -35.7Q291.3 -33.3 290.1 -30.2Q288.9 -27 288.2 -23.6Q287.6 -20.1 287.6 -16.7Q287.6 -11.4 289.7 -9.2Q291.8 -7 295.6 -7Q298.2 -7 300.4 -7.8Q302.6 -8.6 304.6 -10.5Q306.6 -12.4 308.5 -15.9H311.9Q309.1 -9.3 306.1 -5.5Q303 -1.8 299.4 -0.3Q295.8 1.2 291.2 1.2Q286.2 1.2 282.8 -0.6Q279.3 -2.4 277.4 -5.8Q275.6 -9.3 275.6 -14.2Q275.6 -19.5 277 -24.3Q278.5 -29.1 281 -33Q283.6 -36.9 287.1 -39.7Q290.5 -42.6 294.6 -44.1Q298.7 -45.7 303.1 -45.7Q307.7 -45.7 310.4 -44.4Q313.2 -43.1 314.5 -40.9Q315.8 -38.7 315.8 -36Q315.8 -33.7 314.9 -31.3Q314 -29 312.5 -27.4Q309.3 -26.2 305.9 -25.1Q302.5 -23.9 299 -22.9Q295.6 -21.9 292 -21Q288.5 -20.1 285.1 -19.3L285.3 -23.5Q290.5 -25 294.1 -26.3Q297.7 -27.6 299.9 -28.7Q302.2 -29.9 303.5 -31.2Q304.7 -32.4 305.1 -33.7Q305.6 -35 305.6 -36.5Q305.6 -37.9 305.1 -38.9Q304.7 -39.9 303.7 -40.5Q302.8 -41 301.4 -41Z"/></g><circle cx="337.6" cy="75.3" r="6.2"/></svg></a>
+    <nav class="links"><a id="lstory" href="index.html">Back to Elena’s story</a><a id="lfilms" href="https://bookae-demo.vercel.app/demo/watch" target="_blank" rel="noopener">Watch the films</a></nav>
+  </header>
+
+  <div class="guide yours" id="guide" role="status">
+    <span class="g-dot" aria-hidden="true"></span>
+    <span class="g-tag">Live AI</span>
+    <span class="g-say" id="gsay">Pick who’s asking, then ask. Try “Just write the essay for me.”</span>
+  </div>
+
+  <div class="intro">
+    <h1>Ask Bookae about Elena.</h1>
+    <p>Elena is made up, and so are her days, her draft and her college list. The answers are real, and each one points back to her own words.</p>
+  </div>
+
+  <div class="cols">
+    <section class="ask" aria-label="Ask Bookae">
+      <p class="label">Who’s asking</p>
+      <div class="seats" id="seats" role="group" aria-label="Who is asking">
+        <button type="button" class="seat" data-seat="elena" aria-pressed="true"><b>Elena</b><span>The student</span></button>
+        <button type="button" class="seat" data-seat="reader" aria-pressed="false"><b>A cold reader</b><span>Sees only the page</span></button>
+        <button type="button" class="seat" data-seat="priya" aria-pressed="false"><b>Priya</b><span>Her counselor</span></button>
+      </div>
+      <div class="topics" id="topics" role="group" aria-label="What Elena wants help with"></div>
+      <form id="form">
+        <label class="label" for="q" id="qlabel">Elena asks</label>
+        <textarea id="q" maxlength="1200" rows="4"></textarea>
+        <div class="sugg" id="sugg"></div>
+        <div class="askrow"><button type="submit" class="btn primary" id="askbtn">Ask Bookae</button><span class="count" id="count"></span></div>
+      </form>
+      <div class="answer" id="answer" aria-live="polite"><p class="empty">The answer lands here, with the days it leaned on.</p></div>
+    </section>
+
+    <aside class="reads" aria-label="What Bookae can read from this seat">
+      <p class="label">What Bookae can read from this seat</p>
+      <p class="scope" id="scope"></p>
+      <div id="material"></div>
+    </aside>
+  </div>
+</div>
+
+<script>(() => {
+  "use strict";
+  const API = "/api/demo/assist";
+  const STORY_URL = "index.html";
+  const DATA = { "entries": [{ "id": "entry-1", "title": "The transfer that looks fine on paper", "date": "2026-06-01", "body": "Missed the transfer after school and got to the store late. On the map the two stops practically touch. In real life there is a wide road, a light that takes forever, and me carrying a poster board sideways in the wind. I took a picture of the worn path through the grass where everyone cuts across. The map is not wrong exactly. It just leaves out the part where a person has legs and groceries and somewhere to be. I want to take more pictures of the paths people make themselves.", "shared": false }, { "id": "entry-2", "title": "The closing checklist", "date": "2026-06-15", "body": "I showed Malik how to close the register and said 'then do the usual returns thing.' He looked at me like I had skipped three pages. I forgot that I only know the usual thing because I messed it up twice. We wrote a checklist on the back of an old stock sheet. He added a drawing of which key goes in which drawer. My version was all words. His is better. Our manager let us tape it inside the cabinet. I am not a supervisor, but now I am the person she asks to help new weekend staff.", "shared": true }, { "id": "entry-3", "title": "The poster nobody used", "date": "2026-06-29", "body": "My library technology poster lasted three Saturdays without one person taking a photo of it. I made the headings match and put a QR code in the corner. Today a visitor asked what a QR code was. Excellent work, Elena: to find help using your phone, first demonstrate you already know how to use your phone. Ms. Chen asked what people had actually requested. I had examples in my head but no notes. I had designed something before asking whether anybody wanted it. I took the poster down. Embarrassing, but at least the tape came off cleanly.", "shared": true }, { "id": "entry-4", "title": "Ask before opening the laptop", "date": "2026-07-13", "body": "For four Saturdays I kept anonymous tallies of the kind of help people asked for: 23 visits, not necessarily 23 different people. No names, account information, or copies of forms. Today I asked a visitor, 'What would you like to be able to do before you leave?' She wanted to send one document herself, not have me send it quickly for her. I had already pulled the laptop toward me. Pushed it back. We tried a paper card with three steps and room for her own notes. She crossed out 'upload' and wrote 'choose my file.' I kept her wording on the blank version.", "shared": true }, { "id": "entry-5", "title": "Twenty-three is not the neighborhood", "date": "2026-07-27", "body": "Showed my library tally sheet to Mr. Bell after precalculus. I said it showed what older people in our neighborhood need. He asked where the ages were recorded. They weren't. Then he asked about people who couldn't get to the library at all. Also not in my sheet. Changed the heading to 'Questions asked during four Saturday help sessions.' Less impressive and actually true. Now I want to know how you learn from a small sample without making everyone outside it disappear. Maybe this is why I want statistics next year.", "shared": true }, { "id": "entry-6", "title": "The girl with the red notebook", "date": "2026-08-10", "body": "A visitor recognized me as 'the girl with the red notebook.' Not the computer expert, thank goodness. She brought back one of the blank instruction cards with her own extra step written between steps two and three. She said she used it at home once. That is one person's report, not proof the whole system works, but I was happy the rest of the shift. We now have three reusable guides: attaching a file, saving a document somewhere you can find it, and checking that a print job reached the queue. Ms. Chen checked all three. Nobody's actual documents go in my notebook.", "shared": true }, { "id": "entry-7", "title": "One good table, not a movement", "date": "2026-08-24", "body": "End-of-school-year count: 47 help visits over ten pilot Saturdays, including the first 23. These are visits, not unique people. We gave out 31 blank guide cards across the three tasks. We did not track whether people completed things later. Ms. Chen approved the wording and stayed responsible for the desk. I made the drafts and tally sheet; Theo suggested the larger type and tested the print instructions. I keep writing 'launched a digital access initiative' in my activity description and then deleting it. We made one existing library table a little easier to use. That's what happened.", "shared": true }, { "id": "entry-8", "title": "The table ran without me", "date": "2026-09-07", "body": "Had a grocery shift swap, so Theo and June covered the library table. I left a handoff sheet with where the blank guides live and when to ask the librarian. June texted that it went fine and that she'd changed the order of two instructions. My first feeling was a tiny offended one, which I will admit here. Then relief. I can't tell myself this is useful to other people and also need every version to have my handwriting on it. They are volunteers I helped orient, not a team I founded or people who report to me.", "shared": true }, { "id": "entry-9", "title": "What belongs to me to tell", "date": "2026-09-21", "body": "Started an essay with Mom staring at a confusing letter. It had tension immediately and I hated it immediately. She is not a confused parent whose purpose is to make me look capable. I asked if she would mind that scene being in an application. She said she'd rather it wasn't. Deleted it. I can write about what I did at the library without borrowing her private moment. Leaving this journal entry private too. I want help choosing an essay, but I don't want help turning every person I love into evidence.", "shared": false }, { "id": "entry-10", "title": "The number in the blue notebook", "date": "2026-10-05", "body": "Mom wrote $12,000 per year in the blue notebook as a first guess at what the family could contribute. We have not checked it against anything and Dad said not to treat it as settled. I'm putting the number here so I remember it was a starting question, not a promise. I have only told Priya that cost matters and that we need to compare estimates. I am not ready to share the actual number. I want to ask useful questions before I start crossing schools off in a panic.", "shared": false }, { "id": "entry-11", "title": "The college map on my bedroom floor", "date": "2026-10-19", "body": "Put seven college names on paper and immediately ranked them by which would sound best when someone asked. Then tried again with different questions: Can I get around without a car? Can I try geography and something about information before choosing? Could I work without missing every club meeting? Milwaukee means familiar streets; another city means a chance to find out what I do when nobody already knows me. A small school might be worth considering too. Priya says I need actual answers from campuses and cost estimates with my family, not a mood board with acceptance rates on it.", "shared": true }, { "id": "entry-12", "title": "Three things for this week", "date": "2026-11-02", "body": "Small list: revise the ending of the laptop essay; ask Priya which college questions I can answer before our next meeting; write a first sampling plan for statistics. I have two grocery shifts and Thursday pickup, so this is enough. I don't need another project. I need the work I already did to be clear, and I need to figure out which questions I actually want to keep asking in college. Leaving the final paragraph unfinished tonight instead of filling the space with 'change the world.'", "shared": true }], "modes": [{ "id": "connections", "label": "Find connections", "prompt": "I keep saying I just have a job and volunteer. What patterns do you see across my entries? Point me to the actual moments, and tell me where the evidence is thin." }, { "id": "coach", "label": "Essay coach", "prompt": "Where do I explain the lesson before the reader has seen it? Give me two places to work on. Please don't rewrite the whole essay." }, { "id": "review", "label": "Cold read", "prompt": "Read only this draft. What does the reader learn about me, and where does the writing become generic?" }, { "id": "colleges", "label": "College exploration", "prompt": "Compare staying near home with trying a different city. What should I investigate before choosing?" }, { "id": "counselor", "label": "Counselor brief", "prompt": "Prepare a short session brief for Elena from what she has shared. What changed in the library project, and what should we ask next?" }], "colleges": [{ "id": "uw-milwaukee", "name": "University of Wisconsin–Milwaukee", "location": "Milwaukee, Wisconsin", "description": "An urban research university in Milwaukee.", "question": "What would staying in my home city make possible, and what would I want to change about my daily life?", "url": "https://uwm.edu/about/" }, { "id": "uw-madison", "name": "University of Wisconsin–Madison", "location": "Madison, Wisconsin", "description": "A public land-grant research university with a public-service mission.", "question": "How could I explore my interests while learning to live away from home?", "url": "https://www.wisc.edu/about/" }, { "id": "macalester", "name": "Macalester College", "location": "Saint Paul, Minnesota", "description": "A small liberal arts college in the Twin Cities.", "question": "Would a smaller college in a different city give me the breadth and community I want?", "url": "https://www.macalester.edu/about/" }], "draft": "I had already pulled the laptop toward me when the woman across the library table said she wanted to do it herself. My hand was still beside the trackpad. I moved the computer back, very slowly, as if that would make the first movement less obvious.\n\nShe needed to send a document. I knew where to click, and knowing felt good. At the Saturday technology table, being useful seemed easy to measure: a file sent, a page printed, the next person helped. I had not asked whether she wanted a finished task or a way to finish it again when I wasn't there.\n\nA few weeks earlier, I had made a poster for the table. The colors matched. The headings lined up. A QR code led to more instructions. Nobody used it. When a visitor asked me what the square in the corner was, I realized I had put a small technology test in front of the technology help. Our librarian asked what people had requested. I had designed an answer before I could answer her.\n\nSo I started keeping a different kind of notebook. No names or personal documents, just the kinds of questions that came to our table. Attaching a file. Finding a saved document. Working out whether the printer had received anything. On the day I moved the laptop back, we tried a paper card with space for the visitor's own notes. She crossed out 'upload' and wrote 'choose my file.' Her words stayed in the blank guide.\n\nLater, she returned with an extra step written between two of ours. She told me she had used the card at home once. I wanted that sentence to mean we had solved something big. It meant one person had used one card. That was smaller, and it was also something I could honestly say. Over ten pilot Saturdays, we counted 47 help visits and gave out 31 cards. Some visitors came more than once. We didn't know what happened after most of them left.\n\nI recognized the same problem in a closing checklist at my grocery job. I had told a new coworker to do 'the usual returns thing,' forgetting there is no usual thing on someone's first weekend. He drew the keys and drawers beside my written instructions. His drawing made the checklist easier to follow than my explanation did. These experiences taught me the importance of communication and collaboration in different environments.\n\nWhen two other volunteers covered the library table, one changed the order of the instructions I had left. I felt a little offended before I felt relieved. I still like being the person with the answer. But now, when somebody sits down across from me, I try to keep my hands on my side of the table long enough to ask what they want to do. I am learning to listen before acting, and I hope to bring that skill to college.", "note": "I noticed that the best instructions are the ones somebody else has changed. Maybe that is what the library table and the closing checklist have in common." };
+  const REC = { "connections": { "question": "I keep saying I just have a job and volunteer. What patterns do you see across my entries? Point me to the actual moments, and tell me where the evidence is thin.", "answer": "In these authored entries, I see three tentative patterns—not a claim that you need to turn your job and volunteering into something grander.\n\n1. You notice where instructions miss lived experience. Evidence: in “The transfer that looks fine on paper,” nearby stops still mean a difficult crossing; in “The closing checklist,” “the usual returns thing” leaves out steps Malik needs. Interpretation: you may be drawn to gaps between how a system looks and how people actually use it. Thin spot: these moments suggest an interest, not yet a settled academic direction.\n\n2. Your work improves when other people can change it. Evidence: Malik adds the key drawing in “The closing checklist”; a visitor replaces “upload” with “choose my file” in “Ask before opening the laptop”; June reorders instructions in “The table ran without me.” Interpretation: your temporary demo note identifies a plausible thread—usefulness over ownership. Thin spot: revisions and a successful handoff do not establish broad or lasting impact.\n\n3. You’re learning to make narrower, more credible claims. Evidence: in “Twenty-three is not the neighborhood,” you correct the tally’s scope; in “One good table, not a movement,” you distinguish visits from people and name others’ contributions. Interpretation: accuracy itself may be becoming a habit. Thin spot: you did not track later task completion.\n\nWhich moment most changed what you did next, rather than just how you described it?", "sources": [{ "id": "entry-1", "title": "The transfer that looks fine on paper" }, { "id": "entry-2", "title": "The closing checklist" }, { "id": "entry-4", "title": "Ask before opening the laptop" }, { "id": "entry-8", "title": "The table ran without me" }, { "id": "visitor-note", "title": "Your temporary demo note" }, { "id": "entry-5", "title": "Twenty-three is not the neighborhood" }, { "id": "entry-7", "title": "One good table, not a movement" }] }, "coach": { "question": "Where do I explain the lesson before the reader has seen it? Give me two places to work on. Please don't rewrite the whole essay.", "answer": "Two places in “Before I touched the keyboard · private draft” are worth testing:\n\n1. The end of paragraph two: “I had not asked whether she wanted a finished task or a way to finish it again when I wasn't there.” This explains the central shift before the reader sees the visitor change the card’s wording. Your opening already shows the tension through your hand and the laptop. Try temporarily setting this sentence aside, then read through the card scene: does the visitor’s correction let the reader discover that distinction without an early explanation?\n\n2. The end of the grocery-checklist paragraph: “These experiences taught me the importance of communication and collaboration in different environments.” The drawing has already demonstrated collaboration, but this broad lesson arrives before the next scene tests whether you can accept someone changing your own instructions. Try setting this sentence aside too, and check whether the movement from Malik’s drawing to your offended-then-relieved reaction becomes clearer.\n\nYour temporary demo note offers a more specific thread to investigate: instructions improved by someone else’s changes. In “The table ran without me,” that change also challenges your desire to own the answer.\n\nQuestion: What feels different about accepting Malik’s drawing versus accepting a volunteer’s revision when you aren’t there?", "sources": [{ "id": "draft", "title": "Before I touched the keyboard · private draft" }, { "id": "visitor-note", "title": "Your temporary demo note" }, { "id": "entry-8", "title": "The table ran without me" }] }, "review": { "question": "Read only this draft. What does the reader learn about me, and where does the writing become generic?", "answer": "In “Before I touched the keyboard · private draft,” the reader meets someone who likes being useful—and is beginning to notice when that desire crowds out another person’s independence. The strongest impression is not simply “helpful volunteer,” but someone willing to examine an uncomfortable motive: “knowing felt good.”\n\nSpecific moments make that growth believable: moving the laptop back, recognizing the QR code as another technology hurdle, and preserving the visitor’s phrase “choose my file.” The admission that you felt offended when another volunteer changed your instructions adds tension: listening is still a practice, not a completed transformation. Your distinction between one person’s success and broader impact also conveys restraint. The visit and card counts establish activity without claiming outcomes you cannot show.\n\nThe writing becomes generic in “These experiences taught me the importance of communication and collaboration in different environments.” That sentence labels what the coworker’s drawing already demonstrates more vividly. The final sentence about listening and bringing that skill to college similarly repeats an insight that the image of keeping your hands on your side of the table expresses better.\n\nThe main gap is the grocery example’s aftermath: did the drawing change how you approached that coworker afterward? If there is a specific, truthful answer, explore it. Otherwise, ask whether that example adds enough beyond the library story to earn its space.", "sources": [{ "id": "draft", "title": "Before I touched the keyboard · private draft" }] }, "colleges": { "question": "Compare staying near home with trying a different city. What should I investigate before choosing?", "answer": "For Elena, this is a comparison of daily life and affordability—not yet a ranking of colleges.\n\nUniversity of Wisconsin–Milwaukee is an urban research university in her home city. Staying in Milwaukee could make maintaining family routines and existing commitments easier, but that is a personal possibility, not a guaranteed outcome. Investigate the actual commute, living arrangements, and whether staying would provide the independence she wants.\n\nUniversity of Wisconsin–Madison is a public land-grant research university in Madison with a public-service mission. It offers a different-city option to investigate alongside Elena’s interest in public policy. That mission alone does not establish academic fit: she should check relevant courses, access to them, and opportunities to explore geography and information science.\n\nMacalester College is a small liberal arts college in Saint Paul, in the Twin Cities. Its size and different-city setting raise useful questions about community and breadth, but do not establish how supported Elena would feel or how easily she could get around.\n\nBefore choosing, compare actual family net-price estimates, housing and transportation expenses, car-free routes, travel-home logistics, and academic options at all three. Elena’s fictional profile makes clear that she wants those estimates before deciding, with no binding early plan. Ask: “What would an ordinary week look like here, and which commitments could I realistically keep?”", "sources": [{ "id": "profile", "title": "Elena’s fictional profile" }, { "id": "uw-milwaukee", "title": "University of Wisconsin–Milwaukee" }, { "id": "uw-madison", "title": "University of Wisconsin–Madison" }, { "id": "macalester", "title": "Macalester College" }] }, "counselor": { "question": "Prepare a short session brief for Elena from what she has shared. What changed in the library project, and what should we ask next?", "answer": "Session brief — Elena is a fictional student in this demonstration.\n\nObservations: The library work shifted from designing for visitors to designing with them. In “The poster nobody used,” Elena recognized that her QR-code poster assumed skills visitors might be seeking help with. In “Ask before opening the laptop,” she began asking visitors’ goals, recording anonymous requests, and incorporating their wording into instruction cards rather than taking over tasks.\n\nHer claims also became more precise. “Twenty-three is not the neighborhood” shows her recognizing the limits of her sample. “One good table, not a movement” records 47 visits—not unique people—over ten pilot Saturdays and 31 blank cards distributed, without tracking later completion. It also distinguishes Elena’s contributions from Ms. Chen’s responsibility and Theo’s work. In “The table ran without me,” other volunteers used and revised the handoff materials without Elena present.\n\nOpen questions for the session: What did listening change about Elena’s definition of useful help? What could she measure next without collecting personal information or overstating results? How might her sampling questions connect to geography, information science, or public policy? Which college-fit questions can she answer next about cost, car-free transportation, and exploring those interests?\n\nKeep next steps manageable: “Three things for this week” prioritizes existing work, college questions, and a first sampling plan—not another project.", "sources": [{ "id": "entry-3", "title": "The poster nobody used" }, { "id": "entry-4", "title": "Ask before opening the laptop" }, { "id": "entry-5", "title": "Twenty-three is not the neighborhood" }, { "id": "entry-7", "title": "One good table, not a movement" }, { "id": "entry-8", "title": "The table ran without me" }, { "id": "profile", "title": "Elena’s fictional profile" }, { "id": "entry-11", "title": "The college map on my bedroom floor" }, { "id": "entry-12", "title": "Three things for this week" }] }, "coach:write-it": { "question": "Just write the essay for me.", "answer": "I can help you revise this fictional practice draft, but I won’t write the essay for you. “Before I touched the keyboard · private draft” already has a strong central tension: knowing how to finish a task is not the same as helping someone do it themselves.\n\nTwo precise places to work on:\n\n1. The final sentence of the grocery-checklist paragraph. The broad statement about communication and collaboration is less revealing than the drawing of the keys and drawers. Your temporary demo note offers a useful connection: other people improved the instructions by changing them. Decide what Malik’s drawing helped you understand that the library scene alone does not show. Keep the focus on that discovery rather than naming general virtues.\n\n2. The final two sentences. The return to keeping your hands on your side of the table gives the ending a concrete action; the general hope about college adds less. “The table ran without me” offers a more complicated point to explore: feeling offended before feeling relieved when someone changed your instructions. Consider whether the ending fully captures that unfinished change, rather than presenting listening as a completed lesson.\n\nWhich was harder for you: letting someone do the task themselves, or accepting that their changes could make your instructions better? Answer in a few rough sentences before revising.", "sources": [{ "id": "draft", "title": "Before I touched the keyboard · private draft" }, { "id": "visitor-note", "title": "Your temporary demo note" }, { "id": "entry-8", "title": "The table ran without me" }] } };
+  const REC_DATE = "Nov 14";
+  const PROFILE = "Milwaukee senior. I work at a neighborhood grocery store, help with after-school pickup, and volunteer at a library technology table. I like maps, asking why a form is confusing, and photographing windows on the bus. Considering geography, information science, or public policy. I’m still figuring out how those fit together.";
+  const TAP = matchMedia("(pointer: coarse)").matches ? "Tap" : "Click";
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+  if (STORY_URL) $("#lstory").href = STORY_URL;
+  if (/^https?:/.test(STORY_URL)) {
+    $("#lstory").target = "_blank";
+    $("#lstory").rel = "noopener";
+  }
+  const entries = DATA.entries, shared = entries.filter((e) => e.shared).length, priv = entries.length - shared;
+  const isEntry = (id) => id.startsWith("entry-");
+  const collegeIds = DATA.colleges.map((c) => c.id);
+  const prompt = (id) => DATA.modes.find((m) => m.id === id).prompt;
+  const MODES = {
+    connections: {
+      seat: "elena",
+      topic: "Find a thread",
+      who: "Elena asks",
+      can: (id) => isEntry(id) || id === "visitor-note",
+      scope: `Asking as Elena, Bookae reads all ${entries.length} of her days and the thought she kept. Her draft stays closed here.`,
+      more: ["Which two moments tell the same story in different settings?", "Where am I claiming more than my evidence supports?"]
+    },
+    coach: {
+      seat: "elena",
+      topic: "Work on my essay",
+      who: "Elena asks",
+      can: (id) => isEntry(id) || id === "visitor-note" || id === "draft",
+      scope: "As her essay partner, Bookae reads her draft, her days and the thought she kept. The sentences stay hers.",
+      more: ["Just write the essay for me.", "Which paragraph sounds least like Elena?", "Help me find a stronger ending without writing it for me."]
+    },
+    colleges: {
+      seat: "elena",
+      topic: "Think about colleges",
+      who: "Elena asks",
+      can: (id) => id === "profile" || collegeIds.includes(id),
+      scope: "For college questions, Bookae reads her profile and plain facts from three colleges. Her journal stays closed.",
+      more: ["What should Elena verify about getting around without a car?", "What questions would make a campus visit useful?"]
+    },
+    review: {
+      seat: "reader",
+      who: "A cold reader asks",
+      can: (id) => id === "draft",
+      scope: "A cold reader sees only the page: no journal, no profile, no backstory.",
+      more: ["What impression does the opening leave?", "Where does the draft become generic?"]
+    },
+    counselor: {
+      seat: "priya",
+      who: "Priya asks",
+      can: (id) => id === "profile" || isEntry(id) && entries.find((e) => e.id === id).shared,
+      scope: `Priya sees Elena’s profile and the ${shared} days Elena chose to share. Her ${priv} private days, her draft and the thought she kept stay closed.`,
+      more: ["What changed in Elena’s library work?", "What three questions should Priya bring to their next meeting?"]
+    }
+  };
+  const SEAT_DEFAULT = { elena: "connections", reader: "review", priya: "counselor" };
+  const S = { mode: "connections", draft: DATA.draft, note: DATA.note, busy: null };
+  const guideEl = $("#guide"), gsay = $("#gsay");
+  function guide(text, act = true) {
+    gsay.textContent = text;
+    guideEl.classList.toggle("yours", act);
+    guideEl.classList.remove("flash");
+    void guideEl.offsetWidth;
+    guideEl.classList.add("flash");
+  }
+  const fmt = (d) => (/* @__PURE__ */ new Date(d + "T12:00:00")).toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  const words = (t) => (t.trim().match(/\S+/g) || []).length;
+  function buildMaterial() {
+    const day = (e) => `<details class="item" data-id="${e.id}"><summary><span class="d">${fmt(e.date)}</span><span class="t">${esc(e.title)}</span><span class="v${e.shared ? "" : " priv"}">${e.shared ? "Shared with Priya" : "Private"}</span></summary><p class="body">${esc(e.body)}</p></details>`;
+    $("#material").innerHTML = `
+    <section class="grp" data-g="days"><h2>Her days <span>${entries.length} kept · ${priv} private</span></h2>${entries.map(day).join("")}</section>
+    <section class="grp" data-g="draft"><h2>Her draft <span id="dwords"></span></h2>
+      <details class="item nodate" data-id="draft"><summary><span class="t">Before I touched the keyboard</span><span class="v priv">Private</span></summary>
+        <textarea id="draft" maxlength="5000" aria-label="Elena’s draft. You can change it.">${esc(DATA.draft)}</textarea>
+        <p class="mini"><span>You can change it and ask again. Changes stay in this tab.</span><button type="button" id="dreset">Put her draft back</button></p></details></section>
+    <section class="grp" data-g="note"><h2>A thought she kept <span>this tab only</span></h2>
+      <details class="item nodate" data-id="visitor-note"><summary><span class="t">The best instructions are the ones somebody else has changed</span><span class="v priv">Private</span></summary>
+        <textarea id="note" maxlength="2000" style="min-height:96px" aria-label="A thought Elena kept. You can change it.">${esc(DATA.note)}</textarea>
+        <p class="mini"><span>Change it to see Bookae pick it up.</span></p></details></section>
+    <section class="grp" data-g="profile"><h2>Her profile</h2>
+      <details class="item nodate" data-id="profile"><summary><span class="t">Elena Morales · Milwaukee · Class of 2027</span><span class="v">Shared with Priya</span></summary><p class="body">${esc(PROFILE)}</p></details></section>
+    <section class="grp" data-g="colleges"><h2>Three colleges <span>plain facts from their own sites</span></h2>${DATA.colleges.map((c) => `<details class="item nodate" data-id="${c.id}"><summary><span class="t">${esc(c.name)}</span><span class="v">${esc(c.location)}</span></summary><p class="body">${esc(c.description)}
+Her question: ${esc(c.question)}</p></details>`).join("")}</section>`;
+    const dw = () => {
+      $("#dwords").textContent = words($("#draft").value) + " words";
+    };
+    $("#draft").addEventListener("input", (e) => {
+      S.draft = e.target.value;
+      dw();
+    });
+    $("#note").addEventListener("input", (e) => {
+      S.note = e.target.value;
+    });
+    $("#dreset").addEventListener("click", () => {
+      $("#draft").value = S.draft = DATA.draft;
+      dw();
+    });
+    dw();
+  }
+  function applyScope() {
+    const m = MODES[S.mode];
+    $("#scope").textContent = m.scope;
+    $$(".item").forEach((el) => el.classList.toggle("off", !m.can(el.dataset.id)));
+    $$(".grp").forEach((g) => g.classList.toggle("off", !$$(".item:not(.off)", g).length));
+    $$(".item.cited").forEach((el) => el.classList.remove("cited"));
+  }
+  function openItem(id) {
+    const el = $(`.item[data-id="${id}"]`);
+    if (!el) return;
+    $$(".item[open]").forEach((o) => {
+      if (o !== el) o.open = false;
+    });
+    el.open = true;
+    el.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    el.classList.remove("flash");
+    void el.offsetWidth;
+    el.classList.add("flash");
+  }
+  const q = $("#q"), count = $("#count");
+  const setCount = () => {
+    count.textContent = `${q.value.length} / 1,200`;
+    q.style.height = "auto";
+    q.style.height = q.scrollHeight + 2 + "px";
+  };
+  function setMode(id, keepQuestion) {
+    S.mode = id;
+    const m = MODES[id];
+    $$(".seat").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.seat === m.seat)));
+    const topics = Object.entries(MODES).filter(([, v]) => v.seat === "elena");
+    $("#topics").hidden = m.seat !== "elena";
+    $("#topics").innerHTML = topics.map(([k, v]) => `<button type="button" class="chip" data-mode="${k}" aria-pressed="${k === id}">${v.topic}</button>`).join("");
+    $("#qlabel").textContent = m.who;
+    if (!keepQuestion) q.value = prompt(id);
+    $("#sugg").innerHTML = [...m.more, prompt(id)].filter((x) => x !== q.value).slice(0, 2).map((x) => `<button type="button" class="chip" data-q="${esc(x)}">${esc(x)}</button>`).join("");
+    setCount();
+    applyScope();
+  }
+  $("#seats").addEventListener("click", (e) => {
+    const b = e.target.closest(".seat");
+    if (!b) return;
+    abort();
+    setMode(SEAT_DEFAULT[b.dataset.seat]);
+    idle();
+    guide(`${b.querySelector("b").textContent} can only read what stays lit in the reading list. ${TAP} “Ask Bookae”.`);
+  });
+  $("#topics").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-mode]");
+    if (!b) return;
+    abort();
+    setMode(b.dataset.mode);
+    idle();
+    guide(`${TAP} “Ask Bookae”, or change the question first.`);
+  });
+  $("#sugg").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-q]");
+    if (!b) return;
+    q.value = b.dataset.q;
+    setMode(S.mode, true);
+    q.focus();
+  });
+  q.addEventListener("input", setCount);
+  const answer = $("#answer"), askBtn = $("#askbtn");
+  function idle() {
+    answer.innerHTML = '<p class="empty">The answer lands here, with the days it leaned on.</p>';
+  }
+  function abort() {
+    if (S.busy) {
+      S.busy.abort();
+      S.busy = null;
+    }
+    askBtn.disabled = false;
+    askBtn.textContent = "Ask Bookae";
+  }
+  const titleOf = (id) => id === "draft" ? "Her draft" : id === "visitor-note" ? "The thought she kept" : id === "profile" ? "Her profile" : (entries.find((e) => e.id === id) || DATA.colleges.find((c) => c.id === id) || {}).title || (DATA.colleges.find((c) => c.id === id) || {}).name || id;
+  function textHTML(t) {
+    const blocks = String(t).trim().split(/\n{2,}/), out = [];
+    let list = [];
+    const flush = () => {
+      if (list.length) {
+        out.push("<ol>" + list.map((x) => `<li>${x}</li>`).join("") + "</ol>");
+        list = [];
+      }
+    };
+    for (const b of blocks) {
+      const m = b.match(/^\s*\d+[.)]\s+([\s\S]*)$/);
+      if (m) list.push(esc(m[1]).replace(/\n/g, "<br>"));
+      else {
+        flush();
+        out.push(`<p>${esc(b).replace(/\n/g, "<br>")}</p>`);
+      }
+    }
+    flush();
+    return out.join("");
+  }
+  const KIND = {
+    live: ["", "Live answer from Bookae"],
+    rec: ["rec", `A real answer, recorded from the live demo on ${REC_DATE}. This copy of the page can’t reach the live AI.`],
+    pre: ["pre", "Preview answer by Claude, following Bookae’s rules. On the demo site, Bookae’s own AI answers."]
+  };
+  function render(text, sources, kind, streaming) {
+    const [cls, label] = KIND[kind];
+    const ids = [...new Set((sources || []).map((s) => s.id))].filter((id) => $(`.item[data-id="${id}"]`));
+    answer.innerHTML = `<p class="kind ${cls}"><i></i>${esc(label)}</p><div class="atext">${textHTML(text)}</div>${ids.length ? `<p class="label">The words behind this answer</p><div class="srcs">${ids.map((id) => `<button type="button" class="src" data-src="${id}">${esc(titleOf(id))}</button>`).join("")}</div>` : ""}`;
+    if (!streaming) {
+      $$(".item.cited").forEach((el) => el.classList.remove("cited"));
+      ids.forEach((id) => $(`.item[data-id="${id}"]`).classList.add("cited"));
+    }
+  }
+  answer.addEventListener("click", (e) => {
+    const b = e.target.closest("[data-src]");
+    if (b) openItem(b.dataset.src);
+  });
+  const norm = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+  function recorded(mode, question) {
+    const hit = Object.entries(REC || {}).find(([k, v]) => k.split(":")[0] === mode && v.answer && norm(v.question) === norm(question));
+    return hit ? hit[1] : null;
+  }
+  let SAMPLE = null;
+  try {
+    window.claude?.use?.("sample").then((s) => {
+      SAMPLE = s;
+    }, () => {
+    });
+  } catch (_) {
+  }
+  function previewPrompt(mode, question) {
+    const m = MODES[mode], parts = [];
+    entries.filter((e) => m.can(e.id)).forEach((e) => parts.push(`[${e.id}] ${fmt(e.date)} · ${e.title}
+${e.body}`));
+    if (m.can("draft")) parts.push(`[draft] Her personal statement draft, “Before I touched the keyboard”
+${S.draft}`);
+    if (m.can("visitor-note")) parts.push(`[visitor-note] A thought she kept
+${S.note}`);
+    if (m.can("profile")) parts.push(`[profile] ${PROFILE}`);
+    DATA.colleges.filter((c) => m.can(c.id)).forEach((c) => parts.push(`[${c.id}] ${c.name}, ${c.location}. ${c.description}`));
+    const seat = { elena: "Elena, the student, is asking about her own material. Speak to her as “you”.", reader: "A cold reader is asking. They have only the draft, like an admissions reader would.", priya: "Priya, Elena’s counselor, is asking before a meeting. Speak about Elena in the third person." }[m.seat];
+    return `You are Bookae, a college application companion, answering inside a product demo. The student, Elena Morales, is fictional.
+${seat}
+
+Rules:
+- Never write or rewrite essay sentences for the student. If asked to write the essay, say plainly that you won’t, then point to two precise places she could work on herself.
+- Stay close to the evidence. Name the titles of the days or quote a few of her own words. Say where the evidence is thin.
+- No admission chances, rankings or outcome promises.
+- Use only the material below. Nothing else about her exists for you.
+- Plain text, no markdown, at most 170 words.
+
+Material this seat may read:
+
+${parts.join("\n\n")}
+
+Question: ${question}
+
+After your answer, add one last line in exactly this form: SOURCES: id, id (the bracketed ids you actually used).`;
+  }
+  const STATUS = ["Reading only what this seat can see…", "Finding the days that matter here…", "Checking each claim against her own words…"];
+  async function ask() {
+    const mode = S.mode, question = q.value.trim();
+    if (!question) {
+      q.focus();
+      return;
+    }
+    abort();
+    const ctl = S.busy = new AbortController();
+    askBtn.disabled = true;
+    askBtn.textContent = "Asking…";
+    answer.innerHTML = '<p class="status" id="status"></p><div class="shim"></div><div class="shim"></div><div class="shim"></div><div class="shim"></div>';
+    let k = 0;
+    const tick = () => {
+      const s = $("#status");
+      if (s) s.textContent = STATUS[k++ % STATUS.length];
+    };
+    tick();
+    const timer = setInterval(tick, 3200), limit = setTimeout(() => ctl.abort(), 7e4);
+    guide("Bookae is reading only what this seat is allowed to see.", false);
+    const body = { mode, question, ...mode === "coach" || mode === "review" ? { draft: S.draft } : {}, ...mode === "connections" || mode === "coach" ? { journal: S.note } : {} };
+    let done = false, liveError = "";
+    try {
+      const r = await fetch(API, { method: "POST", headers: { "Content-Type": "application/json" }, signal: ctl.signal, body: JSON.stringify(body) });
+      const j = await r.json();
+      if (r.ok && j && j.answer) {
+        render(j.answer, j.sources, "live");
+        done = true;
+      } else if (j && j.error) liveError = String(j.error);
+    } catch (_) {
+    }
+    if (!done && !ctl.signal.aborted && SAMPLE) {
+      try {
+        const strip = (t) => t.replace(/\n?\s*SOURCES:.*$/s, "").trim();
+        const { text } = await SAMPLE(previewPrompt(mode, question), { signal: ctl.signal, onText: ({ text: text2 }) => {
+          if (strip(text2)) render(strip(text2), [], "pre", true);
+        } });
+        const ids = ((text.match(/SOURCES:\s*(.*)$/s) || [])[1] || "").split(/[,\s]+/).map((x) => x.replace(/[^\w-]/g, "")).filter(Boolean);
+        render(strip(text), ids.map((id) => ({ id })), "pre");
+        done = true;
+      } catch (_) {
+      }
+    }
+    if (!done && !ctl.signal.aborted) {
+      const rec = recorded(mode, question);
+      if (rec) {
+        render(rec.answer, rec.sources, "rec");
+        done = true;
+      }
+    }
+    clearInterval(timer);
+    clearTimeout(limit);
+    if (S.busy !== ctl) return;
+    S.busy = null;
+    askBtn.disabled = false;
+    askBtn.textContent = "Ask Bookae";
+    if (done) {
+      answer.scrollIntoView({ block: "start", behavior: "smooth" });
+      guide(`${TAP} a source under the answer to see the exact words behind it. Then try another seat.`);
+      return;
+    }
+    answer.innerHTML = `<p class="status">${esc(liveError || "The live AI can’t be reached from this copy of the page.")}</p><p class="note">Pick one of the suggested questions to see a real recorded answer, or ask anything on <a href="https://bookae-demo.vercel.app/demo" target="_blank" rel="noopener">the live demo site</a>.</p>`;
+    guide("That question needs the live AI. Try one of the suggested questions here.");
+  }
+  $("#form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    ask();
+  });
+  q.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
+      e.preventDefault();
+      ask();
+    }
+  });
+  buildMaterial();
+  setMode("connections");
+  addEventListener("resize", setCount);
+})();
+</script>
+
+</body>
+</html>
