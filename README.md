@@ -4,7 +4,7 @@ A proposal to react to, built on your Elena sample and your existing `/api/demo/
 
 ## Try it in two minutes
 1. Unzip, then double-click `index.html`. No server needed.
-2. Click **Jump in** on the landing page, then **Become Elena**, and play through.
+2. Click **Jump in** on the landing page, then **Become Elena**, and play through (about three minutes).
 3. Open `workspace.html` for the "Ask Bookae about Elena" page (the end of the story links to it).
 
 Opened from a folder like this, the workspace shows real answers that were recorded from your live demo, and says so. It goes live the moment it is hosted on your site (your endpoint only answers requests from its own origin).
@@ -17,8 +17,9 @@ Opened from a folder like this, the workspace shows real answers that were recor
 ## The story, step by step
 1. **Voice journal**: the app's floating voice bar and the "22 words · took out 2 ums · Cleaned / As said" receipt. The viewer reads Elena's line out loud; with no microphone it plays as a labelled simulation.
 2. **Connect the dots**: four marked days, then "Keep this thread" or "Not sure yet".
-3. **School fit**: four phrases from her journal open four colleges, each with her question. No chances, no rankings.
-4. **Essay room**: her own journal words land on the page word for word. Bookae asks one question and never writes for her.
+3. **School fit**: four phrases from her journal open four colleges, each with her question. No chances, no rankings. She puts **UT Austin** on her list (for the Austin audience), and the card then shows the three things UT Austin asks for: an essay on any topic, and its two short answers quoted word for word. Those match UT's own admissions page (read 2026-11-16) and Bookae's catalog.
+4. **Essay room**: the story line says "Bookae never writes for you. It asks." before anything else happens, and the page carries the same line in its footer. Bookae then asks three questions about one day. She answers each out loud in the voice bar, and her three answers are the first paragraph, word for word. "Write it for me" gets "Bookae NEVER writes for you. It asks."
+5. **Ending**: the same eleven days laid out for UT Austin's three asks (her opening paragraph; her own lines set beside "Why this major?"; her own sentence and counts for "Most proud of?"). It waits for "Finish the story", then the summary card, which leads with "Bookae never writes for you."
 
 ## To put it on the demo site
 1. Copy the folder into `public/demo-story/`.
@@ -29,7 +30,8 @@ Opened from a folder like this, the workspace shows real answers that were recor
 4. `workspace.html` calls `/api/demo/assist` as is. Nothing to change on the server.
 
 ## Things to know
-- **UT Austin** is the fourth college in the story only. The workspace and your AI still know three. To add it there, add it to your server-side sample and tell us; the page's data and recorded answers get regenerated from your bundle.
+- **UT Austin** is the college the second half of the story is built on, but it is in the story only. The workspace and your AI still know three colleges. To add it there, add it to your server-side sample and tell us; the page's data and recorded answers get regenerated from your bundle.
+- Every line on the three ending cards is from your Elena sample (Jun 1, Jul 27, Aug 24, Oct 19 entries), quoted, not rewritten.
 - **The logo** in the header is the official lockup from the bookae.ai nav (`<svg class="logo">` inside `index.html`). It would be good to use the same one across the demo site.
 - **The brand film** on `/demo/watch` is the earlier cut. The current one has the redrawn bouquets.
 - Fonts come from Google Fonts (Fraunces, Geist); the landing page also loads three.js from jsDelivr.
@@ -37,4 +39,4 @@ Opened from a folder like this, the workspace shows real answers that were recor
 ## Not tested yet
 - Anything hosted on the demo site itself (the landing opening inside your page, the microphone inside a frame, the workspace answering live there).
 - A real voice, Safari, and a real phone. It was played start to finish in headless Chromium at laptop and phone sizes.
-- Timing with a real person. The copy says "90 seconds"; it may run longer.
+- Timing with a real person. The copy says "three minutes"; nobody has timed a full run.

@@ -361,6 +361,9 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
 .scene[data-s=end] {
   font-size: clamp(10px, min(1.6cqw, 3.2cqh), 20px);
 }
+.scene[data-s=arr] {
+  font-size: clamp(10px, min(1.5cqw, 3.5cqh), 20px);
+}
 .scene.out {
   opacity: 0;
   transform: translateY(10px);
@@ -1262,7 +1265,10 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
   transition:
     border-color .3s,
     opacity .4s,
-    box-shadow .3s;
+    box-shadow .3s,
+    max-height .5s var(--out),
+    padding .5s var(--out),
+    margin .5s var(--out);
 }
 .col i {
   grid-row: 1/4;
@@ -1308,7 +1314,7 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
   color: var(--ink);
 }
 .col.open .fact {
-  max-height: 4.4em;
+  max-height: 6.6em;
   opacity: 1;
   margin-top: .3em;
 }
@@ -1335,6 +1341,59 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
 }
 .fit.picked .col:not(.listed) {
   opacity: .4;
+  padding-block: .55em;
+  max-height: 6em;
+  overflow: hidden;
+}
+.fit.asking .col:not(.listed) {
+  max-height: 0;
+  padding-block: 0;
+  margin-bottom: -.8em;
+  border-width: 0;
+  opacity: 0;
+  box-shadow: none;
+}
+.fit.picked .col:not(.listed) .fact {
+  max-height: 0;
+  opacity: 0;
+  margin-top: 0;
+}
+.asks {
+  grid-column: 2;
+  display: grid;
+  gap: .5em;
+  margin-top: .8em;
+  padding-top: .8em;
+  border-top: 1px solid var(--rule);
+  animation: w .4s ease both;
+}
+.asks .label {
+  color: var(--rasp);
+}
+.asks ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: .45em;
+  counter-reset: a;
+}
+.asks li {
+  display: grid;
+  grid-template-columns: 1.5em 1fr;
+  font-size: max(.98em, 13.5px);
+  line-height: 1.35;
+  color: var(--ink-2);
+  counter-increment: a;
+}
+.asks li::before {
+  content: counter(a);
+  font: 400 1.15em/1.15 var(--display);
+  color: var(--ink);
+}
+.asks li b {
+  font-weight: 600;
+  color: var(--ink);
 }
 .trav {
   position: fixed;
@@ -1350,15 +1409,15 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
 }
 .room {
   display: grid;
-  grid-template-columns: 31em 25em;
-  gap: 4em;
-  align-items: center;
+  grid-template-columns: 31em 27em;
+  gap: 3.5em;
+  align-items: start;
 }
 .page {
-  height: 34em;
+  min-height: 26em;
   padding: 1.6em 1.8em 1.2em;
   display: grid;
-  grid-template-rows: auto 1fr auto auto;
+  grid-template-rows: auto 1fr auto;
   overflow: hidden;
 }
 .room .pbody {
@@ -1370,23 +1429,26 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
   justify-content: space-between;
   gap: 1em;
 }
+.page footer {
+  flex-direction: column;
+  gap: .3em;
+}
+.page footer .vowline {
+  color: var(--rasp);
+}
 .page .label {
   font-size: max(.72em, 10.5px);
 }
-.page h2 {
-  margin: .7em 0 .5em;
-  min-height: 2.1em;
-  font: 400 2em/1.05 var(--display);
-  letter-spacing: -.03em;
-  text-wrap: balance;
-}
 .pbody p {
   margin: 0 0 .7em;
-  font: 400 max(1.02em, 13px)/1.45 var(--display);
+  font: 400 max(1.14em, 14.5px)/1.5 var(--display);
 }
 .pbody .blank {
   color: var(--ink-3);
   font-style: italic;
+}
+.line {
+  animation: w .5s ease both;
 }
 .said {
   margin: 0 0 .9em;
@@ -1422,28 +1484,76 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
 .slip .tip {
   margin-top: 1.1em;
 }
-.coach {
-  margin: 0;
-  padding: .7em 0;
-  border-top: 1px solid var(--rule);
-  font-size: max(.9em, 12.5px);
-  color: var(--moss);
-  animation: w .4s ease both;
-}
-.coach b {
-  font-weight: 600;
-}
-.side {
+.coachcol {
   display: grid;
   gap: 1em;
   justify-items: start;
+  min-width: 0;
+  width: 100%;
+}
+.pin {
+  display: grid;
+  gap: .7em;
+  justify-items: start;
+}
+.pin .said {
+  margin: 0;
+}
+.qcard {
+  display: grid;
+  gap: .7em;
+  width: 100%;
+  padding: 1.1em 1.2em 1em;
+  border: 1px solid var(--ink);
+  animation: w .4s ease both;
+}
+.qcard .q {
+  margin: 0;
+  font: 400 max(1.55em, 19px)/1.18 var(--display);
+  letter-spacing: -.022em;
+  text-wrap: balance;
+}
+.aline {
+  margin: 0;
+  min-height: 2.9em;
+  font: 400 max(1.06em, 14.5px)/1.42 var(--display);
+}
+.aline .tw.heard {
+  color: var(--ink);
+}
+.qact {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .5em .8em;
+}
+.qact svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.qact .c-mic {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--plum);
+  color: var(--on);
+}
+.qact .c-mic.ready::after {
+  border-radius: 50%;
+  border-color: var(--plum);
+}
+.qact .c-mic.is-live {
+  background: var(--rasp);
+  color: var(--on);
 }
 .picks {
   display: flex;
   gap: .8em;
-}
-.ghost {
-  order: 1;
 }
 .picks .poster {
   width: 7.6em;
@@ -1476,35 +1586,88 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
   border: 1px solid var(--rasp);
   animation: shake .4s;
 }
+.arr {
+  display: grid;
+  gap: 1.3em;
+  width: min(100%, 64em);
+  justify-items: center;
+}
+.arr-top {
+  display: flex;
+  align-items: center;
+  gap: .8em;
+}
+.pieces {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr;
+  gap: 1.1em;
+  width: 100%;
+  align-items: stretch;
+}
+.piece {
+  display: flex;
+  flex-direction: column;
+  gap: .5em;
+  padding: 1.2em 1.3em 1.1em;
+  opacity: 0;
+  transform: translateY(1em);
+  transition: opacity .5s ease, transform .6s var(--out);
+}
+.piece.in {
+  opacity: 1;
+  transform: none;
+}
+.piece h3 {
+  margin: 0;
+  font: 400 1.5em/1.1 var(--display);
+  letter-spacing: -.025em;
+}
+.piece p {
+  margin: 0;
+  font: 400 max(1em, 13.5px)/1.45 var(--display);
+}
+.piece .src {
+  margin-top: auto;
+  padding-top: .3em;
+  font-size: max(.8em, 12px);
+  font-weight: 500;
+  color: var(--rasp);
+}
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4em;
+}
+.pill {
+  padding: .25em .6em;
+  border: 1px solid var(--rule);
+  border-radius: 1em;
+  font: 400 max(.92em, 13px)/1.3 var(--ui);
+}
+.pill.kept {
+  background: var(--marker);
+  border-color: var(--marker);
+}
 .end {
   display: grid;
-  grid-template-columns: 25em 31em;
-  gap: 4.5em;
-  align-items: center;
-}
-.end .page {
-  height: auto;
-  grid-template-rows: auto auto auto auto;
-  rotate: -1.5deg;
-}
-.end .page h2 {
-  min-height: 0;
-}
-.end .sig {
-  margin: .2em 0 0;
-  font: italic 400 1.9em/1 var(--display);
-  color: var(--rasp);
-  text-align: right;
+  place-items: center;
+  width: 100%;
 }
 .endcard {
   display: grid;
   gap: 1.1em;
   justify-items: start;
+  max-width: 38em;
 }
 .endcard h2 {
   margin: 0;
   font: 400 3.2em/1 var(--display);
   letter-spacing: -.035em;
+}
+.vow {
+  margin: -.25em 0 .1em;
+  font: 400 max(1.75em, 22px)/1.15 var(--display);
+  letter-spacing: -.025em;
 }
 .endcard ul {
   margin: 0;
@@ -1640,11 +1803,20 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
     font-size: 14px;
   }
   .endcard {
-    gap: .75em;
+    gap: .6em;
   }
   .endcard ul {
+    font-size: 13.5px;
+    gap: .3em;
+    line-height: 1.35;
+  }
+  .ctas {
+    gap: 8px;
+  }
+  .ctas .btn {
+    min-height: 40px;
+    padding: 0 14px;
     font-size: 14px;
-    gap: .35em;
   }
   .welcome h1 {
     font-size: 3em;
@@ -1675,8 +1847,12 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
   }
   .fit {
     grid-template-columns: 1fr;
-    gap: 1em;
+    gap: .75em;
     width: 30em;
+  }
+  .tchip {
+    margin-top: .55em;
+    padding: .45em .8em;
   }
   .slip p.j {
     font-size: 14.5px;
@@ -1687,7 +1863,7 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
     margin-top: .7em;
   }
   .cols {
-    gap: .6em;
+    gap: .45em;
   }
   .col .name {
     font-size: 15px;
@@ -1715,35 +1891,21 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
   }
   .room {
     grid-template-columns: 1fr;
-    gap: 1em;
+    gap: .9em;
     width: 30em;
   }
-  .room .side {
+  .room .coachcol {
     order: -1;
   }
   .page {
-    height: auto;
-    min-height: 11em;
-    padding: 1.1em 1.2em .8em;
+    min-height: 8em;
+    padding: 1em 1.2em .8em;
   }
-  .page h2 {
-    font-size: 1.5em;
-    min-height: 1.1em;
-    margin: .5em 0 .35em;
+  .qcard {
+    padding: .8em 1em;
   }
-  .side {
-    grid-template-columns: 1fr auto;
-    align-items: center;
-    gap: .8em;
-    width: 100%;
-  }
-  .picks {
-    grid-column: 1/-1;
-    order: 3;
-  }
-  .ghost {
-    order: 0;
-    padding: .45em .8em;
+  .qcard .q {
+    font-size: 17px;
   }
   .picks .poster {
     width: 9.4em;
@@ -1756,15 +1918,52 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
   .picks .poster .p-title {
     margin-top: auto;
   }
-  .end {
-    grid-template-columns: 1fr;
-    width: 30em;
+  .ghost {
+    padding: .45em .8em;
   }
-  .end .page {
+  .fit.picked .col:not(.listed),
+  .fit.picked .slip {
+    display: none;
+  }
+  .aline {
+    min-height: 0;
+  }
+  .arr {
+    gap: .45em;
+  }
+  .pieces {
+    grid-template-columns: 1fr;
+    gap: .35em;
+  }
+  .piece {
+    padding: .5em .9em;
+    gap: .22em;
+  }
+  .piece .src {
+    padding-top: 0;
+  }
+  .pill.n2 {
+    display: none;
+  }
+  .pill {
+    font-size: 12px;
+    padding: .15em .55em;
+  }
+  .piece h3 {
+    font-size: 1.2em;
+  }
+  .piece p {
+    font-size: 13px;
+  }
+  .wo {
     display: none;
   }
   .endcard h2 {
     font-size: 2.6em;
+  }
+  .vow {
+    font-size: 20px;
+    margin: -.2em 0 0;
   }
 }
 @media (max-width: 760px) {
@@ -1837,7 +2036,7 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
         <div class="land-in">
           <h1><span>College</span><span>Applications,</span><span><b>Done</b>.</span></h1>
           <p class="sub">Talk through your life. Bookae keeps your deadlines, ideas and future in one place. Onward, upward.</p>
-          <div class="land-act"><button type="button" class="cta" id="jump">Jump in</button><span class="land-note">A 90-second guided demo. No sign-up.</span></div>
+          <div class="land-act"><button type="button" class="cta" id="jump">Jump in</button><span class="land-note">A three-minute guided demo. No sign-up.</span></div>
         </div>
       </div>
     </div>
@@ -1987,7 +2186,7 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
       short: "UW–Madison",
       place: "Madison, Wisconsin",
       name: "University of Wisconsin–Madison",
-      fact: 'A public land-grant research university with a <mark id="mission">public-service mission</mark>.',
+      fact: "A public land-grant research university with a public-service mission.",
       ask: "How could I explore my interests while learning to live away from home?"
     },
     {
@@ -2005,7 +2204,8 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
       short: "UT Austin",
       place: "Austin, Texas",
       name: "The University of Texas at Austin",
-      fact: "A public research university in Austin, Texas.",
+      /* "Core Purpose: To transform lives for the benefit of society." utexas.edu/about/mission-and-values, read 2026-11-16 */
+      fact: 'A public research university. Its core purpose: <mark id="mission">“to transform lives for the benefit of society.”</mark>',
       ask: "What would it cost, in money and in distance, to start somewhere completely new?"
     }
   ];
@@ -2015,7 +2215,7 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
     const m = M[k];
     return `<${tag} ${tag === "button" ? 'type="button"' : ""} class="poster c-${m.c} ${cls}" data-k="${k}"><span class="p-date">${m.d}</span><svg viewBox="0 0 64 48" aria-hidden="true">${ICON[m.i]}</svg><strong class="p-title">${m.p}</strong></${tag}>`;
   };
-  const S = { i: 0, next: null, relayout: null, listener: null, stopField: null, thread: true, land: null, onJump: null, wave: 0, floatKey: null };
+  const S = { i: 0, next: null, relayout: null, listener: null, stopField: null, thread: true, land: null, onJump: null, wave: 0, floatKey: null, voice: null };
   let run = 0;
   class Abort extends Error {
   }
@@ -2250,7 +2450,7 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
   const LAND = `<div class="land"><canvas id="field" aria-hidden="true"></canvas><div class="glow"></div><div class="land-in">
   <h1><span>College</span><span>Applications,</span><span><b>Done</b>.</span></h1>
   <p class="sub">Talk through your life. Bookae keeps your deadlines, ideas and future in one place. Onward, upward.</p>
-  <div class="land-act"><button type="button" class="cta" id="jump">Jump in</button><span class="land-note">A 90-second guided demo. No sign-up.</span></div></div></div>`;
+  <div class="land-act"><button type="button" class="cta" id="jump">Jump in</button><span class="land-note">A three-minute guided demo. No sign-up.</span></div></div></div>`;
   function openLanding() {
     closeLanding(true);
     const f = document.createElement("iframe");
@@ -2262,7 +2462,7 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
     pill.type = "button";
     pill.className = "landpill";
     pill.id = "landpill";
-    pill.innerHTML = `<span class="g-dot" aria-hidden="true"></span>${TAP} “Jump in” to start the 90-second demo`;
+    pill.innerHTML = `<span class="g-dot" aria-hidden="true"></span>${TAP} “Jump in” to start the three-minute demo`;
     pill.addEventListener("click", () => S.onJump && S.onJump());
     document.body.append(f, pill);
     const L = S.land = { f, pill, ready: false, t2: 0 };
@@ -2338,7 +2538,7 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
     scene.innerHTML = `<div class="welcome">
     <p class="label">SXSW Pitch 2027</p>
     <h1>Welcome, SXSW reviewers.</h1>
-    <p class="lede">For the next 90 seconds you’re Elena, a made-up high-school senior in Milwaukee who is sure nothing happened to her this year. You’ll use Bookae the way she would. No sign-up, and no sound or microphone needed.</p>
+    <p class="lede">For the next three minutes you’re Elena, a made-up high-school senior in Milwaukee who is sure nothing happened to her this year. You’ll use Bookae the way she would. No sign-up, and no sound or microphone needed.</p>
     <ul class="how"><li><i>↑</i><span>The dark bar up top talks to you. It says what to ${TAP.toLowerCase()}.</span></li><li><i>↓</i><span>The line at the bottom is Elena’s story. When it says “you”, it means her.</span></li></ul>
     <button type="button" class="btn primary big pulse" id="become">Become Elena</button>
   </div>`;
@@ -2482,6 +2682,7 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
         else micP.then((l) => l && l.stop());
       }
       S.listener = L;
+      S.voice = L ? "real" : "sim";
       if (L) {
         hintEl.textContent = "Enter when you’re done · Esc cancels";
         note.textContent = viaClaude ? "Claude’s dictation is listening so the words can keep pace. This page keeps nothing." : "This page hears loudness only. Nothing is recorded or transcribed.";
@@ -2646,6 +2847,93 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
     await c.sleep(600);
     go(3);
   }
+  async function runTake(c, toks, els, micP, on = {}) {
+    const fl = $("#vjf"), card = $("#vjcard"), ftext = $("#vjtext"), hintEl = $("#vjhint"), wave = $("#vjwave"), okBtn = $("#vjok"), xBtn = $("#vjx");
+    ftext.textContent = "";
+    card.hidden = true;
+    okBtn.disabled = true;
+    okBtn.classList.remove("pulse");
+    fl.classList.add("is-open");
+    fl.removeAttribute("aria-hidden");
+    fl.inert = false;
+    hintEl.textContent = micP ? "Allow the microphone to start." : "Simulation · no microphone is used";
+    let cancelled = false, pressed = false, talking = false, shown = 0, last = Date.now();
+    xBtn.onclick = () => {
+      cancelled = true;
+    };
+    okBtn.onclick = () => {
+      if (!okBtn.disabled) pressed = true;
+    };
+    S.floatKey = (e) => {
+      if (e.key === "Escape") cancelled = true;
+      else if (!okBtn.disabled) pressed = true;
+    };
+    let L = micP ? await micP : null;
+    c.ok();
+    S.listener = L;
+    if (L) {
+      hintEl.textContent = "Enter when you’re done · Esc cancels";
+      if (on.real) on.real();
+    } else {
+      hintEl.textContent = "Simulation · no microphone is used";
+      if (on.sim) on.sim();
+    }
+    const levels = [];
+    S.wave = setInterval(() => {
+      levels.push(L ? L.level() : talking ? 0.22 + Math.random() * 0.7 : 0.04);
+      if (levels.length > 40) levels.shift();
+      drawWave(wave, levels);
+    }, 50);
+    const reveal = () => {
+      els[shown].classList.add("heard");
+      shown++;
+      card.hidden = false;
+      ftext.textContent = toks.slice(0, shown).map((w) => w.t + (w.sp ? " " : "")).join("");
+      ftext.scrollTop = ftext.scrollHeight;
+    };
+    while (shown < toks.length && !cancelled) {
+      if (L && (L.dead() || Date.now() - last > 9e3)) {
+        L.stop();
+        L = S.listener = null;
+        hintEl.textContent = "No voice picked up · simulation";
+        if (on.sim) on.sim();
+      }
+      if (!L) {
+        talking = true;
+        reveal();
+        await c.sleep(364 + (/[.,]$/.test(toks[shown - 1].t) ? 260 : 0));
+        continue;
+      }
+      if (Math.min(toks.length, L.words()) > shown) {
+        reveal();
+        last = Date.now();
+        await c.sleep(70);
+        continue;
+      }
+      await c.sleep(80);
+    }
+    talking = false;
+    if (!cancelled) {
+      okBtn.disabled = false;
+      if (L) {
+        okBtn.classList.add("pulse");
+        for (const t0 = Date.now(); !pressed && !cancelled && Date.now() - t0 < 3500; ) await c.sleep(80);
+      } else await c.sleep(500);
+    }
+    if (L) {
+      L.stop();
+      S.listener = null;
+    }
+    xBtn.onclick = okBtn.onclick = null;
+    okBtn.classList.remove("pulse");
+    if (!cancelled) {
+      okBtn.disabled = true;
+      hintEl.textContent = "Catching your last words…";
+      await c.sleep(450);
+    }
+    floatClose();
+    return cancelled ? "cancel" : "done";
+  }
   async function dots(c) {
     setRail(2);
     setStamp("October · Essay season");
@@ -2790,53 +3078,70 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
     setStamp(STAMP);
     watch("No chances, no rankings. Her list starts from her own questions.");
     await say(c, "Four campuses, and for each one, something worth asking.");
+    const pick = $('.col[data-c="uta"]', el);
+    $$(".col.latest", el).forEach((o) => o.classList.remove("latest"));
+    pick.classList.add("latest");
     if (S.thread) {
       const chip = $("#tchip");
       chip.hidden = false;
-      await c.sleep(700);
-      $$(".col.latest", el).forEach((o) => o.classList.remove("latest"));
-      $('.col[data-c="mad"]', el).classList.add("latest");
-      await c.sleep(250);
+      await c.sleep(950);
       await travel($("i", chip), $("#mission"), "ink");
       $("#mission").classList.add("on");
-      setSay("Madison talks about a public-service mission. That might be your thread, in their words.");
-    } else setSay("Madison’s question is the one you keep coming back to.");
-    guide(`${TAP} “Put Madison on my list” to keep it.`);
-    await ask(c, [{ id: "k", label: "Put Madison on my list", primary: true }]);
-    watch("Madison is on Elena’s list.");
-    $$(".col.latest", el).forEach((o) => o.classList.remove("latest"));
-    $('.col[data-c="mad"]', el).classList.add("listed", "latest");
+      setSay("That might be your thread, in UT Austin’s own words.");
+    } else setSay("The name a plane ride away is the one you keep coming back to.");
+    guide(`${TAP} “Put UT Austin on my list” to keep it.`);
+    await ask(c, [{ id: "k", label: "Put UT Austin on my list", primary: true }]);
+    watch("UT Austin is on Elena’s list.");
+    pick.classList.add("listed");
     el.classList.add("picked");
     await say(c, "On your list, for a reason that’s yours.", 2200);
+    el.classList.add("asking");
+    pick.insertAdjacentHTML("beforeend", `<div class="asks"><span class="label">UT Austin asks for</span><ol>
+    <li><span><b>An essay on any topic.</b> Your Common App personal statement counts.</span></li>
+    <li><span><b>A short answer.</b> “Why are you interested in the major you indicated as your first-choice major?”</span></li>
+    <li><span><b>A short answer.</b> Of all your activities: “Which one are you most proud of and why?”</span></li></ol></div>`);
+    setSay("Bookae already knows what UT Austin asks for. One of the three you can start today.");
+    guide(`This comes from Bookae’s catalog of 1,100+ colleges. ${TAP} “Start my personal statement”.`);
+    await ask(c, [{ id: "ps", label: "Start my personal statement", primary: true }]);
     go(5);
   }
+  const ANSWERS = [
+    {
+      q: "Start where it started. What was happening at the table?",
+      a: "I had already pulled the laptop toward me when the woman across the library table said she wanted to do it herself.",
+      s: "You said it the way it happened."
+    },
+    {
+      q: "Where was your hand?",
+      a: "My hand was still beside the trackpad.",
+      s: "A detail only you would know."
+    },
+    {
+      q: "And then what did you do?",
+      a: "[[I moved the computer back, very slowly,]] as if that would make the first movement less obvious.",
+      s: "That’s the sentence. You didn’t know you had it."
+    }
+  ];
+  const sentence = (x) => x.a.replace(/\[\[/g, '<span class="mk">').replace(/\]\]/g, "</span>");
+  const PARA = `<span class="wo">${ANSWERS.slice(0, -1).map(sentence).join(" ")} </span>${sentence(ANSWERS[ANSWERS.length - 1])}`;
   async function room(c) {
     setRail(4);
     setStamp("November · The personal statement");
     await mount(c, `<div class="room">
     <article class="page sheetlike"><header><span class="label">Personal statement</span><span class="label">Elena Morales</span></header>
       <div class="pbody" id="pbody"><p class="blank">The cursor blinks.</p></div>
-      <p class="coach" id="coach" hidden><b>Bookae asks</b> On July 13, what did your hands do when she said that?</p>
-      <footer><span class="label">Word for word, as you said it</span><span class="label">Nothing added</span></footer>
+      <footer><span class="label" id="pcount">Nothing on the page yet</span><span class="label vowline">Bookae never writes for you</span></footer>
     </article>
-    <div class="side"><p class="label">Your days</p>
+    <div class="coachcol">
+      <div class="pin" id="pin"><p class="label">Your days</p><div class="picks" id="picks">${posterHTML("laptop", "", "button")}</div><span class="tip">${TAP} the July 13 day</span></div>
+      <div class="qcard" id="qcard" hidden>
+        <p class="label" id="qn"></p>
+        <p class="q" id="qtext"></p>
+        <p class="aline" id="aline"></p>
+        <div class="qact"><button type="button" class="c-icon c-mic" id="rmic" aria-label="Answer out loud">${IC.mic}</button><span class="tip" id="rtip"></span><button type="button" class="alt" id="ralt">Play her answer</button></div>
+      </div>
       <button type="button" class="ghost" id="ghost">Write it for me</button>
-      <div class="picks" id="picks">${["laptop", "checklist", "table"].map((k) => posterHTML(k, k === "laptop" ? "" : "wait", "button")).join("")}</div>
-      <span class="tip" id="roomtip">${TAP} the July 13 day</span>
     </div></div>`, "room");
-    const pbody = $("#pbody"), waiters = [];
-    let placed = 0;
-    const nextPlaced = () => new Promise((r) => waiters.push(r)).then(c.ok);
-    $("#picks").addEventListener("click", (e) => {
-      const b = e.target.closest(".poster");
-      if (!b || b.classList.contains("used") || b.classList.contains("wait")) return;
-      const m = M[b.dataset.k];
-      b.classList.add("used");
-      $(".blank", pbody)?.remove();
-      pbody.insertAdjacentHTML("beforeend", `<blockquote class="said c-${m.c}"><span class="label">${m.d} · you said</span>“${m.q}”</blockquote>`);
-      placed++;
-      waiters.splice(0).forEach((w) => w(placed));
-    });
     $("#ghost").addEventListener("click", (e) => {
       const g = e.currentTarget;
       g.textContent = "Bookae NEVER writes for you. It asks.";
@@ -2844,19 +3149,68 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
       void g.offsetWidth;
       g.classList.add("no");
     });
-    setSay("The personal statement is due. The page is empty.");
-    guide(`${TAP} the July 13 day. Bookae puts what Elena said on the page, word for word.`);
-    await nextPlaced();
-    $$(".poster.wait", scene).forEach((p) => p.classList.remove("wait"));
-    $("#roomtip").textContent = `${TAP} one more day`;
-    setSay("Not an essay yet. But every word on the page is yours.");
-    guide("Add one more day, the same way.");
-    await nextPlaced();
-    $("#roomtip").hidden = true;
-    $$(".poster:not(.used)", $("#picks")).forEach((p) => p.classList.add("wait"));
-    await c.sleep(500);
-    $("#coach").hidden = false;
-    setSay("Bookae asks you a question. The answer stays yours.");
+    setSay("UT Austin says any topic. The page is empty.");
+    guide(`${TAP} the July 13 day. Bookae starts from what Elena already said.`);
+    await new Promise((r) => $("#picks").addEventListener("click", (e) => {
+      if (e.target.closest(".poster")) r();
+    })).then(c.ok);
+    const m = M.laptop;
+    $("#pin").innerHTML = narrow() ? `<p class="label">${m.d} · ${m.t} · what you said then</p>` : `<blockquote class="said c-${m.c}"><span class="label">${m.d} · what you said then</span>“${m.q}”</blockquote>`;
+    watch("Bookae starts from a day she already told it about.");
+    await say(c, "You said this in July. It’s the day you keep coming back to.", 2600);
+    watch("That’s Bookae’s rule. Watch what it does instead.");
+    await say(c, "Bookae <em>never</em> writes for you. It asks.", 3200);
+    const pbody = $("#pbody"), qcard = $("#qcard"), aline = $("#aline"), rmic = $("#rmic"), ralt = $("#ralt"), rtip = $("#rtip");
+    qcard.hidden = false;
+    let para = null, words = 0;
+    for (let i = 0; i < ANSWERS.length; i++) {
+      const A = ANSWERS[i], toks = A.a.replace(/\[\[|\]\]/g, "").split(" ").map((t, k, all) => ({ t, sp: k < all.length - 1 }));
+      $("#qn").textContent = `Bookae asks · ${i + 1} of ${ANSWERS.length}`;
+      $("#qtext").textContent = A.q;
+      for (; ; ) {
+        aline.innerHTML = toks.map((w) => `<span class="tw">${w.t}</span>`).join(" ");
+        rmic.classList.add("ready");
+        rmic.classList.remove("is-live");
+        rtip.hidden = false;
+        ralt.hidden = false;
+        rtip.textContent = `${TAP} the mic, then say the grey line`;
+        guide(`${TAP} the mic and answer as Elena, out loud.`);
+        let micP = null;
+        const how = await new Promise((r) => {
+          rmic.onclick = () => {
+            micP = S.voice === "sim" ? null : openMic();
+            r("mic");
+          };
+          ralt.onclick = () => r("play");
+        });
+        c.ok();
+        rmic.onclick = ralt.onclick = null;
+        rmic.classList.remove("ready");
+        rmic.classList.add("is-live");
+        rtip.hidden = true;
+        ralt.hidden = true;
+        const res = await runTake(c, toks, $$(".tw", aline), how === "mic" ? micP : null, {
+          real: () => guide("Say the grey line out loud. The voice bar shows what Bookae hears."),
+          sim: () => watch("This is a simulation of Elena answering, at talking pace.")
+        });
+        rmic.classList.remove("is-live");
+        if (res === "done") break;
+      }
+      $(".blank", pbody)?.remove();
+      if (!para) {
+        para = document.createElement("p");
+        pbody.appendChild(para);
+      }
+      para.insertAdjacentHTML("beforeend", `<span class="line">${A.a.replace(/\[\[/g, '<span class="mk">').replace(/\]\]/g, "</span>")}</span> `);
+      words += toks.length;
+      if (i === ANSWERS.length - 1) qcard.hidden = true;
+      if (narrow()) aline.innerHTML = "";
+      $("#pcount").textContent = `${words} words · exactly as you said them`;
+      watch("Her answer goes on the page exactly as she said it.");
+      await say(c, A.s, 2400);
+    }
+    qcard.hidden = true;
+    setSay("Three questions, three answers. A first paragraph nobody else could have.");
     guide(`Try “Write it for me”. Then ${TAP.toLowerCase()} “Skip ahead three weeks”.`);
     await ask(c, [{ id: "f", label: "Skip ahead three weeks", primary: true }]);
     go(6);
@@ -2864,29 +3218,37 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
   async function finale(c) {
     setRail(5);
     gtag.textContent = "Guide";
-    setStamp("Three weeks later · Her own draft");
-    watch("Elena answered the question herself. This is her opening.");
-    await mount(c, `<div class="end">
-    <article class="page sheetlike"><header><span class="label">Personal statement</span><span class="label">Elena Morales</span></header>
-      <h2>Before I touched the keyboard</h2>
-      <div class="pbody"><p>I had already pulled the laptop toward me when the woman across the library table said she wanted to do it herself. <span class="mk">I moved the computer back, very slowly,</span> as if that would make the first movement less obvious.</p></div>
-      <p class="sig">Elena.</p>
-    </article>
-    <div class="endcard" id="endcard" hidden>
+    setStamp("Three weeks later · What UT Austin asks for");
+    watch("The same eleven days, laid out for UT Austin’s three asks. Bookae never wrote a word of it.");
+    const dots2 = ["rasp", "moss", ...REST.map((r) => r[2])];
+    const kept = S.thread ? '<span class="pill kept">Making room for someone else</span>' : "";
+    await mount(c, `<div class="arr">
+    <div class="arr-top"><span class="label">Your days</span><span class="shelf-dots">${dots2.map((col) => `<i class="c-${col}"></i>`).join("")}</span><span class="shelf-n">${dots2.length} days kept</span></div>
+    <div class="pieces">
+      <article class="piece sheetlike"><span class="label">1 · Essay, any topic</span><h3>Your first paragraph</h3><p>${PARA}</p><span class="src">Every sentence said by you</span></article>
+      <article class="piece sheetlike"><span class="label">2 · Short answer</span><h3>Why this major?</h3><p class="pills"><span class="pill">“how you learn from a small sample”</span><span class="pill">“the paths people make themselves”</span><span class="pill">“geography and something about information”</span></p><span class="src">Not written. Your own lines, side by side.</span></article>
+      <article class="piece sheetlike"><span class="label">3 · Short answer</span><h3>Most proud of?</h3><p>“We made one existing library table a little easier to use. That’s what happened.”</p><p class="pills">${kept}<span class="pill">47 help visits</span><span class="pill n2">31 guide cards</span></p><span class="src">Your words and your counts</span></article>
+    </div></div>`, "arr");
+    $$(".piece", scene).forEach((el, i) => setTimeout(() => el.classList.add("in"), 400 + i * 900));
+    await say(c, "Eleven ordinary days, arranged three ways for UT Austin.", 4600);
+    setSay("A small movement. A story only you could tell.");
+    guide(`Look as long as you like. Then ${TAP.toLowerCase()} “Finish the story”.`);
+    await ask(c, [{ id: "e", label: "Finish the story", primary: true }]);
+    await mount(c, `<div class="end"><div class="endcard" id="endcard">
       <p class="label">You’re a reviewer again</p>
       <h2>That was Bookae.</h2>
+      <p class="vow">Bookae <span class="mk">never</span> writes for you.</p>
       <ul>
         <li><b>Voice journal.</b> A day, kept by talking. The ums come out; her words stay.</li>
         <li><b>Connect the dots.</b> Think Obsidian’s graph view, for her own days. Bookae suggests the thread; she decides if it’s true.</li>
-        <li><b>School fit.</b> A college list that starts from her questions.</li>
-        <li><b>Essay room.</b> What she said, on the page word for word. Bookae asks. It never writes for her.</li>
+        <li><b>School fit.</b> A list that starts from her questions, with what each college asks for.</li>
+        <li><b>Essay room.</b> Bookae asks, she answers out loud, and her answers are the page.</li>
       </ul>
       <div class="ctas"><a class="btn primary" href="${LINKS.workspace}" target="_blank" rel="noopener">Open the live workspace</a><a class="btn" href="${LINKS.films}" target="_blank" rel="noopener">Watch the films</a><button type="button" class="btn quiet" id="again">Play again</button></div>
       <p class="fine">Elena is made up. Bookae is live at bookae.ai as a free, invite-only pilot.</p>
     </div></div>`, "end");
-    await say(c, "A small movement. A story only you could tell.", 3e3);
-    $("#endcard").hidden = false;
     $("#again").addEventListener("click", () => go(0));
+    setStamp("Elena’s story");
     watch("Here’s what you just used, and where to see more.");
   }
   const SCENES = [land, welcome, days, dots, fit, room, finale];
