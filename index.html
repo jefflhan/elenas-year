@@ -2657,14 +2657,19 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
   function openMic() {
     if (DICT) {
       const d = DICT;
-      let fin = 0, n = 0, dead = false, bump = 0;
+      let fin = 0, n = 0, dead = false, bump = 0, done = "", part = "";
       const heard = (v) => {
         if (v > n) bump = 1;
         n = v;
       };
       const offs = [
-        d.onPartial((e) => heard(fin + countWords(e.text))),
+        d.onPartial((e) => {
+          part = e.text;
+          heard(fin + countWords(e.text));
+        }),
         d.onFinal((e) => {
+          done += " " + e.text;
+          part = "";
           fin += countWords(e.text);
           heard(fin);
         }),
@@ -2683,12 +2688,99 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
       };
       return d.start().then(() => {
         dead = false;
-        return { words: () => n, level, dead: () => dead, stop };
+        return { stt: true, text: () => (done + " " + part).replace(/\s+/g, " ").trim(), words: () => n, level, dead: () => dead, stop };
       }, () => {
         offs.forEach((o) => o());
         return null;
       });
     }
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SR) return new Promise((res) => {
+      let rec, base = "", cur = "", dead = false, stopped = false, started = false, bump = 0, n = 0;
+      const text = () => (base + " " + cur).replace(/\s+/g, " ").trim();
+      const L = {
+        stt: true,
+        text,
+        words: () => n,
+        level: () => {
+          bump *= 0.86;
+          return bump * (0.45 + Math.random() * 0.55);
+        },
+        dead: () => dead,
+        stop() {
+          stopped = true;
+          try {
+            rec.stop();
+          } catch (_) {
+          }
+        }
+      };
+      let failed = false;
+      const failover = () => {
+        if (failed) return;
+        failed = stopped = true;
+        try {
+          rec.abort();
+        } catch (_) {
+        }
+        loud().then((l) => {
+          if (l) Object.assign(L, l, { stt: false });
+          else dead = true;
+          if (!started) {
+            started = true;
+            res(l ? L : null);
+          }
+        });
+      };
+      setTimeout(() => {
+        if (!started) failover();
+      }, 6e3);
+      const boot = () => {
+        rec = new SR();
+        rec.lang = "en-US";
+        rec.interimResults = true;
+        rec.continuous = !/Android/i.test(navigator.userAgent);
+        rec.onstart = () => {
+          if (!started) {
+            started = true;
+            res(L);
+          }
+        };
+        rec.onresult = (e) => {
+          let t = "";
+          for (let i = 0; i < e.results.length; i++) t += e.results[i][0].transcript + " ";
+          cur = t;
+          const k = countWords(text());
+          if (k > n) bump = 1;
+          n = k;
+        };
+        rec.onerror = (e) => {
+          if (e.error === "no-speech" || e.error === "aborted") return;
+          if (n) dead = true;
+          else failover();
+        };
+        rec.onend = () => {
+          base = text();
+          cur = "";
+          if (!stopped && !dead) {
+            try {
+              boot();
+            } catch (_) {
+              dead = true;
+            }
+          }
+        };
+        rec.start();
+      };
+      try {
+        boot();
+      } catch (_) {
+        failover();
+      }
+    });
+    return loud();
+  }
+  function loud() {
     const md = navigator.mediaDevices;
     if (!md || !md.getUserMedia) return Promise.resolve(null);
     return md.getUserMedia({ audio: true }).then((stream) => {
@@ -2722,6 +2814,53 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
         }
       };
     }, () => null);
+  }
+  const nw = (w) => String(w).toLowerCase().replace(/[^a-z0-9]/g, "");
+  function follow(toks, heard) {
+    let p = 0;
+    for (const h of heard.split(/\s+/).map(nw).filter(Boolean))
+      for (let j = p; j < Math.min(toks.length, p + 5); j++) {
+        const t = nw(toks[j].t);
+        if (t && (t === h || h.length > 3 && (t.startsWith(h) || h.startsWith(t)))) {
+          p = j + 1;
+          break;
+        }
+      }
+    return p;
+  }
+  const FIL = /^(u+m+|u+h+m*|e+r+m*|h+m+|a+h+)[,.!?]*$/i;
+  const escH = (t) => String(t).replace(/[&<>]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[ch]);
+  function tidy(t) {
+    const x = String(t).split(/\s+/).filter((w) => w && !FIL.test(w)).join(" ");
+    return x ? x[0].toUpperCase() + x.slice(1) + (/[.!?…]$/.test(x) ? "" : ".") : "";
+  }
+  async function hear(c, L, toks, els, ui, st) {
+    let n = 0, last = Date.now(), shown = 0, nudged = false;
+    for (; ; ) {
+      if (st.cancelled()) return "cancel";
+      if (st.pressed()) return "done";
+      if (st.fake && st.fake()) return "dead";
+      if (!L.stt) return "loud";
+      const t = L.text(), k = countWords(t);
+      if (k !== n) {
+        n = k;
+        last = Date.now();
+        ui.card.hidden = false;
+        ui.ftext.textContent = t;
+        ui.ftext.scrollTop = ui.ftext.scrollHeight;
+        ui.okBtn.disabled = false;
+        for (const p = follow(toks, t); shown < p; shown++) els[shown].classList.add("heard");
+      }
+      const quiet = Date.now() - last;
+      if (!n && (L.dead() || quiet > 9e3)) return "dead";
+      if (n && (L.dead() || n >= 70 || quiet > (shown >= toks.length ? 1400 : 5e3))) return "done";
+      if (n && quiet > 1500) ui.okBtn.classList.add("pulse");
+      if (!n && !nudged && quiet > 4500 && st.nudge) {
+        nudged = true;
+        st.nudge();
+      }
+      await c.sleep(80);
+    }
   }
   function field(canvas) {
     const g = canvas.getContext("2d"), dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -2962,8 +3101,9 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
   async function voiceEntry(c) {
     const mic = $("#cmic"), alt = $("#alt"), note = $("#micnote"), tip = $("#mictip"), cue = $("#ccue"), text = $("#ctext"), words = $$(".tw", text);
     const fl = $("#vjf"), card = $("#vjcard"), ftext = $("#vjtext"), hintEl = $("#vjhint"), wave = $("#vjwave"), okBtn = $("#vjok"), xBtn = $("#vjx");
-    const viaClaude = !!DICT;
+    let spoken = "";
     for (; ; ) {
+      spoken = "";
       words.forEach((w) => w.classList.remove("heard"));
       ftext.textContent = "";
       card.hidden = true;
@@ -3011,8 +3151,8 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
       S.voice = L ? "real" : "sim";
       if (L) {
         hintEl.textContent = "Enter when you’re done · Esc cancels";
-        note.textContent = viaClaude ? "Claude’s dictation is listening so the words can keep pace. This page keeps nothing." : "This page hears loudness only. Nothing is recorded or transcribed.";
-        guide("Read the grey words out loud. The voice bar shows what Bookae hears.");
+        note.textContent = L.stt ? "Real speech-to-text, by your browser. This page keeps nothing." : "This browser has no speech-to-text, so the page hears loudness only.";
+        guide(L.stt ? "Read the grey words out loud. The voice bar shows exactly what it hears." : "Read the grey words out loud. Your voice moves them along.");
       } else {
         alt.hidden = true;
         hintEl.textContent = "Simulation · no microphone is used";
@@ -3043,7 +3183,33 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
         ftext.textContent = heardText(shown);
         ftext.scrollTop = ftext.scrollHeight;
       };
-      while (shown < said.length && !cancelled) {
+      let heardAll = false;
+      if (L && L.stt) {
+        const Lr = L, how = await hear(c, L, said, words, { card, ftext, okBtn }, {
+          cancelled: () => cancelled,
+          pressed: () => pressed,
+          fake: () => fake,
+          nudge: () => guide(`We can’t hear you yet. Read it out loud, or ${TAP.toLowerCase()} “No mic? Play it for me”.`)
+        });
+        if (how === "done") {
+          heardAll = pressed = true;
+          okBtn.classList.remove("pulse");
+          okBtn.disabled = true;
+          hintEl.textContent = "Catching your last words…";
+          Lr.stop();
+          await c.sleep(650);
+          spoken = Lr.text();
+          ftext.textContent = spoken;
+          L = S.listener = null;
+          if (!spoken) heardAll = false;
+        } else if (how === "dead") last = 0;
+        else if (how === "loud") {
+          last = Date.now();
+          note.textContent = "Speech-to-text isn’t available in this browser, so the page hears loudness only.";
+          guide("Read the grey words out loud. Your voice moves them along.");
+        }
+      }
+      while (shown < said.length && !cancelled && !heardAll) {
         if (L && (fake || L.dead() || Date.now() - last > 9e3)) {
           L.stop();
           L = S.listener = null;
@@ -3090,25 +3256,30 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
         floatClose();
         continue;
       }
-      okBtn.disabled = true;
-      hintEl.textContent = "Catching your last words…";
-      await c.sleep(650);
+      if (!spoken) {
+        okBtn.disabled = true;
+        hintEl.textContent = "Catching your last words…";
+        await c.sleep(650);
+      }
       floatClose();
       break;
     }
     mic.classList.remove("is-live");
     cue.hidden = true;
-    const fil = said.filter((w) => w.fil).length, clean = said.length - fil, rc = $("#receipt"), count = $("#cwords");
+    const ent = spoken ? spoken.split(/\s+/).filter(Boolean).map((t) => ({ t, fil: FIL.test(t) })) : said;
+    if (spoken) text.innerHTML = ent.map((w) => `<span class="tw heard${w.fil ? " fil" : ""}">${escH(w.t)} </span>`).join("");
+    S.heard = !!spoken;
+    const fil = ent.filter((w) => w.fil).length, clean = ent.length - fil, rc = $("#receipt"), count = $("#cwords");
     text.classList.add("landed");
-    count.textContent = said.length + " words";
+    count.textContent = ent.length + " words";
     rc.hidden = false;
-    rc.innerHTML = `<span class="vj-receipt-mark" aria-hidden="true"></span><span class="vj-receipt-text"><b>${said.length} words</b> <span class="vj-shimmer">taking out the ums…</span></span>`;
-    watch("Every word landed in the journal. Now Bookae takes out the ums.");
+    rc.innerHTML = `<span class="vj-receipt-mark" aria-hidden="true"></span><span class="vj-receipt-text"><b>${ent.length} words</b> <span class="vj-shimmer">taking out the ums…</span></span>`;
+    watch(spoken ? "What you said landed in the journal, word for word. Now Bookae takes out the ums." : "Every word landed in the journal. Now Bookae takes out the ums.");
     await c.sleep(1600);
     const show = (raw) => {
       text.classList.toggle("clean", !raw);
-      count.textContent = (raw ? said.length : clean) + " words";
-      rc.innerHTML = `<span class="vj-receipt-mark" aria-hidden="true"></span><span class="vj-receipt-text"><b>${raw ? said.length : clean} words</b> ${raw ? "exactly as you said them" : `took out ${fil} ums`}</span><span class="vj-seg" role="group" aria-label="Which version is on the page"><button type="button" aria-pressed="${!raw}" data-v="clean">Cleaned</button><button type="button" aria-pressed="${raw}" data-v="raw">As said</button></span>`;
+      count.textContent = (raw ? ent.length : clean) + " words";
+      rc.innerHTML = `<span class="vj-receipt-mark" aria-hidden="true"></span><span class="vj-receipt-text"><b>${raw ? ent.length : clean} words</b> ${raw || !fil ? "exactly as you said them" : `took out ${fil} ${fil === 1 ? "um" : "ums"}`}</span>${fil ? `<span class="vj-seg" role="group" aria-label="Which version is on the page"><button type="button" aria-pressed="${!raw}" data-v="clean">Cleaned</button><button type="button" aria-pressed="${raw}" data-v="raw">As said</button></span>` : ""}`;
     };
     rc.onclick = (e) => {
       const b = e.target.closest("[data-v]");
@@ -3118,7 +3289,7 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
     const save = $("#csave");
     save.disabled = false;
     save.classList.add("pulse");
-    guide(`That’s a journal entry, no typing. Try “As said”, then ${TAP.toLowerCase()} Save.`);
+    guide(spoken && !fil ? `That’s a journal entry, no typing: your words, as your browser heard them. ${TAP} Save.` : `That’s a journal entry, no typing. Try “As said”, then ${TAP.toLowerCase()} Save.`);
     await new Promise((r) => save.addEventListener("click", r, { once: true })).then(c.ok);
   }
   async function days(c) {
@@ -3202,6 +3373,7 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
     let L = micP ? await micP : null;
     c.ok();
     S.listener = L;
+    S.spoken = "";
     if (L) {
       hintEl.textContent = "Enter when you’re done · Esc cancels";
       if (on.real) on.real();
@@ -3222,7 +3394,24 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
       ftext.textContent = toks.slice(0, shown).map((w) => w.t + (w.sp ? " " : "")).join("");
       ftext.scrollTop = ftext.scrollHeight;
     };
-    while (shown < toks.length && !cancelled) {
+    let heardAll = false;
+    if (L && L.stt) {
+      const Lr = L, how = await hear(c, L, toks, els, { card, ftext, okBtn }, { cancelled: () => cancelled, pressed: () => pressed });
+      if (how === "done") {
+        heardAll = pressed = true;
+        okBtn.classList.remove("pulse");
+        okBtn.disabled = true;
+        hintEl.textContent = "Catching your last words…";
+        Lr.stop();
+        await c.sleep(450);
+        S.spoken = Lr.text();
+        ftext.textContent = S.spoken;
+        L = S.listener = null;
+        if (!S.spoken) heardAll = false;
+      } else if (how === "dead") last = 0;
+      else if (how === "loud") last = Date.now();
+    }
+    while (shown < toks.length && !cancelled && !heardAll) {
       if (L && (L.dead() || Date.now() - last > 9e3)) {
         L.stop();
         L = S.listener = null;
@@ -3257,7 +3446,7 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
     }
     xBtn.onclick = okBtn.onclick = null;
     okBtn.classList.remove("pulse");
-    if (!cancelled) {
+    if (!cancelled && !S.spoken) {
       okBtn.disabled = true;
       hintEl.textContent = "Catching your last words…";
       await c.sleep(450);
@@ -3495,6 +3684,8 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
     const pbody = $("#pbody"), qcard = $("#qcard"), aline = $("#aline"), rmic = $("#rmic"), ralt = $("#ralt"), rtip = $("#rtip");
     qcard.hidden = false;
     let para = null, words = 0;
+    const lines = [];
+    S.para = null;
     for (let i = 0; i < ANSWERS.length; i++) {
       const A = ANSWERS[i], toks = A.a.replace(/\[\[|\]\]/g, "").split(" ").map((t, k, all) => ({ t, sp: k < all.length - 1 }));
       $("#qn").textContent = `Bookae asks · ${i + 1} of ${ANSWERS.length}`;
@@ -3533,8 +3724,16 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
         para = document.createElement("p");
         pbody.appendChild(para);
       }
-      para.insertAdjacentHTML("beforeend", `<span class="line">${A.a.replace(/\[\[/g, '<span class="mk">').replace(/\]\]/g, "</span>")}</span> `);
-      words += toks.length;
+      const mine = tidy(S.spoken || "");
+      S.spoken = "";
+      const lineHTML = mine ? escH(mine) : sentence(A);
+      lines.push(lineHTML);
+      if (mine) {
+        S.para = true;
+        aline.innerHTML = `<span class="tw heard">${escH(mine)}</span>`;
+      }
+      para.insertAdjacentHTML("beforeend", `<span class="line">${lineHTML}</span> `);
+      words += mine ? countWords(mine) : toks.length;
       if (i === ANSWERS.length - 1) qcard.hidden = true;
       if (narrow()) aline.innerHTML = "";
       $("#pcount").textContent = `${words} words · exactly as you said them`;
@@ -3542,6 +3741,7 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
       await say(c, A.s, 2400);
     }
     qcard.hidden = true;
+    if (S.para) S.para = `<span class="wo">${lines.slice(0, -1).join(" ")} </span>${lines[lines.length - 1]}`;
     setSay("Three questions, three answers. A first paragraph nobody else could have.");
     guide(`Try “Write it for me”. Then ${TAP.toLowerCase()} “Skip ahead three weeks”.`);
     await ask(c, [{ id: "f", label: "Skip ahead three weeks", primary: true }]);
@@ -3558,7 +3758,7 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
     await mount(c, `<div class="arr">
     <div class="arr-top"><span class="label">Your days</span><span class="shelf-dots">${dots2.map((col) => `<i class="c-${col}"></i>`).join("")}</span><span class="shelf-n">${dots2.length} days kept</span></div>
     <div class="pieces">
-      <article class="piece sheetlike"><span class="label">1 · Essay, any topic</span><h3>Your first paragraph</h3><p>${PARA}</p><span class="src">Every sentence said by you</span></article>
+      <article class="piece sheetlike"><span class="label">1 · Essay, any topic</span><h3>Your first paragraph</h3><p>${S.para || PARA}</p><span class="src">Every sentence said by you</span></article>
       <article class="piece sheetlike"><span class="label">2 · Short answer</span><h3>Why this major?</h3><p class="pills"><span class="pill">“how you learn from a small sample”</span><span class="pill">“the paths people make themselves”</span><span class="pill">“geography and something about information”</span></p><span class="src">Not written. Your own lines, side by side.</span></article>
       <article class="piece sheetlike"><span class="label">3 · Short answer</span><h3>Most proud of?</h3><p>“We made one existing library table a little easier to use. That’s what happened.”</p><p class="pills">${kept}<span class="pill">47 help visits</span><span class="pill n2">31 guide cards</span></p><span class="src">Your words and your counts</span></article>
     </div></div>`, "arr");
