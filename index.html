@@ -181,16 +181,13 @@ button {
   font-size: 15px;
   font-weight: 500;
 }
-.rail button {
+.rail .ch {
   display: flex;
   align-items: center;
   gap: 8px;
   min-height: 44px;
   color: rgb(var(--w)/.72);
   transition: color .2s;
-}
-.rail button:hover {
-  color: var(--on);
 }
 .rail i {
   display: none;
@@ -2267,7 +2264,7 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
   .rail span {
     display: none;
   }
-  .rail button {
+  .rail .ch {
     padding: 0 3px;
   }
   .rail i {
@@ -2314,6 +2311,615 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
     transition-duration: .01ms !important;
   }
 }
+.bd {
+  --pw:9.6em;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  align-content: center;
+  gap: 1.15em;
+  width: min(100%, 41em);
+}
+.dayrow {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 1.5em;
+  min-width: 0;
+}
+.dayp {
+  position: relative;
+  flex: none;
+  display: grid;
+  align-content: start;
+  gap: .75em;
+  width: var(--pw);
+  text-align: left;
+  color: var(--on);
+  cursor: default;
+  transition:
+    opacity .2s ease,
+    scale .2s ease,
+    translate .28s var(--out),
+    rotate .28s var(--out);
+}
+.dp-pic {
+  position: relative;
+  display: block;
+  aspect-ratio: 2/3;
+  overflow: hidden;
+  background: rgb(var(--w)/.14);
+  box-shadow: 0 1.5em 3.2em -1em rgb(0 0 0/.5), 0 .3em .9em -.3em rgb(0 0 0/.3);
+}
+.dp-pic img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.dp-cap {
+  display: grid;
+  gap: .3em;
+}
+.dp-cap b {
+  font-size: max(1em, 13px);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -.012em;
+  text-wrap: balance;
+}
+.bd[data-st=pick] {
+  --pw:min(12em,29cqw);
+}
+.bd[data-st=open] {
+  --pw:11em;
+}
+.bd[data-st=pick] .dayp {
+  cursor: pointer;
+}
+.bd[data-st=pick] .dayp:nth-child(1) {
+  rotate: -2.5deg;
+}
+.bd[data-st=pick] .dayp:nth-child(3) {
+  rotate: 2.5deg;
+}
+.bd[data-st=pick] .dayp:hover,
+.bd[data-st=pick] .dayp:focus-visible {
+  translate: 0 -.55em;
+  rotate: 0deg;
+}
+.bd[data-st=pick] .dayp:hover .dp-pic {
+  box-shadow: 0 2.2em 3.6em -1em rgb(0 0 0/.55), 0 0 0 2px var(--on);
+}
+.bd[data-st=pick] .dp-pic {
+  animation: bob 3.4s ease-in-out infinite alternate;
+}
+.bd[data-st=pick] .dayp:nth-child(2) .dp-pic {
+  animation-delay: -1.1s;
+}
+.bd[data-st=pick] .dayp:nth-child(3) .dp-pic {
+  animation-delay: -2.3s;
+}
+.bd[data-st=pick] .dayp:hover .dp-pic {
+  animation-play-state: paused;
+}
+.dayp.gone {
+  opacity: 0;
+  scale: .82;
+}
+.dayp.seen .dp-pic::after {
+  content: "Opened";
+  position: absolute;
+  left: .7em;
+  top: .7em;
+  padding: .3em .7em;
+  border-radius: 999px;
+  background: var(--on);
+  color: var(--wall);
+  font-size: max(.7em, 11px);
+  font-weight: 600;
+  line-height: 1.2;
+}
+.dayp.arrive {
+  animation: arrive .56s var(--out) both;
+}
+.dayp.leave {
+  animation: leave .34s ease-in both;
+}
+.bd[data-st=open] {
+  grid-template-columns: auto minmax(0, 1fr);
+  justify-items: stretch;
+  align-items: start;
+  column-gap: 1.6em;
+}
+.bd[data-st=recall] .dayrow,
+.bd[data-st=ask] .dayrow {
+  gap: 0;
+}
+.join {
+  flex: none;
+  position: relative;
+  z-index: 1;
+  width: 4.6em;
+  height: 2px;
+  margin-top: calc(var(--pw)*.75);
+  background: var(--on);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform .42s var(--inout);
+}
+.join.on {
+  transform: none;
+}
+.join::before,
+.join::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: .72em;
+  height: .72em;
+  border-radius: 50%;
+  background: var(--on);
+  translate: 0 -50%;
+}
+.join::before {
+  left: -.36em;
+}
+.join::after {
+  right: -.36em;
+}
+.tag2 {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: .25em .75em;
+  margin: 0;
+  padding: .55em 1.1em;
+  border-radius: 999px;
+  background: var(--on);
+  color: var(--wall);
+  animation: w .3s ease both;
+}
+.tag2 .label {
+  color: inherit;
+  opacity: .75;
+  font-size: max(.68em, 11px);
+}
+.tag2 b {
+  font-size: max(1.14em, 15px);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -.015em;
+}
+.tag2.none {
+  background: transparent;
+  color: var(--on);
+  box-shadow: inset 0 0 0 1.5px rgb(var(--w)/.5);
+}
+.paper {
+  display: grid;
+  gap: .6em;
+  align-content: start;
+  width: 100%;
+  padding: 1em 1.3em .95em;
+  transition: opacity .18s ease;
+  animation: w .34s ease both;
+}
+.paper.out {
+  opacity: 0;
+}
+.paper header {
+  display: flex;
+  gap: 1em;
+}
+.paper header .label:last-child {
+  margin-left: auto;
+}
+.px {
+  margin: 0;
+  font-size: max(1.24em, 15.5px);
+  line-height: 1.42;
+  letter-spacing: -.008em;
+  text-wrap: pretty;
+}
+.prc {
+  display: flex;
+  align-items: center;
+  gap: .7em;
+  margin: 0;
+  font-size: max(.78em, 12px);
+  color: var(--ink-2);
+}
+.echo {
+  display: grid;
+  gap: .8em;
+}
+.echo div {
+  display: grid;
+  grid-template-columns: 3.4em minmax(0, 1fr);
+  gap: 0 .6em;
+  align-items: baseline;
+}
+.echo .label {
+  white-space: nowrap;
+}
+.echo p {
+  margin: 0;
+  font-size: max(1.12em, 14.5px);
+  line-height: 1.4;
+  text-wrap: pretty;
+}
+.hl {
+  color: var(--ink);
+  background: linear-gradient(var(--marker), var(--marker)) no-repeat 0 68%/0% 72%;
+  animation: sweep .55s var(--inout) .45s both;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+.bk {
+  display: grid;
+  gap: .6em;
+  width: 100%;
+  animation: w .3s ease both;
+}
+.bk-l {
+  display: flex;
+  align-items: center;
+  gap: .65em;
+}
+.bk-l i {
+  flex: none;
+  width: .62em;
+  height: .62em;
+  border-radius: 50%;
+  background: var(--pink);
+}
+.qbtn {
+  display: block;
+  width: 100%;
+  padding: .78em 1.15em;
+  border-radius: 14px;
+  box-shadow: inset 0 0 0 1.5px rgb(var(--w)/.55);
+  font-size: max(1.24em, 16px);
+  font-weight: 600;
+  line-height: 1.22;
+  letter-spacing: -.018em;
+  text-align: left;
+  transition:
+    background .18s,
+    color .18s,
+    box-shadow .18s;
+}
+.qbtn:hover {
+  background: var(--on);
+  color: var(--wall);
+  box-shadow: none;
+}
+.kwrap {
+  display: grid;
+  place-items: center;
+  width: 100%;
+}
+.kcard {
+  display: grid;
+  gap: 1em;
+  width: min(100%, 33em);
+  padding: 1.3em 1.5em 1.1em;
+}
+.kcard header {
+  display: flex;
+  align-items: center;
+  gap: 1.1em;
+}
+.minis {
+  display: flex;
+  flex: none;
+}
+.minis img {
+  display: block;
+  width: 3.2em;
+  height: auto;
+  aspect-ratio: 2/3;
+  object-fit: cover;
+  box-shadow: 0 .35em .9em -.3em rgb(0 0 0/.45);
+}
+.minis img + img {
+  margin-left: -.8em;
+  rotate: 6deg;
+}
+.kh {
+  display: grid;
+  gap: .25em;
+  min-width: 0;
+}
+.kh b {
+  font-size: max(1.2em, 15px);
+  font-weight: 600;
+  line-height: 1.18;
+  letter-spacing: -.015em;
+  text-wrap: balance;
+}
+.kq {
+  margin: 0;
+  font-size: max(1.52em, 17px);
+  line-height: 1.27;
+  font-weight: 500;
+  letter-spacing: -.02em;
+  text-wrap: pretty;
+}
+.kcard footer {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: .3em .9em;
+  align-items: baseline;
+  padding-top: .85em;
+  border-top: 1px solid var(--rule);
+  font-size: max(.92em, 13.5px);
+  line-height: 1.35;
+  color: var(--ink-2);
+}
+.kcard footer .label {
+  white-space: nowrap;
+}
+.kcard.printing {
+  animation: printin .75s var(--inout) both;
+}
+.ut {
+  display: grid;
+  gap: .9em;
+  width: min(100%, 34em);
+}
+.ut ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: u;
+  display: grid;
+}
+.ut li {
+  counter-increment: u;
+  display: grid;
+  grid-template-columns: 1.7em minmax(0, 1fr);
+  gap: .55em 0;
+  padding: .78em 0;
+  border-top: 1px solid rgb(var(--w)/.26);
+  font-size: max(1.02em, 14px);
+  line-height: 1.4;
+  color: rgb(var(--w)/.8);
+}
+.ut li::before {
+  content: counter(u);
+  font-weight: 600;
+  color: var(--on);
+}
+.ut li b {
+  font-weight: 600;
+  color: var(--on);
+}
+.ut li.on {
+  color: var(--on);
+}
+.ut blockquote {
+  grid-column: 2;
+  display: grid;
+  gap: .45em;
+  margin: .1em 0 .15em;
+  padding: .85em 1.05em;
+  font-size: max(1.06em, 14.5px);
+  line-height: 1.38;
+  letter-spacing: -.008em;
+}
+.utn {
+  margin: 0;
+  font-size: max(.98em, 13.5px);
+  line-height: 1.4;
+  color: rgb(var(--w)/.88);
+}
+.you {
+  display: grid;
+  justify-items: center;
+  gap: 1em;
+  width: min(100%, 34em);
+}
+.ypaper {
+  display: grid;
+  gap: .5em;
+  width: 100%;
+  padding: 1.1em 1.3em .85em;
+}
+.ypaper header {
+  display: flex;
+  gap: 1em;
+}
+.ypaper header .label:last-child {
+  margin-left: auto;
+}
+#ytext {
+  display: block;
+  width: 100%;
+  min-height: 4.3em;
+  margin: .35em 0 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+  caret-color: var(--rasp);
+  font: inherit;
+  font-size: max(1.26em, 16px);
+  line-height: 1.4;
+  letter-spacing: -.008em;
+  resize: none;
+}
+#ytext::placeholder {
+  color: var(--ink-3);
+}
+#ytext:focus,
+#ytext:focus-visible {
+  outline: none;
+}
+.ynote {
+  margin: 0;
+  font-size: max(.78em, 12px);
+  line-height: 1.35;
+  color: var(--ink-2);
+}
+.pic .ymid {
+  font-size: calc(var(--pw)*var(--ms,.105));
+  line-height: 1.1;
+  letter-spacing: -.02em;
+  overflow-wrap: anywhere;
+}
+@container (min-width:521px) {
+  .scene[data-s=bd],
+  .scene[data-s=card],
+  .scene[data-s=ut],
+  .scene[data-s=you] {
+    font-size: clamp(10px, min(3.1cqw, 2.7cqh), 23px);
+  }
+}
+.act:has(.links) {
+  display: grid;
+  justify-items: start;
+  gap: 4px;
+}
+.ctas.links {
+  gap: 0 1.3em;
+}
+.ctas.links .btn.quiet {
+  font-size: 15px;
+  font-weight: 500;
+  color: rgb(var(--w)/.86);
+}
+.btn .sm {
+  display: none;
+}
+@media (max-width: 760px) {
+  .lede.fin {
+    display: none;
+  }
+  .ctas.two {
+    flex-wrap: nowrap;
+    gap: 8px;
+  }
+  .ctas.two .btn {
+    min-height: 46px;
+    padding: 0 15px;
+    font-size: 15px;
+  }
+  .btn .lg {
+    display: none;
+  }
+  .btn .sm {
+    display: inline;
+  }
+}
+@media (max-width: 760px) and (max-height: 700px) {
+  .scene[data-s=bd],
+  .scene[data-s=card],
+  .scene[data-s=ut],
+  .scene[data-s=you] {
+    overflow: hidden auto;
+    align-items: safe center;
+    scrollbar-width: none;
+  }
+}
+@keyframes bob {
+  from {
+    translate: 0 -.22em;
+  }
+  to {
+    translate: 0 .22em;
+  }
+}
+@keyframes arrive {
+  from {
+    opacity: 0;
+    transform: translate(8em, -7em) rotate(16deg) scale(.3);
+  }
+}
+@keyframes leave {
+  to {
+    opacity: 0;
+    transform: translate(8em, -7em) rotate(16deg) scale(.3);
+  }
+}
+@keyframes sweep {
+  to {
+    background-size: 100% 72%;
+  }
+}
+@keyframes printin {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@container (max-width:520px) {
+  .bd,
+  .bd[data-st=open] {
+    --pw:8.3em;
+    gap: .8em;
+  }
+  .bd[data-st=pick] {
+    --pw:min(9em,29cqw);
+  }
+  .bd[data-st=recall],
+  .bd[data-st=ask] {
+    --pw:7.6em;
+  }
+  .dayrow {
+    gap: 1em;
+  }
+  .dayp {
+    gap: .5em;
+  }
+  .bd[data-st=open] {
+    column-gap: 1em;
+  }
+  .bd[data-st=recall] .dp-cap,
+  .bd[data-st=ask] .dp-cap {
+    display: none;
+  }
+  .join {
+    width: 3.2em;
+  }
+  .tag2 {
+    padding: .45em .95em;
+  }
+  .paper {
+    padding: .8em 1em .75em;
+    gap: .5em;
+  }
+  .paper header .label:first-child {
+    display: none;
+  }
+  .echo {
+    gap: .6em;
+  }
+  .echo div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: .1em;
+  }
+  .qbtn {
+    padding: .7em 1em;
+  }
+  .kcard {
+    gap: .75em;
+    padding: 1em 1.15em .9em;
+    width: 100%;
+  }
+  .ut,
+  .you {
+    width: 100%;
+  }
+  .ut li {
+    padding: .6em 0;
+  }
+}
 </style>
 <script>document.body.dataset.mode = "land";
 </script>
@@ -2321,13 +2927,12 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
 <div class="app">
   <header class="top">
     <a class="mark" href="https://bookae.ai" target="_blank" rel="noopener" aria-label="Bookae"><svg class="logo" viewBox="-85.5 0 437.5 116" width="113" height="30" role="img" aria-label="Bookae"><path class="km" d="M-69.59 33.21L-74.55 35.53M-59.65 21.55L-64.61 23.88M-65.67 47.19L-71.45 49.90M-42.88 15.59L-47.84 17.91M-51.15 19.47L-56.11 21.79M-53.39 36.15L-59.18 38.86M-59.34 61.37L-65.13 64.09M-56.34 51.58L-62.12 54.29M-51.67 70.42L-53.52 71.29M-56.83 72.84L-61.79 75.17M-39.92 32.75L-42.01 33.74M-45.32 35.28L-50.28 37.61M-33.55 19.98L-38.51 22.30M-41.82 23.86L-46.78 26.18M-50.12 54.50L-55.90 57.22M-33.02 24.11L-37.98 26.44M-47.06 50.34L-52.85 53.05M-42.43 46.76L-46.56 48.70M-39.93 38.60L-49.85 43.25M-38.70 77.48L-43.66 79.81M-39.66 66.75L-49.58 71.40M-27.38 52.60L-27.87 52.83M-40.79 58.89L-46.58 61.61M-33.83 50.03L-34.65 50.42M-27.19 39.93L-28.85 40.71M-23.69 28.50L-28.65 30.83M-21.01 69.62L-25.97 71.95M-25.95 64.95L-30.91 67.28M-18.01 59.83L-22.96 62.15M-16.00 53.30L-20.96 55.62M-22.95 55.15L-27.90 57.48M-13.00 43.50L-17.96 45.83M-56.00 70.13L-53.52 71.29M-52.99 75.42L-43.66 79.81M-71.12 70.78L-61.79 75.17M-72.61 50.01L-71.63 50.47M-36.85 66.83L-25.97 71.95M-74.46 59.70L-65.13 64.09M-58.91 67.01L-49.58 71.40M-77.55 45.33L-69.65 49.05M-55.78 55.57L-54.10 56.37M-41.79 62.15L-30.91 67.28M-23.58 57.21L-18.01 59.83M-24.82 61.28L-22.96 62.15M-65.67 47.19L-56.34 51.58M-50.12 54.50L-40.79 58.89M-71.45 49.90L-62.12 54.29M-55.90 57.22L-46.58 61.61M-67.61 33.68L-60.74 36.91M-31.85 50.50L-20.96 55.62M-62.18 48.66L-52.85 53.05M-69.59 33.21L-60.86 37.31M-33.83 50.03L-22.95 55.15M-42.43 46.76L-34.65 50.42M-74.55 35.53L-62.11 41.39M-46.56 48.70L-27.90 57.48M-59.65 21.55L-56.49 23.04M-26.36 37.22L-13.00 43.50M-44.49 32.57L-42.01 33.74M-64.61 23.88L-57.74 27.11M-28.85 40.71L-17.96 45.83M-41.48 37.87L-39.93 38.60M-53.39 36.15L-50.28 37.61M-59.18 38.86L-49.85 43.25M-42.88 15.59L-33.55 19.98M-33.02 24.11L-23.69 28.50M-47.84 17.91L-38.51 22.30M-51.15 19.47L-41.82 23.86M-37.98 26.44L-28.65 30.83M-56.11 21.79L-46.78 26.18M-23.31 54.98L-23.19 54.58M-35.12 25.10L-33.55 19.98M-21.01 69.62L-18.01 59.83M-16.00 53.30L-13.00 43.50M-38.70 77.48L-35.61 67.41M-30.73 51.49L-30.61 51.09M-27.19 39.93L-23.69 28.50M-48.67 20.63L-47.84 17.91M-53.52 71.29L-53.05 69.77M-42.01 33.74L-38.51 22.30M-72.61 50.01L-71.98 47.95M-67.61 33.68L-64.61 23.88M-36.85 66.83L-36.22 64.78M-31.85 50.50L-28.85 40.71M-25.97 71.95L-22.96 62.15M-20.96 55.62L-17.96 45.83M-56.83 72.84L-55.53 68.60M-45.32 35.28L-41.82 23.86M-25.95 64.95L-22.95 55.15M-52.99 75.42L-51.48 70.51M-41.48 37.87L-37.98 26.44M-42.43 46.76L-39.93 38.60M-43.66 79.81L-39.66 66.75M-34.65 50.42L-28.65 30.83M-77.55 45.33L-74.55 35.53M-71.12 70.78L-68.57 62.47M-62.11 41.39L-56.11 21.79M-59.34 61.37L-56.34 51.58M-61.79 75.17L-55.78 55.57M-50.28 37.61L-46.78 26.18M-47.06 50.34L-46.56 48.70M-41.79 62.15L-40.79 58.89M-30.91 67.28L-27.90 57.48M-74.46 59.70L-71.45 49.90M-62.18 48.66L-59.18 38.86M-65.13 64.09L-62.12 54.29M-58.91 67.01L-55.90 57.22M-52.85 53.05L-49.85 43.25M-49.58 71.40L-46.58 61.61"/><g transform="translate(8,81.5)"><path d="M30.7 -61.7 33 -67.6H49Q55.6 -67.6 59.6 -65.8Q63.6 -64.1 65.4 -61Q67.3 -57.9 67.3 -54.1Q67.3 -49 64.8 -45Q62.3 -41.1 57.6 -38.8Q53 -36.4 46.4 -35.9L46.2 -36.7Q54.1 -36.2 58 -32.5Q61.9 -28.8 61.9 -23.1Q61.9 -16.7 58.7 -11.5Q55.4 -6.2 48.9 -3.1Q42.4 0 32.5 0.0H12.4L13.9 -6.0H30.1Q35.9 -6 40 -8.2Q44.1 -10.3 46.4 -14.3Q48.6 -18.3 48.6 -23.6Q48.6 -27.8 46 -30.4Q43.5 -32.9 37.6 -32.9H21.9L23.9 -38.8H40Q44.4 -38.8 47.7 -40.7Q50.9 -42.7 52.7 -46Q54.5 -49.4 54.5 -53.6Q54.5 -56.2 53.4 -58Q52.4 -59.8 50.2 -60.8Q48 -61.7 44.6 -61.7ZM23.8 -62.4 17.1 -65 17.9 -67.6H38.4L17.7 0.0H-2.6L-1.8 -2.6L6.3 -5.3Z"/><path d="M96.2 -45.7Q101.6 -45.7 105.3 -43.6Q109 -41.5 110.9 -37.8Q112.7 -34.1 112.7 -29.1Q112.7 -23 110.7 -17.5Q108.7 -12 105.1 -7.8Q101.4 -3.6 96.6 -1.2Q91.7 1.2 85.9 1.2Q80.6 1.2 76.9 -0.9Q73.2 -2.9 71.3 -6.7Q69.4 -10.4 69.4 -15.4Q69.4 -21.5 71.5 -27Q73.5 -32.4 77.1 -36.6Q80.8 -40.8 85.6 -43.3Q90.5 -45.7 96.2 -45.7ZM86.1 -3.8Q88.4 -3.8 90.6 -5.5Q92.9 -7.3 94.8 -10.2Q96.7 -13.2 98.2 -16.9Q99.7 -20.7 100.5 -24.8Q101.3 -28.9 101.3 -32.8Q101.3 -37 100 -38.8Q98.8 -40.7 96.1 -40.7Q93.8 -40.7 91.5 -38.9Q89.3 -37.2 87.4 -34.2Q85.4 -31.3 84 -27.5Q82.5 -23.8 81.7 -19.7Q80.9 -15.6 80.9 -11.6Q80.9 -7.5 82.2 -5.7Q83.4 -3.8 86.1 -3.8Z"/><path d="M145.4 -45.7Q150.8 -45.7 154.5 -43.6Q158.1 -41.5 160 -37.8Q161.9 -34.1 161.9 -29.1Q161.9 -23 159.9 -17.5Q157.8 -12 154.2 -7.8Q150.6 -3.6 145.7 -1.2Q140.8 1.2 135.1 1.2Q129.7 1.2 126.1 -0.9Q122.4 -2.9 120.5 -6.7Q118.6 -10.4 118.6 -15.4Q118.6 -21.5 120.6 -27Q122.6 -32.4 126.3 -36.6Q129.9 -40.8 134.8 -43.3Q139.7 -45.7 145.4 -45.7ZM135.2 -3.8Q137.6 -3.8 139.8 -5.5Q142 -7.3 143.9 -10.2Q145.9 -13.2 147.3 -16.9Q148.8 -20.7 149.6 -24.8Q150.5 -28.9 150.5 -32.8Q150.5 -37 149.2 -38.8Q147.9 -40.7 145.3 -40.7Q142.9 -40.7 140.7 -38.9Q138.4 -37.2 136.5 -34.2Q134.6 -31.3 133.1 -27.5Q131.7 -23.8 130.8 -19.7Q130 -15.6 130 -11.6Q130 -7.5 131.3 -5.7Q132.6 -3.8 135.2 -3.8Z"/><path d="M198.4 -71.7 176.7 0.0H165.1L183.7 -61.3Q182.8 -62.2 181.8 -63Q180.7 -63.9 179.5 -64.7Q178.3 -65.5 176.9 -66.2L177.5 -68.5L196.7 -71.7ZM183.5 -24.4 184.2 -26Q190.5 -32.1 194.9 -36Q199.3 -39.8 202.4 -41.9Q205.6 -44 208.1 -44.9Q210.6 -45.7 213 -45.7Q216.3 -45.7 218 -43.8Q219.8 -41.9 219.8 -39.3Q219.8 -36.9 218.7 -35.2Q217.7 -33.6 215.9 -32.7Q214.2 -31.8 212.3 -31.8Q211.6 -31.8 211 -32.5Q210.4 -33.1 209.6 -34.6Q208.8 -36.1 208 -36.7Q207.3 -37.4 206.4 -37.4Q205.1 -37.4 203.3 -36.6Q201.4 -35.7 199.1 -34.2Q196.8 -32.6 194.1 -30.4Q191.5 -28.2 188.7 -25.4L192.3 -30.7Q195.3 -22.8 197.3 -18.1Q199.3 -13.3 200.6 -10.9Q201.9 -8.6 202.8 -7.8Q203.8 -7 204.7 -7Q205.7 -7 207 -7.7Q208.4 -8.5 210 -10Q211.7 -11.5 213.7 -13.8L215.8 -11.8Q212.5 -7.3 209.5 -4.4Q206.5 -1.5 203.8 -0.1Q201.1 1.2 198.6 1.2Q196.9 1.2 195.5 0.3Q194 -0.7 192.3 -3.4Q190.7 -6.1 188.6 -11.1Q186.4 -16.1 183.5 -24.4Z"/><path d="M246.7 -3.8 252.3 -20.1H253.2Q249 -13.6 245.7 -9.4Q242.5 -5.3 239.7 -3Q237 -0.7 234.6 0.2Q232.2 1.2 229.8 1.2Q226.7 1.2 224.3 -0Q222 -1.2 220.6 -3.6Q219.3 -5.9 219.3 -9.6Q219.3 -13.9 220.8 -18.7Q222.4 -23.5 225.1 -28.2Q227.9 -32.9 231.6 -36.8Q235.3 -40.6 239.7 -42.9Q244.1 -45.2 248.8 -45.2Q252.5 -45.2 255 -43.7Q257.5 -42.1 259.5 -38.6L257.4 -35.5Q256.7 -37.3 255.1 -38.4Q253.6 -39.6 251.2 -39.6Q248.2 -39.6 245.3 -37.5Q242.4 -35.4 239.8 -32Q237.3 -28.6 235.4 -24.8Q233.6 -20.9 232.5 -17.3Q231.4 -13.7 231.4 -11.1Q231.4 -9 232.4 -8.1Q233.4 -7.1 235.2 -7.1Q236.9 -7.1 239.3 -8.6Q241.6 -10 244.1 -12.5Q246.6 -15 248.8 -18.4Q251 -21.7 252.4 -25.6L258.1 -40.9L263.9 -44.5H270.8L257.4 -3.6L255.5 -6.9Q257.7 -6.8 260 -7.5Q262.3 -8.2 264.8 -9.7Q267.3 -11.2 269.9 -13.6L271.9 -11.5Q265.9 -4.6 261 -1.7Q256.1 1.2 251.8 1.2Q248.4 1.2 247.1 0Q245.8 -1.2 246.7 -3.8Z"/><path d="M301.4 -41Q299 -41 296.9 -39.6Q294.8 -38.2 293.1 -35.7Q291.3 -33.3 290.1 -30.2Q288.9 -27 288.2 -23.6Q287.6 -20.1 287.6 -16.7Q287.6 -11.4 289.7 -9.2Q291.8 -7 295.6 -7Q298.2 -7 300.4 -7.8Q302.6 -8.6 304.6 -10.5Q306.6 -12.4 308.5 -15.9H311.9Q309.1 -9.3 306.1 -5.5Q303 -1.8 299.4 -0.3Q295.8 1.2 291.2 1.2Q286.2 1.2 282.8 -0.6Q279.3 -2.4 277.4 -5.8Q275.6 -9.3 275.6 -14.2Q275.6 -19.5 277 -24.3Q278.5 -29.1 281 -33Q283.6 -36.9 287.1 -39.7Q290.5 -42.6 294.6 -44.1Q298.7 -45.7 303.1 -45.7Q307.7 -45.7 310.4 -44.4Q313.2 -43.1 314.5 -40.9Q315.8 -38.7 315.8 -36Q315.8 -33.7 314.9 -31.3Q314 -29 312.5 -27.4Q309.3 -26.2 305.9 -25.1Q302.5 -23.9 299 -22.9Q295.6 -21.9 292 -21Q288.5 -20.1 285.1 -19.3L285.3 -23.5Q290.5 -25 294.1 -26.3Q297.7 -27.6 299.9 -28.7Q302.2 -29.9 303.5 -31.2Q304.7 -32.4 305.1 -33.7Q305.6 -35 305.6 -36.5Q305.6 -37.9 305.1 -38.9Q304.7 -39.9 303.7 -40.5Q302.8 -41 301.4 -41Z"/></g><circle cx="337.6" cy="75.3" r="6.2"/></svg></a>
-    <nav class="rail" id="rail" aria-label="Chapters">
-      <button type="button" data-go="2"><i></i><span>Voice journal</span></button>
-      <button type="button" data-go="3"><i></i><span>Connect the dots</span></button>
-      <button type="button" data-go="4"><i></i><span>School fit</span></button>
-      <button type="button" data-go="5"><i></i><span>Essay room</span></button>
-    </nav>
-    <button type="button" class="skip" id="skip">Skip</button>
+    <div class="rail" id="rail" aria-label="What Bookae is doing">
+      <div class="ch"><i></i><span>Voice journal</span></div>
+      <div class="ch"><i></i><span>Connect the dots</span></div>
+      <div class="ch"><i></i><span>Essay room</span></div>
+    </div>
+    <button type="button" class="skip off" id="skip">Start over</button>
   </header>
 
   <div class="guide" id="guide" role="status">
@@ -2344,7 +2949,7 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
         <div class="land-in">
           <h1><span>College</span><span>Applications,</span><span><b>Done</b>.</span></h1>
           <p class="sub">Talk through your life. Bookae keeps your deadlines, ideas and future in one place. Onward, upward.</p>
-          <div class="land-act"><button type="button" class="cta" id="jump">Jump in</button><span class="land-note">A three-minute guided demo. No sign-up.</span></div>
+          <div class="land-act"><button type="button" class="cta" id="jump">Jump in</button><span class="land-note">About a minute. No sign-up.</span></div>
         </div>
       </div>
     </div>
@@ -2381,156 +2986,22 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const scene = $("#scene"), sayEl = $("#say"), stampEl = $("#stamp"), actEl = $("#act"), timerEl = $("#timer");
   const rail = $("#rail"), skipBtn = $("#skip"), dock = $("#dock"), guideEl = $("#guide"), gtag = $("#gtag"), gsay = $("#gsay"), moreEl = $("#more");
-  const ICON = {
-    poster: '<rect x="20" y="7" width="24" height="34"/><path d="M24 14h16M24 19h10M24 24h13"/><rect x="33" y="29" width="7" height="7"/><path d="M17 9l5-4M47 9l-5-4"/>',
-    laptop: '<rect x="17" y="4" width="30" height="19" rx="1.5"/><path d="M11 29h42l-4-6H15z"/><path d="M32 46V35M27 40l5-5 5 5"/>',
-    checklist: '<rect x="12" y="6" width="25" height="36"/><path d="M17 15l2 2 4-4M17 24l2 2 4-4M17 33l2 2 4-4M27 15h6M27 24h6M27 33h6"/><circle cx="48" cy="17" r="4"/><path d="M48 21v15M48 29h4M48 34h3"/>',
-    table: '<rect x="12" y="17" width="40" height="17" rx="2"/><path d="M19 10h9M36 10h9"/><path d="M27 41h10" stroke-dasharray="2 3.5"/>'
-  };
-  const M = {
-    transfer: {
-      d: "Jun 1",
-      t: "The missed transfer",
-      c: "cobalt",
-      q: "Missed the transfer again. On the map the two stops almost touch. In real life there’s a wide road and a light that takes forever."
-    },
-    checklist: {
-      d: "Jun 15",
-      t: "The closing checklist",
-      c: "marigold",
-      i: "checklist",
-      thread: true,
-      r: "His drawing<br>was better",
-      q: "My closing checklist was all words. He drew which key goes in which drawer. His is better."
-    },
-    poster: {
-      d: "Jun 29",
-      t: "The unused poster",
-      c: "rasp",
-      i: "poster",
-      thread: true,
-      r: "Nobody<br>used it",
-      q: "Nobody used my poster. I had designed it before asking whether anybody wanted it."
-    },
-    laptop: {
-      d: "Jul 13",
-      t: "The laptop I moved",
-      c: "moss",
-      i: "laptop",
-      thread: true,
-      r: "So I moved<br>it back",
-      q: "She wanted to send it herself. I had already pulled the laptop toward me. I pushed it back."
-    },
-    sample: {
-      d: "Jul 27",
-      t: "Twenty-three visits",
-      c: "lilac",
-      q: "I said it showed what the neighborhood needs. It showed 23 visits to one table. I changed the heading."
-    },
-    table: {
-      d: "Sep 7",
-      t: "The table without me",
-      c: "tomato",
-      i: "table",
-      thread: true,
-      r: "It ran<br>without me",
-      q: "The library table ran without me. June changed the order of two instructions. A tiny offended feeling, then relief."
-    },
-    number: {
-      d: "Oct 5",
-      t: "The blue notebook",
-      c: "cobalt",
-      q: "Mom wrote $12,000 a year in the blue notebook as a first guess. A starting question, not a promise."
-    },
-    map: {
-      d: "Oct 19",
-      t: "Seven colleges",
-      c: "lilac",
-      q: "I ranked seven colleges by which would sound best. Then I tried again with different questions."
-    }
-  };
-  const SAID = "Okay so,{ um,} my library poster sat there three Saturdays and{, like,} nobody used it. Today someone asked me what a QR code was.";
-  const said = [];
-  SAID.replace(/\{([^}]*)\}|[^\s{}]+/g, (m, f, i) => {
-    said.push({ t: f !== void 0 ? f : m, fil: f !== void 0, sp: SAID[i + m.length] === " " });
-    return m;
-  });
-  const heardText = (n) => said.slice(0, n).map((w) => w.t + (w.sp ? " " : "")).join("");
-  const REST = [
-    ["Jun 1", "The missed transfer", "cobalt"],
-    ["Jun 15", "The closing checklist", "marigold"],
-    ["Jul 27", "Twenty-three visits", "lilac"],
-    ["Aug 10", "The red notebook", "tomato"],
-    ["Aug 24", "One good table", "moss"],
-    ["Sep 7", "The table without me", "tomato"],
-    ["Sep 21", "What belongs to me to tell", "rasp"],
-    ["Oct 5", "The blue notebook", "cobalt"],
-    ["Oct 19", "Seven colleges", "lilac"]
-  ];
-  const NODES = [
-    ["poster", [20, 13, "t"]],
-    ["sample", [50, 25, "r"]],
-    ["laptop", [80, 13, "t"]],
-    ["number", [90, 50, "b"]],
-    ["table", [80, 87, "b"]],
-    ["map", [50, 77, "r"]],
-    ["checklist", [20, 87, "b"]],
-    ["transfer", [10, 50, "b"]]
-  ];
-  const RING = ["poster", "laptop", "table", "checklist"];
-  const SPECKS = [[[35, 31], "marigold"], [[65, 70], "rasp"], [[31, 67], "moss"], [[69, 34], "tomato"]];
-  const COLLEGES = [
-    {
-      id: "uwm",
-      c: "cobalt",
-      short: "UW–Milwaukee",
-      place: "Milwaukee, Wisconsin",
-      name: "University of Wisconsin–Milwaukee",
-      fact: "An urban research university in Milwaukee.",
-      ask: "What would staying in my home city make possible, and what would I want to change?"
-    },
-    {
-      id: "mad",
-      c: "rasp",
-      short: "UW–Madison",
-      place: "Madison, Wisconsin",
-      name: "University of Wisconsin–Madison",
-      fact: "A public land-grant research university with a public-service mission.",
-      ask: "How could I explore my interests while learning to live away from home?"
-    },
-    {
-      id: "mac",
-      c: "moss",
-      short: "Macalester",
-      place: "Saint Paul, Minnesota",
-      name: "Macalester College",
-      fact: "A small liberal arts college in the Twin Cities.",
-      ask: "Would a smaller college in a different city give me the breadth and community I want?"
-    },
-    {
-      id: "uta",
-      c: "tomato",
-      short: "UT Austin",
-      place: "Austin, Texas",
-      name: "The University of Texas at Austin",
-      /* "Core Purpose: To transform lives for the benefit of society." utexas.edu/about/mission-and-values, read 2026-11-16 */
-      fact: 'A public research university. Its core purpose: <mark id="mission">“to transform lives for the benefit of society.”</mark>',
-      ask: "What would it cost, in money and in distance, to start somewhere completely new?"
-    }
-  ];
+  const P = { "days": { "transfer": { "f": "e01-transfer", "d": "Jun 1", "t": "The transfer that looks fine on paper", "words": 92, "wall": "#454A1F" }, "checklist": { "f": "e02-checklist", "d": "Jun 15", "t": "The closing checklist", "words": 99, "wall": "#2B3B55" }, "poster": { "f": "e03-poster", "d": "Jun 29", "t": "The poster nobody used", "words": 97, "wall": "#2A474E" }, "laptop": { "f": "e04-laptop", "d": "Jul 13", "t": "Ask before opening the laptop", "words": 104, "wall": "#5A2E22" }, "sample": { "f": "e05-sample", "d": "Jul 27", "t": "Twenty-three is not the neighborhood", "words": 91, "wall": "#23483F" }, "notebook": { "f": "e06-notebook", "d": "Aug 10", "t": "The girl with the red notebook", "words": 103, "wall": "#5E2A1D" }, "onetable": { "f": "e07-onetable", "d": "Aug 24", "t": "One good table, not a movement", "words": 97, "wall": "#2E3F52" }, "ran": { "f": "e08-ran", "d": "Sep 7", "t": "The table ran without me", "words": 98, "wall": "#3A3157" }, "tell": { "f": "e09-tell", "d": "Sep 21", "t": "What belongs to me to tell", "words": 92, "wall": "#573220" }, "number": { "f": "e10-number", "d": "Oct 5", "t": "The number in the blue notebook", "words": 90, "wall": "#233C55" }, "map": { "f": "e11-map", "d": "Oct 19", "t": "The college map on my bedroom floor", "words": 100, "wall": "#27425A" }, "three": { "f": "e12-three", "d": "Nov 2", "t": "Three things for this week", "words": 86, "wall": "#293D4F" } }, "start": ["poster", "transfer", "ran"], "paths": { "poster": { "line": "June 29. Nobody used her poster.", "open": "Today a visitor asked what a QR code was. Excellent work, Elena: to find help using your phone, first demonstrate you already know how to use your phone.", "tries": [{ "day": "laptop", "thread": "Asking first", "a": "I had designed something [[before asking]] whether anybody wanted it.", "b": "Today [[I asked a visitor]], 'What would you like to be able to do before you leave?'", "qs": [{ "q": "What did the visitor want?", "from": "laptop", "ut": 0, "ans": "She wanted to send one document herself, not have me send it quickly for her. I had already pulled the laptop toward me. Pushed it back." }, { "q": "What did the visitor change?", "from": "laptop", "ut": 0, "ans": "She crossed out 'upload' and wrote 'choose my file.' I kept her wording on the blank version." }] }, { "day": "transfer", "thread": "The poster board", "a": "[[My library technology poster]] lasted three Saturdays without one person taking a photo of it.", "b": "In real life there is a wide road, a light that takes forever, and me carrying [[a poster board]] sideways in the wind.", "qs": [{ "q": "How did the poster end?", "from": "poster", "ut": 0, "ans": "I took the poster down. Embarrassing, but at least the tape came off cleanly." }, { "q": "What does the transit map leave out?", "from": "transfer", "ut": 0, "ans": "It just leaves out the part where a person has legs and groceries and somewhere to be." }] }], "solo": { "q": "What did the librarian ask?", "from": "poster", "ut": 0, "ans": "Ms. Chen asked what people had actually requested. I had examples in my head but no notes." } }, "transfer": { "line": "June 1. She missed her transfer.", "open": "On the map the two stops practically touch. In real life there is a wide road, a light that takes forever, and me carrying a poster board sideways in the wind.", "tries": [{ "day": "sample", "thread": "What the page leaves out", "a": "It just [[leaves out]] the part where a person has legs and groceries and somewhere to be.", "b": "Then he asked about people who couldn't get to the library at all. [[Also not in my sheet.]]", "qs": [{ "q": "What did you change on your sheet?", "from": "sample", "ut": 2, "ans": "Changed the heading to 'Questions asked during four Saturday help sessions.' Less impressive and actually true." }, { "q": "What do you want to know now?", "from": "sample", "ut": 1, "ans": "Now I want to know how you learn from a small sample without making everyone outside it disappear. Maybe this is why I want statistics next year." }] }, { "day": "map", "thread": "Getting around without a car", "a": "I took a picture of the worn path through the grass [[where everyone cuts across]].", "b": "Then tried again with different questions: [[Can I get around without a car?]]", "qs": [{ "q": "What did you ask the second time?", "from": "map", "ut": -1, "ans": "Can I get around without a car? Can I try geography and something about information before choosing? Could I work without missing every club meeting?" }, { "q": "What does your counselor say you need?", "from": "map", "ut": -1, "ans": "Priya says I need actual answers from campuses and cost estimates with my family, not a mood board with acceptance rates on it." }] }], "solo": { "q": "What do you want more of?", "from": "transfer", "ut": 1, "ans": "I want to take more pictures of the paths people make themselves." } }, "ran": { "line": "September 7. The table ran without her.", "open": "June texted that it went fine and that she'd changed the order of two instructions. My first feeling was a tiny offended one, which I will admit here. Then relief.", "tries": [{ "day": "checklist", "thread": "Better once someone else changed it", "a": "June texted that it went fine and that [[she'd changed the order]] of two instructions.", "b": "[[He added a drawing]] of which key goes in which drawer. My version was all words. His is better.", "qs": [{ "q": "What do these two days share?", "from": "note", "ut": 0, "ans": "I noticed that the best instructions are the ones somebody else has changed." }, { "q": "Why was your new coworker lost at first?", "from": "checklist", "ut": 0, "ans": "I forgot that I only know the usual thing because I messed it up twice." }] }, { "day": "notebook", "thread": "Relief", "a": "My first feeling was a tiny offended one, which I will admit here. [[Then relief.]]", "b": "A visitor recognized me as 'the girl with the red notebook.' [[Not the computer expert, thank goodness.]]", "qs": [{ "q": "What did the visitor tell you?", "from": "notebook", "ut": 2, "ans": "She said she used it at home once. That is one person's report, not proof the whole system works, but I was happy the rest of the shift." }, { "q": "Why was it a relief?", "from": "ran", "ut": 0, "ans": "I can't tell myself this is useful to other people and also need every version to have my handwriting on it." }] }], "solo": { "q": "What was hard to let go of?", "from": "draft", "ut": 0, "ans": "I still like being the person with the answer." } } }, "ut": [{ "b": "An essay on any topic.", "t": "Her Common App personal statement counts." }, { "b": "A short answer.", "t": "“Why are you interested in the major you indicated as your first-choice major?”" }, { "b": "A short answer.", "t": "Of all her activities: “Which one are you most proud of and why?”" }] };
+  const D = P.days, START = P.start, PATHS = P.paths, UT = P.ut;
   const TAP = matchMedia("(pointer: coarse)").matches ? "Tap" : "Click";
-  const TAGS = ["", "1 of 4 · Voice journal", "2 of 4 · Connect the dots", "3 of 4 · School fit", "4 of 4 · Essay room"];
-  const wall = (name) => {
+  const FEATS = ["Elena’s days", "Voice journal", "Connect the dots", "Essay room", "School fit"];
+  const wall = (name, hex) => {
     document.body.dataset.wall = name;
+    if (hex) document.body.style.setProperty("--wall", hex);
+    else document.body.style.removeProperty("--wall");
   };
-  const MONTHS = { Jun: "June", Jul: "July", Aug: "August", Sep: "September", Oct: "October" };
-  const month = (d) => MONTHS[d.slice(0, 3)] + " 2026";
+  const dayWall = (k) => wall("day", D[k].wall);
+  const MONTHS = { Jun: "June", Jul: "July", Aug: "August", Sep: "September", Oct: "October", Nov: "November" };
+  const long = (d) => MONTHS[d.slice(0, 3)] + d.slice(3);
   const ARROW = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>';
-  const maskURL = (i) => `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 48" fill="none" stroke="#000" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round">${ICON[i]}</svg>`)}")`;
-  const posterHTML = (k, cls = "", tag = "div") => {
-    const m = M[k];
-    return `<${tag} ${tag === "button" ? `type="button" aria-label="${m.d}: ${m.t}"` : ""} class="pic poster c-${m.c} ${cls}" data-k="${k}"><i class="pic-art" aria-hidden="true"><i style='--m:${maskURL(m.i)}'></i></i><span class="pic-tl">${m.t}</span><span class="pic-tr">${m.r}</span><span class="pic-bl">${month(m.d)}</span><i class="printline" aria-hidden="true"></i></${tag}>`;
-  };
+  const curl = (t) => escH(t).replace(/(\w)'(\w)/g, "$1’$2").replace(/(^|[\s(])'/g, "$1‘").replace(/'/g, "’");
+  const hl = (t) => curl(t).replace(/\[\[/g, '<span class="hl">').replace(/\]\]/g, "</span>");
+  const img = (k) => `<img src="days/${D[k].f}.jpg" alt="" width="720" height="1080" decoding="async" onerror="this.onerror=null;setTimeout(()=>{this.src=this.src},700)">`;
   const S = { i: 0, next: null, relayout: null, listener: null, stopField: null, thread: true, land: null, onJump: null, wave: 0, floatKey: null, voice: null, kept: [] };
   let run = 0;
   class Abort extends Error {
@@ -2635,14 +3106,11 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
     });
   }
   function setRail(n) {
-    $$("button", rail).forEach((b, k) => {
-      b.classList.toggle("done", k + 1 < n);
+    $$(".ch", rail).forEach((b, k) => {
       b.classList.toggle("now", k + 1 === n);
-      if (k + 1 === n) b.setAttribute("aria-current", "step");
-      else b.removeAttribute("aria-current");
+      if (k + 1 === n) b.classList.add("done");
     });
-    skipBtn.classList.toggle("off", n >= 5);
-    if (TAGS[n]) gtag.textContent = TAGS[n];
+    gtag.textContent = FEATS[n] || "Guide";
   }
   const narrow = () => scene.clientWidth <= 520;
   let DICT = null;
@@ -2831,7 +3299,7 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
   const FIL = /^(u+m+|u+h+m*|e+r+m*|h+m+|a+h+)[,.!?]*$/i;
   const escH = (t) => String(t).replace(/[&<>]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[ch]);
   function tidy(t) {
-    const x = String(t).split(/\s+/).filter((w) => w && !FIL.test(w)).join(" ");
+    const x = String(t).split(/\s+/).filter((w) => w && !FIL.test(w)).join(" ").replace(/\bi\b(?=$|[\s,.!?']| )/g, "I");
     return x ? x[0].toUpperCase() + x.slice(1) + (/[.!?…]$/.test(x) ? "" : ".") : "";
   }
   async function hear(c, L, toks, els, ui, st) {
@@ -2853,7 +3321,7 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
       }
       const quiet = Date.now() - last;
       if (!n && (L.dead() || quiet > 9e3)) return "dead";
-      if (n && (L.dead() || n >= 70 || quiet > (shown >= toks.length ? 1400 : 5e3))) return "done";
+      if (n && (L.dead() || n >= 70 || quiet > (st.quiet || (shown >= toks.length ? 1400 : 5e3)))) return "done";
       if (n && quiet > 1500) ui.okBtn.classList.add("pulse");
       if (!n && !nudged && quiet > 4500 && st.nudge) {
         nudged = true;
@@ -2866,7 +3334,7 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
     const g = canvas.getContext("2d"), dpr = Math.min(window.devicePixelRatio || 1, 2);
     const cols = ["#6F8BE8", "#E0563A", "#F2B632", "#B9A2E0", "#E2588F", "#3BA5A5"];
     const spots = [[0.62, 0.06], [0.86, 0.2], [0.06, 0.28], [0.96, 0.62], [0.05, 0.86], [0.46, 0.97], [0.76, 0.82], [0.33, 0.08]];
-    let seed = 7, W = 0, H = 0, P = [], t = 0;
+    let seed = 7, W = 0, H = 0, P2 = [], t = 0;
     const rnd = () => (seed = seed * 16807 % 2147483647) / 2147483647;
     function build() {
       const r = canvas.getBoundingClientRect();
@@ -2875,17 +3343,17 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
       canvas.width = Math.max(1, W * dpr);
       canvas.height = Math.max(1, H * dpr);
       seed = 7;
-      P = [];
+      P2 = [];
       const n = Math.round(Math.min(3200, W * H / 330));
       for (let i = 0; i < n; i++) {
         const k = i % spots.length, [sx, sy] = spots[k], a = rnd() * 6.283, d = Math.sqrt(-2 * Math.log(1 - rnd() * 0.999)) * (46 + k % 4 * 22) * Math.max(0.7, W / 1100);
-        P.push({ x: sx * W + Math.cos(a) * d * 1.5, y: sy * H + Math.sin(a) * d, c: rnd() < 0.1 ? "#F7F2F4" : cols[k % cols.length], s: 1 + rnd() * 1.3, p: rnd() * 6.283, a: 0.4 + rnd() * 0.55 });
+        P2.push({ x: sx * W + Math.cos(a) * d * 1.5, y: sy * H + Math.sin(a) * d, c: rnd() < 0.1 ? "#F7F2F4" : cols[k % cols.length], s: 1 + rnd() * 1.3, p: rnd() * 6.283, a: 0.4 + rnd() * 0.55 });
       }
     }
     function draw() {
       g.setTransform(dpr, 0, 0, dpr, 0, 0);
       g.clearRect(0, 0, W, H);
-      for (const p of P) {
+      for (const p of P2) {
         g.globalAlpha = p.a * (0.72 + 0.28 * Math.sin(t * 1.3 + p.p));
         g.fillStyle = p.c;
         g.fillRect(p.x + Math.sin(t * 0.4 + p.p) * 5, p.y + Math.cos(t * 0.33 + p.p) * 5, p.s, p.s);
@@ -2910,7 +3378,7 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
   const LAND = `<div class="land"><canvas id="field" aria-hidden="true"></canvas><div class="glow"></div><div class="land-in">
   <h1><span>College</span><span>Applications,</span><span><b>Done</b>.</span></h1>
   <p class="sub">Talk through your life. Bookae keeps your deadlines, ideas and future in one place. Onward, upward.</p>
-  <div class="land-act"><button type="button" class="cta" id="jump">Jump in</button><span class="land-note">A three-minute guided demo. No sign-up.</span></div></div></div>`;
+  <div class="land-act"><button type="button" class="cta" id="jump">Jump in</button><span class="land-note">About a minute. No sign-up.</span></div></div></div>`;
   function openLanding() {
     closeLanding(true);
     const f = document.createElement("iframe");
@@ -2922,7 +3390,7 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
     pill.type = "button";
     pill.className = "landpill";
     pill.id = "landpill";
-    pill.innerHTML = `<span class="g-dot" aria-hidden="true"></span>${TAP} “Jump in” to start the three-minute demo`;
+    pill.innerHTML = `<span class="g-dot" aria-hidden="true"></span>${TAP} “Jump in” to start. It takes about a minute`;
     pill.addEventListener("click", () => S.onJump && S.onJump());
     document.body.append(f, pill);
     const L = S.land = { f, pill, ready: false, t2: 0 };
@@ -2984,89 +3452,11 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
     closeLanding();
     go(1);
   }
-  async function welcome(c) {
-    setRail(0);
-    gtag.textContent = "Guide";
-    scene.classList.add("out");
-    await c.sleep(230);
-    if (S.stopField) {
-      S.stopField();
-      S.stopField = null;
-    }
-    document.body.dataset.mode = "play";
-    scene.dataset.s = "welcome";
-    wall("bookae");
-    scene.innerHTML = `<div class="first"><div class="pic hero blank" aria-hidden="true"><span class="pic-tl">Elena’s year</span><span class="pic-tr">Nothing<br>printed yet</span><span class="pic-bl">June 2026</span></div></div>`;
-    void scene.offsetWidth;
-    scene.classList.remove("out");
-    guide(`This bar talks to you, the reviewer. It says what to ${TAP.toLowerCase()}.`, true);
-    setStamp("SXSW Pitch 2027");
-    setSay("Welcome, SXSW reviewers.");
-    setMore(`<p class="lede">For the next three minutes you’re Elena, a made-up high-school senior in Milwaukee who is sure nothing happened to her this year. You’ll use Bookae the way she would. No sign-up, and no sound or microphone needed.</p>
-    <ul class="how"><li><i></i><span>The bar at the top talks to you. It says what to ${TAP.toLowerCase()}.</span></li><li><i></i><span>Once you’re Elena, the large line is her story. When it says “you”, it means her.</span></li></ul>`);
-    actEl.innerHTML = '<button type="button" class="btn primary big pulse" id="become">Become Elena</button>';
-    await new Promise((res) => $("#become").addEventListener("click", res, { once: true })).then(c.ok);
-    go(2);
-  }
-  function shelfAdd(color) {
-    const shelf = $("#shelf");
-    if (!shelf) return;
-    const d = document.createElement("i");
-    d.className = "c-" + color;
-    shelf.appendChild(d);
-    const n = shelf.children.length;
-    $("#shelfN").textContent = n + (n === 1 ? " day kept" : " days kept");
-  }
-  async function swap(c, el, html) {
-    el.classList.add("out");
-    await c.sleep(220);
-    el.innerHTML = html;
-    void el.offsetWidth;
-    el.classList.remove("out");
-    await c.sleep(160);
-  }
-  async function keep(c, k) {
-    const dm = $("#dm");
-    dm.insertAdjacentHTML("beforeend", `<div class="keep">${S.kept.slice(-2).map((u, i) => `<div class="pic hero under u${i} c-${M[u].c}"></div>`).join("")}${posterHTML(k, "hero printing")}</div>`);
-    const el = dm.lastElementChild, pic = $(".poster", el);
-    void el.offsetWidth;
-    el.classList.add("in");
-    await c.sleep(520);
-    pic.classList.add("go");
-    await c.sleep(850);
-    wall(M[k].c);
-    await c.sleep(760);
-    pic.classList.remove("printing", "go");
-    await c.sleep(1250);
-    const a = el.getBoundingClientRect(), b = $("#shelf").getBoundingClientRect();
-    el.style.transform = `translate(${b.right + 8 - (a.left + a.width / 2)}px,${b.top + b.height / 2 - (a.top + a.height / 2)}px) scale(.06)`;
-    await c.sleep(430);
-    el.style.opacity = "0";
-    await c.sleep(180);
-    el.remove();
-    shelfAdd(M[k].c);
-    S.kept.push(k);
-  }
   const IC = {
     mic: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M6 11a6 6 0 0012 0M12 17v4M8.5 21h7"/></svg>',
     clip: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5l-8.2 8.2a5 5 0 01-7.1-7.1l8.5-8.5a3.3 3.3 0 014.7 4.7l-8.4 8.4a1.7 1.7 0 01-2.4-2.4l7.6-7.6"/></svg>',
     check: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'
   };
-  const COMPOSER = `<div class="composer sheetlike" id="sheet">
-  <header><span class="label">Journal</span><span class="label">Sat, Jun 29</span><span class="label">Private</span></header>
-  <p class="c-title">Title (optional)</p>
-  <p class="c-text" id="ctext">${said.map((w) => `<span class="tw${w.fil ? " fil" : ""}">${w.t}</span>${w.sp ? " " : ""}`).join("")}</p>
-  <div class="c-cue" id="ccue"><span class="tip">Elena’s line. Read the grey words out loud</span><span id="micnote">Your voice only moves the words. Nothing is kept.</span><button type="button" class="alt" id="alt">No mic? Play it for me</button></div>
-  <div class="vj-receipt" id="receipt" hidden></div>
-  <div class="c-foot"><span class="c-icon" title="Draft saved privately">${IC.check}</span><span class="c-words" id="cwords">0 words</span><span class="c-icon" aria-hidden="true">${IC.clip}</span><button type="button" class="c-icon c-mic ready" id="cmic" aria-label="Talk">${IC.mic}</button><span class="tip" id="mictip">${TAP} the mic to talk</span><button type="button" class="btn primary c-save" id="csave" disabled>Save</button></div>
-</div>`;
-  const TABLE = `<div class="tbl"><span class="label">The visitor</span>
-  <div class="tabletop">
-    <div class="laptop" id="lap"><svg viewBox="0 0 100 72" aria-hidden="true"><rect x="6" y="2" width="88" height="7" rx="3.5"/><rect x="6" y="12" width="88" height="58" rx="5"/><path d="M16 23h68M16 31h68M16 39h68" stroke-dasharray="5 4"/><rect x="38" y="48" width="24" height="15" rx="2.5"/></svg></div>
-    <span class="sent" id="sent">Sent</span>
-    <div class="card3 sheetlike" id="card3"><ol><li>Open your email</li><li><span class="old" id="old">Upload</span><em id="hers">choose my file</em></li><li>Press send</li></ol></div>
-  </div>
-  <span class="label">You</span></div>`;
   function drawWave(el, levels) {
     const w = el.clientWidth, h = el.clientHeight, dpr = window.devicePixelRatio || 1;
     if (!w) return;
@@ -3098,694 +3488,367 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
     S.wave = 0;
     S.floatKey = null;
   }
-  async function voiceEntry(c) {
-    const mic = $("#cmic"), alt = $("#alt"), note = $("#micnote"), tip = $("#mictip"), cue = $("#ccue"), text = $("#ctext"), words = $$(".tw", text);
-    const fl = $("#vjf"), card = $("#vjcard"), ftext = $("#vjtext"), hintEl = $("#vjhint"), wave = $("#vjwave"), okBtn = $("#vjok"), xBtn = $("#vjx");
-    let spoken = "";
+  function choose(c, opts) {
+    const b = (o) => o.href ? `<a class="btn quiet" href="${o.href}" target="_blank" rel="noopener">${o.label}</a>` : `<button type="button" class="btn ${o.quiet ? "quiet" : o.primary ? "primary pulse" : ""}" data-id="${o.id}">${o.icon ? IC[o.icon] : ""}${o.label}</button>`;
+    const main = opts.filter((o) => !o.quiet), links = opts.filter((o) => o.quiet);
+    actEl.innerHTML = `<div class="ctas${main.length === 2 ? " two" : ""}">${main.map(b).join("")}</div>${links.length ? `<div class="ctas links">${links.map(b).join("")}</div>` : ""}`;
+    return new Promise((res) => {
+      actEl.onclick = (e) => {
+        const x = e.target.closest("[data-id]");
+        if (x) {
+          clearAct();
+          res(x.dataset.id);
+        }
+      };
+    }).then(c.ok);
+  }
+  function flip(els, change, ms = 560) {
+    const first = els.map((e) => e.getBoundingClientRect());
+    change();
+    if (reduce) return;
+    els.forEach((e, i) => {
+      const a = first[i], b = e.getBoundingClientRect();
+      if (!a.width || !b.width) return;
+      const dx = a.left - b.left, dy = a.top - b.top, sx = a.width / b.width, sy = a.height / b.height;
+      if (Math.abs(dx) < 1 && Math.abs(dy) < 1 && Math.abs(sx - 1) < 0.01 && Math.abs(sy - 1) < 0.01) return;
+      e.style.transition = "none";
+      e.style.transformOrigin = "0 0";
+      e.style.transform = `translate(${dx}px,${dy}px) scale(${sx},${sy})`;
+      void e.offsetWidth;
+      e.style.transition = `transform ${ms}ms var(--inout)`;
+      e.style.transform = "";
+      setTimeout(() => {
+        e.style.transition = "";
+        e.style.transformOrigin = "";
+      }, ms + 60);
+    });
+  }
+  const dayHTML = (k, cls = "") => `<button type="button" class="dayp ${cls}" data-k="${k}"><span class="dp-pic">${img(k)}</span><span class="dp-cap"><span class="label">${D[k].d}</span><b>${D[k].t}</b></span></button>`;
+  const paperOpen = (k) => `<header><span class="label">Voice journal</span><span class="label">${D[k].d}</span><span class="label">${D[k].words} words that day</span></header>
+  <p class="px">… ${curl(PATHS[k].open)} …</p>
+  <p class="prc"><span class="vj-receipt-mark" aria-hidden="true"></span>Said out loud. Bookae made the picture from it.</p>`;
+  const paperEcho = (k, T) => `<div class="echo"><div><span class="label">${D[k].d}</span><p>${hl(T.a)}</p></div><div><span class="label">${D[T.day].d}</span><p>${hl(T.b)}</p></div></div>`;
+  const srcOf = (Q) => Q.from === "note" ? "a thought she kept" : Q.from === "draft" ? "her own draft" : `her ${D[Q.from].d} entry`;
+  const cap = (t) => t[0].toUpperCase() + t.slice(1);
+  const VOW = 'Bookae <em class="nv">never</em> writes for you. It asks.';
+  const cardHTML = (end, print) => {
+    const { k, kept, Q } = end;
+    return `<div class="kwrap"><article class="kcard sheetlike${print ? " printing" : ""}">
+    <header><span class="minis">${img(k)}${kept ? img(kept.day) : ""}</span><span class="kh"><span class="label">${D[k].d}${kept ? " + " + D[kept.day].d : ""}</span><b>${kept ? curl(kept.thread) : "No thread. Just a day worth keeping."}</b></span></header>
+    <p class="kq">“${curl(Q.ans)}”</p>
+    <footer><span class="label">Bookae asked</span><span>${curl(Q.q)}</span><span class="label">She said</span><span>${cap(srcOf(Q))}, word for word</span></footer></article></div>`;
+  };
+  async function play(c) {
+    if (document.body.dataset.mode !== "play") {
+      scene.classList.add("out");
+      await c.sleep(230);
+      if (S.stopField) {
+        S.stopField();
+        S.stopField = null;
+      }
+      document.body.dataset.mode = "play";
+    }
+    S.found = S.found || /* @__PURE__ */ new Set();
+    S.opened = S.opened || /* @__PURE__ */ new Set();
     for (; ; ) {
-      spoken = "";
-      words.forEach((w) => w.classList.remove("heard"));
-      ftext.textContent = "";
-      card.hidden = true;
-      okBtn.disabled = true;
-      okBtn.classList.remove("pulse");
-      mic.classList.add("ready");
-      mic.classList.remove("is-live");
-      tip.hidden = false;
-      alt.hidden = false;
-      note.textContent = "Your voice only moves the words. Nothing is kept.";
-      guide(`${TAP} the mic in Elena’s journal, then read her line out loud.`);
-      let micP = null, fake = false, pickFake;
-      const fakeP = new Promise((r) => {
-        pickFake = r;
-      });
-      alt.onclick = () => {
-        fake = true;
-        pickFake("fake");
-      };
-      const first = await Promise.race([new Promise((r) => {
-        mic.onclick = () => {
-          mic.onclick = null;
-          micP = openMic();
-          r("mic");
-        };
-      }), fakeP]);
-      c.ok();
-      mic.onclick = null;
-      mic.classList.remove("ready");
-      mic.classList.add("is-live");
-      tip.hidden = true;
-      fl.classList.add("is-open");
-      fl.removeAttribute("aria-hidden");
-      fl.inert = false;
-      let L = null;
-      if (first === "mic") {
-        hintEl.textContent = "Allow the microphone to start.";
-        guide(`Allow the microphone if your browser asks. Or ${TAP.toLowerCase()} “No mic? Play it for me”.`);
-        const got = await Promise.race([micP, fakeP]);
-        c.ok();
-        if (got && got !== "fake") L = got;
-        else micP.then((l) => l && l.stop());
-      }
-      S.listener = L;
-      S.voice = L ? "real" : "sim";
-      if (L) {
-        hintEl.textContent = "Enter when you’re done · Esc cancels";
-        note.textContent = L.stt ? "Real speech-to-text, by your browser. This page keeps nothing." : "This browser has no speech-to-text, so the page hears loudness only.";
-        guide(L.stt ? "Read the grey words out loud. The voice bar shows exactly what it hears." : "Read the grey words out loud. Your voice moves them along.");
-      } else {
-        alt.hidden = true;
-        hintEl.textContent = "Simulation · no microphone is used";
-        note.textContent = first === "mic" && !fake ? "No microphone here, so this is a simulation." : "Playing at talking pace. No microphone is used.";
-        watch(first === "mic" && !fake ? "No microphone here. This is a simulation of Elena talking." : "This is a simulation of Elena talking, at talking pace.");
-      }
-      const levels = [];
-      let talking = false, cancelled = false, pressed = false, shown = 0, last = Date.now(), nudged = false;
-      S.wave = setInterval(() => {
-        levels.push(L ? L.level() : talking ? 0.22 + Math.random() * 0.7 : 0.04);
-        if (levels.length > 40) levels.shift();
-        drawWave(wave, levels);
-      }, 50);
-      xBtn.onclick = () => {
-        cancelled = true;
-      };
-      okBtn.onclick = () => {
-        if (!okBtn.disabled) pressed = true;
-      };
-      S.floatKey = (e) => {
-        if (e.key === "Escape") cancelled = true;
-        else if (!okBtn.disabled) pressed = true;
-      };
-      const reveal = () => {
-        words[shown].classList.add("heard");
-        shown++;
-        card.hidden = false;
-        ftext.textContent = heardText(shown);
-        ftext.scrollTop = ftext.scrollHeight;
-      };
-      let heardAll = false;
-      if (L && L.stt) {
-        const Lr = L, how = await hear(c, L, said, words, { card, ftext, okBtn }, {
-          cancelled: () => cancelled,
-          pressed: () => pressed,
-          fake: () => fake,
-          nudge: () => guide(`We can’t hear you yet. Read it out loud, or ${TAP.toLowerCase()} “No mic? Play it for me”.`)
-        });
-        if (how === "done") {
-          heardAll = pressed = true;
-          okBtn.classList.remove("pulse");
-          okBtn.disabled = true;
-          hintEl.textContent = "Catching your last words…";
-          Lr.stop();
-          await c.sleep(650);
-          spoken = Lr.text();
-          ftext.textContent = spoken;
-          L = S.listener = null;
-          if (!spoken) heardAll = false;
-        } else if (how === "dead") last = 0;
-        else if (how === "loud") {
-          last = Date.now();
-          note.textContent = "Speech-to-text isn’t available in this browser, so the page hears loudness only.";
-          guide("Read the grey words out loud. Your voice moves them along.");
-        }
-      }
-      while (shown < said.length && !cancelled && !heardAll) {
-        if (L && (fake || L.dead() || Date.now() - last > 9e3)) {
-          L.stop();
-          L = S.listener = null;
-          alt.hidden = true;
-          hintEl.textContent = "No voice picked up · simulation";
-          note.textContent = "No voice picked up, so the rest is a simulation.";
-          watch("No voice picked up. The rest of Elena’s line is a simulation.");
-        }
-        if (!L) {
-          talking = true;
-          reveal();
-          const w = said[shown - 1].t;
-          await c.sleep(364 + (/[.,]$/.test(w) ? 260 : 0));
-          continue;
-        }
-        if (Math.min(said.length, L.words()) > shown) {
-          reveal();
-          last = Date.now();
-          await c.sleep(70);
-          continue;
-        }
-        if (!nudged && Date.now() - last > 4500) {
-          nudged = true;
-          guide(`We can’t hear you yet. Read it out loud, or ${TAP.toLowerCase()} “No mic? Play it for me”.`);
-        }
-        await c.sleep(80);
-      }
-      talking = false;
-      if (!cancelled) {
-        okBtn.disabled = false;
-        if (L) {
-          okBtn.classList.add("pulse");
-          guide(`${TAP} ✓ or press Enter when you’re done.`);
-          for (const t0 = Date.now(); !pressed && !cancelled && Date.now() - t0 < 5e3; ) await c.sleep(80);
-        } else await c.sleep(700);
-      }
-      if (L) {
-        L.stop();
-        S.listener = null;
-      }
-      alt.onclick = xBtn.onclick = okBtn.onclick = null;
-      okBtn.classList.remove("pulse");
-      if (cancelled) {
-        floatClose();
-        continue;
-      }
-      if (!spoken) {
-        okBtn.disabled = true;
-        hintEl.textContent = "Catching your last words…";
-        await c.sleep(650);
-      }
-      floatClose();
-      break;
+      const k = await pick(c);
+      const end = await path(c, k);
+      await ending(c, end);
     }
-    mic.classList.remove("is-live");
-    cue.hidden = true;
-    const ent = spoken ? spoken.split(/\s+/).filter(Boolean).map((t) => ({ t, fil: FIL.test(t) })) : said;
-    if (spoken) text.innerHTML = ent.map((w) => `<span class="tw heard${w.fil ? " fil" : ""}">${escH(w.t)} </span>`).join("");
-    S.heard = !!spoken;
-    const fil = ent.filter((w) => w.fil).length, clean = ent.length - fil, rc = $("#receipt"), count = $("#cwords");
-    text.classList.add("landed");
-    count.textContent = ent.length + " words";
-    rc.hidden = false;
-    rc.innerHTML = `<span class="vj-receipt-mark" aria-hidden="true"></span><span class="vj-receipt-text"><b>${ent.length} words</b> <span class="vj-shimmer">taking out the ums…</span></span>`;
-    watch(spoken ? "What you said landed in the journal, word for word. Now Bookae takes out the ums." : "Every word landed in the journal. Now Bookae takes out the ums.");
-    await c.sleep(1600);
-    const show = (raw) => {
-      text.classList.toggle("clean", !raw);
-      count.textContent = (raw ? ent.length : clean) + " words";
-      rc.innerHTML = `<span class="vj-receipt-mark" aria-hidden="true"></span><span class="vj-receipt-text"><b>${raw ? ent.length : clean} words</b> ${raw || !fil ? "exactly as you said them" : `took out ${fil} ${fil === 1 ? "um" : "ums"}`}</span>${fil ? `<span class="vj-seg" role="group" aria-label="Which version is on the page"><button type="button" aria-pressed="${!raw}" data-v="clean">Cleaned</button><button type="button" aria-pressed="${raw}" data-v="raw">As said</button></span>` : ""}`;
-    };
-    rc.onclick = (e) => {
-      const b = e.target.closest("[data-v]");
-      if (b) show(b.dataset.v === "raw");
-    };
-    show(false);
-    const save = $("#csave");
-    save.disabled = false;
-    save.classList.add("pulse");
-    guide(spoken && !fil ? `That’s a journal entry, no typing: your words, as your browser heard them. ${TAP} Save.` : `That’s a journal entry, no typing. Try “As said”, then ${TAP.toLowerCase()} Save.`);
-    await new Promise((r) => save.addEventListener("click", r, { once: true })).then(c.ok);
   }
-  async function days(c) {
+  async function pick(c) {
+    setRail(0);
+    skipBtn.classList.add("off");
+    wall("bookae");
+    setMore("");
+    await mount(c, `<div class="bd" id="bd" data-st="pick"><div class="dayrow" id="days">${START.map((k) => dayHTML(k, S.opened.has(k) ? "seen" : "")).join("")}</div>
+    <p class="tag2" id="tag" hidden></p><div class="paper sheetlike" id="paper" hidden></div><div class="bk" id="bk" hidden></div></div>`, "bd");
+    setStamp("Elena, 17 · Milwaukee · a made-up student");
+    setSay(S.found.size ? "Same Elena. Another day." : "She’s sure nothing happened to her this year.");
+    guide(`Three of the twelve days she told Bookae about. ${TAP} one.`);
+    return new Promise((res) => {
+      $("#days").onclick = (e) => {
+        const b = e.target.closest(".dayp");
+        if (b) res(b.dataset.k);
+      };
+    }).then(c.ok);
+  }
+  async function path(c, k) {
+    const P0 = PATHS[k], bd = $("#bd"), days = $("#days"), paper = $("#paper"), tag = $("#tag"), bk = $("#bk");
+    const main = $(`.dayp[data-k="${k}"]`, days);
+    days.onclick = null;
+    document.activeElement?.blur?.();
+    $$(".dayp", days).forEach((b) => {
+      b.tabIndex = -1;
+      if (b !== main) b.classList.add("gone");
+    });
+    main.classList.remove("seen");
+    skipBtn.classList.remove("off");
+    await c.sleep(200);
+    paper.innerHTML = paperOpen(k);
+    flip([main], () => {
+      $$(".dayp.gone", days).forEach((b) => b.remove());
+      bd.dataset.st = "open";
+      paper.hidden = false;
+    });
+    dayWall(k);
     setRail(1);
-    setStamp("Saturday, June 29 · The bus home");
-    wall("bookae");
-    S.kept = [];
-    await mount(c, `<div class="days"><div class="shelf"><span class="label">Your days</span><span class="shelf-dots" id="shelf"></span><span class="shelf-n" id="shelfN">none kept yet</span></div><div class="days-main" id="dm">${COMPOSER}</div></div>`, "days");
-    scene.classList.add("pin");
-    const dm = $("#dm");
-    setSay("Your poster sat on the library help table for three Saturdays. Nobody used it.");
-    await voiceEntry(c);
-    watch("Bookae is printing the day as a picture.");
-    $("#sheet").classList.add("kept");
-    setSay("Bookae keeps the day and prints it as a picture.");
-    await keep(c, "poster");
-    $("#sheet").remove();
-    scene.classList.remove("pin");
-    setStamp("Saturday, July 13 · The library table");
-    await swap(c, dm, TABLE);
-    setSay("A woman at your table needs to send a document. You’ve already pulled the laptop toward you.");
-    guide("Your call. Choose what Elena does.");
-    const pick = await ask(c, [{ id: "send", label: "Send it for her" }, { id: "back", label: "Push the laptop back" }]);
-    watch("This is what happened next.");
-    const lap = $("#lap");
-    if (pick === "send") {
-      $("#sent").classList.add("in");
-      await say(c, "Ten seconds, done. Then she says she wanted to do it herself.");
-      $("#sent").classList.remove("in");
-      lap.classList.add("back");
-      await say(c, "So you push the laptop back. Next time, she sends it.");
-    } else {
-      lap.classList.add("back");
-      await say(c, "You push it back, slowly. She sends it herself.");
-    }
-    $("#card3").classList.add("in");
-    await c.sleep(500);
-    $("#old").classList.add("x");
-    await c.sleep(350);
-    $("#hers").classList.add("in");
-    await say(c, "On your instruction card she crosses out “upload” and writes it her way: “choose my file.”");
-    await swap(c, dm, "");
-    watch("Elena keeps this day the same way.");
-    setSay("On the bus home, you tell Bookae about that one too.");
-    await keep(c, "laptop");
-    setStamp("July to October");
-    watch("Nine more days, kept the same way.");
-    setSay("Summer goes. Whenever something sticks, you say it out loud.");
-    dm.innerHTML = '<div class="pile" id="pile"></div>';
-    const pile = $("#pile"), ROT = [-3.5, 3, -1.5, 2.4, -2.6, 1.2, -1, 2.8, 0];
-    for (let i = 0; i < REST.length; i++) {
-      const [d, t, col] = REST[i];
-      pile.insertAdjacentHTML("beforeend", `<div class="pic flash c-${col}" style="--r:${ROT[i]}deg"><span class="pic-tl">${d}</span><b class="pic-mid">${t}</b><span class="pic-bl">${month(d)}</span></div>`);
-      shelfAdd(col);
-      await c.sleep(330);
-    }
-    await c.sleep(700);
-    go(3);
-  }
-  async function runTake(c, toks, els, micP, on = {}) {
-    const fl = $("#vjf"), card = $("#vjcard"), ftext = $("#vjtext"), hintEl = $("#vjhint"), wave = $("#vjwave"), okBtn = $("#vjok"), xBtn = $("#vjx");
-    ftext.textContent = "";
-    card.hidden = true;
-    okBtn.disabled = true;
-    okBtn.classList.remove("pulse");
-    fl.classList.add("is-open");
-    fl.removeAttribute("aria-hidden");
-    fl.inert = false;
-    hintEl.textContent = micP ? "Allow the microphone to start." : "Simulation · no microphone is used";
-    let cancelled = false, pressed = false, talking = false, shown = 0, last = Date.now();
-    xBtn.onclick = () => {
-      cancelled = true;
-    };
-    okBtn.onclick = () => {
-      if (!okBtn.disabled) pressed = true;
-    };
-    S.floatKey = (e) => {
-      if (e.key === "Escape") cancelled = true;
-      else if (!okBtn.disabled) pressed = true;
-    };
-    let L = micP ? await micP : null;
-    c.ok();
-    S.listener = L;
-    S.spoken = "";
-    if (L) {
-      hintEl.textContent = "Enter when you’re done · Esc cancels";
-      if (on.real) on.real();
-    } else {
-      hintEl.textContent = "Simulation · no microphone is used";
-      if (on.sim) on.sim();
-    }
-    const levels = [];
-    S.wave = setInterval(() => {
-      levels.push(L ? L.level() : talking ? 0.22 + Math.random() * 0.7 : 0.04);
-      if (levels.length > 40) levels.shift();
-      drawWave(wave, levels);
-    }, 50);
-    const reveal = () => {
-      els[shown].classList.add("heard");
-      shown++;
-      card.hidden = false;
-      ftext.textContent = toks.slice(0, shown).map((w) => w.t + (w.sp ? " " : "")).join("");
-      ftext.scrollTop = ftext.scrollHeight;
-    };
-    let heardAll = false;
-    if (L && L.stt) {
-      const Lr = L, how = await hear(c, L, toks, els, { card, ftext, okBtn }, { cancelled: () => cancelled, pressed: () => pressed });
-      if (how === "done") {
-        heardAll = pressed = true;
-        okBtn.classList.remove("pulse");
-        okBtn.disabled = true;
-        hintEl.textContent = "Catching your last words…";
-        Lr.stop();
-        await c.sleep(450);
-        S.spoken = Lr.text();
-        ftext.textContent = S.spoken;
-        L = S.listener = null;
-        if (!S.spoken) heardAll = false;
-      } else if (how === "dead") last = 0;
-      else if (how === "loud") last = Date.now();
-    }
-    while (shown < toks.length && !cancelled && !heardAll) {
-      if (L && (L.dead() || Date.now() - last > 9e3)) {
-        L.stop();
-        L = S.listener = null;
-        hintEl.textContent = "No voice picked up · simulation";
-        if (on.sim) on.sim();
-      }
-      if (!L) {
-        talking = true;
-        reveal();
-        await c.sleep(364 + (/[.,]$/.test(toks[shown - 1].t) ? 260 : 0));
-        continue;
-      }
-      if (Math.min(toks.length, L.words()) > shown) {
-        reveal();
-        last = Date.now();
-        await c.sleep(70);
-        continue;
-      }
-      await c.sleep(80);
-    }
-    talking = false;
-    if (!cancelled) {
-      okBtn.disabled = false;
-      if (L) {
-        okBtn.classList.add("pulse");
-        for (const t0 = Date.now(); !pressed && !cancelled && Date.now() - t0 < 3500; ) await c.sleep(80);
-      } else await c.sleep(500);
-    }
-    if (L) {
-      L.stop();
-      S.listener = null;
-    }
-    xBtn.onclick = okBtn.onclick = null;
-    okBtn.classList.remove("pulse");
-    if (!cancelled && !S.spoken) {
-      okBtn.disabled = true;
-      hintEl.textContent = "Catching your last words…";
-      await c.sleep(450);
-    }
-    floatClose();
-    return cancelled ? "cancel" : "done";
-  }
-  async function dots(c) {
+    setStamp("Voice journal");
+    setSay(P0.line);
+    guide(`Her words, from that day. Then ${TAP.toLowerCase()} “What did Bookae notice?”.`);
+    await choose(c, [{ id: "n", label: "What did Bookae notice?", primary: true }]);
     setRail(2);
-    setStamp("October · Essay season");
-    wall("night");
-    await mount(c, `<div class="web" id="web"><svg id="wires" aria-hidden="true"></svg>${SPECKS.map(([, col]) => `<span class="speck c-${col}"></span>`).join("")}${NODES.map(([k]) => `<button type="button" class="node c-${M[k].c}${M[k].thread ? " thread" : ""}" data-k="${k}" aria-label="${M[k].t}"><i></i><span>${M[k].t}</span></button>`).join("")}<div class="mid" id="mid"></div></div>`, "dots");
-    const web = $("#web"), wires = $("#wires"), mid = $("#mid");
-    const found = [], drawn = /* @__PURE__ */ new Set();
-    const quote = (k, tag) => {
-      const m = M[k];
-      mid.innerHTML = `<p class="label">${m.d} · ${m.t}</p><p class="mid-q">“${m.q}”</p>${tag}`;
-    };
-    function draw(animate) {
-      const r = web.getBoundingClientRect();
-      wires.setAttribute("viewBox", `0 0 ${r.width} ${r.height}`);
-      const pt = (k) => {
-        const d = $(`.node[data-k="${k}"] i`, web).getBoundingClientRect();
-        return [d.left + d.width / 2 - r.left, d.top + d.height / 2 - r.top];
-      };
-      wires.innerHTML = RING.map((a, i) => {
-        const b = RING[(i + 1) % RING.length];
-        if (!found.includes(a) || !found.includes(b)) return "";
-        const fresh2 = animate && !drawn.has(a + b);
-        drawn.add(a + b);
-        const [p, q] = [pt(a), pt(b)];
-        return `<line pathLength="1" x1="${p[0]}" y1="${p[1]}" x2="${q[0]}" y2="${q[1]}"${fresh2 ? ' class="new"' : ""}/>`;
-      }).join("");
-      const fresh = $$("line.new", wires);
-      if (fresh.length) setTimeout(() => fresh.forEach((l) => {
-        l.classList.add("go");
-        l.classList.remove("new");
-      }), 40);
-    }
-    function place() {
-      NODES.forEach(([k, [x, y, side]]) => {
-        const el = $(`.node[data-k="${k}"]`, web);
-        el.style.left = x + "%";
-        el.style.top = y + "%";
-        ["l", "t", "b"].forEach((sd) => el.classList.toggle("side-" + sd, side === sd));
+    let kept = null;
+    for (let t = 0; t < P0.tries.length; t++) {
+      const T = P0.tries[t], B = T.day;
+      paper.classList.add("out");
+      await c.sleep(180);
+      if (t === 0) flip([main], () => {
+        bd.dataset.st = "recall";
       });
-      $$(".speck", web).forEach((el, i) => {
-        const [x, y] = SPECKS[i][0];
-        el.style.left = x + "%";
-        el.style.top = y + "%";
-      });
-      draw(false);
-    }
-    place();
-    S.relayout = place;
-    $$(".node", web).forEach((el, i) => setTimeout(() => {
-      el.classList.add("show");
-      if (M[el.dataset.k].thread && !found.includes(el.dataset.k)) el.classList.add("nudge");
-    }, 80 * i));
-    let finish, done = false;
-    const complete = new Promise((r) => {
-      finish = r;
-    });
-    const left = () => {
-      const n = 4 - found.length;
-      return n ? `<span class="tip">${TAP} the next glowing day</span>` : "";
-    };
-    function open(k) {
-      const b = $(`.node[data-k="${k}"]`, web), m = M[k];
-      $$(".node.sel", web).forEach((n) => n.classList.remove("sel"));
-      b.classList.add("sel");
-      if (m.thread) {
-        if (!found.includes(k)) {
-          found.push(k);
-          b.classList.add("found");
-          b.classList.remove("nudge");
-          draw(true);
-        }
-        quote(k, `<p class="mid-tag in">${found.length} of 4 read</p>${left()}`);
-      } else quote(k, `<p class="mid-tag">Another day, another story.</p>${left()}`);
-      if (found.length >= 4 && !done) {
-        done = true;
-        setTimeout(finish, 2600);
+      paper.innerHTML = paperEcho(k, T);
+      paper.classList.remove("out");
+      days.insertAdjacentHTML("beforeend", `<i class="join" id="join" aria-hidden="true"></i>${dayHTML(B, "arrive")}`);
+      const part = days.lastElementChild;
+      part.tabIndex = -1;
+      dayWall(B);
+      setStamp("Connect the dots");
+      setSay(t ? `Not that. Then maybe ${long(D[B].d)}.` : `Bookae remembers ${long(D[B].d)}.`);
+      guide(t ? "Does this one fit?" : "Bookae suggests a thread. Does it fit?");
+      await c.sleep(470);
+      $("#join").classList.add("on");
+      tag.hidden = false;
+      tag.className = "tag2";
+      tag.innerHTML = `<span class="label">A possible thread</span><b>${curl(T.thread)}</b>`;
+      const a = await choose(c, [{ id: "y", label: "That fits", primary: true }, { id: "n", label: t ? "Still no" : "Not really" }]);
+      if (a === "y") {
+        kept = T;
+        break;
       }
+      $("#join").classList.remove("on");
+      part.classList.remove("arrive");
+      part.classList.add("leave");
+      tag.hidden = true;
+      await c.sleep(330);
+      part.remove();
+      $("#join").remove();
     }
-    web.addEventListener("click", (e) => {
-      const b = e.target.closest(".node");
-      if (b && !done) open(b.dataset.k);
-    });
-    setSay("Everyone is talking about essays. You’re sure nothing happened to you this year.");
-    guide(`Bookae noticed four days that may belong together. ${TAP} each glowing day to read it.`);
-    await c.sleep(900);
-    open("poster");
-    await complete;
-    c.ok();
-    $$(".node", web).forEach((n) => n.classList.remove("nudge", "sel"));
-    web.classList.add("done");
-    mid.innerHTML = '<p class="label">A possible thread</p><h2>Making room for someone else.</h2>';
-    setSay("Four days. Maybe one habit: stepping back so someone else can do it.");
-    guide("Bookae only suggests. Keep the thread, or leave it for now.");
-    S.thread = await ask(c, [{ id: "yes", label: "Keep this thread", primary: true }, { id: "hm", label: "Not sure yet" }]) === "yes";
-    watch("Elena’s call. Bookae goes with it.");
-    await say(c, S.thread ? "You keep the thread. It was yours all along." : "You leave it as a question. Bookae doesn’t push.", 2400);
-    go(4);
-  }
-  async function fit(c) {
-    const STAMP = "October 19 · Your bedroom floor";
+    const qs = kept ? kept.qs : [P0.solo];
+    paper.classList.add("out");
+    await c.sleep(180);
+    paper.hidden = true;
+    if (kept) {
+      bd.dataset.st = "ask";
+      tag.querySelector(".label").textContent = "Her thread";
+    } else {
+      dayWall(k);
+      flip([main], () => {
+        bd.dataset.st = "ask";
+      });
+      tag.hidden = false;
+      tag.className = "tag2 none";
+      tag.innerHTML = "<b>No thread. Just a day.</b>";
+    }
+    bk.hidden = false;
+    bk.innerHTML = `<p class="label bk-l"><i aria-hidden="true"></i>Bookae asks Elena</p>${qs.map((q, i) => `<button type="button" class="qbtn" data-i="${i}">${curl(q.q)}</button>`).join("")}`;
     setRail(3);
-    setStamp(STAMP);
-    wall("lilac");
-    await mount(c, `<div class="fit" id="fit">
-    <div class="slip sheetlike"><header><span class="label">Journal</span><span class="label">Oct 19</span></header>
-      <p class="j">Seven college names on paper. Milwaukee means <button type="button" class="ph c-cobalt" data-c="uwm">familiar streets</button>; another city means finding out what I do when <button type="button" class="ph c-rasp" data-c="mad">nobody already knows me</button>. <button type="button" class="ph c-moss" data-c="mac">A small school</button> might be worth considering too. And one name is <button type="button" class="ph c-tomato" data-c="uta">a plane ride away</button>.</p>
-      <span class="tip" id="fittip">${TAP} a highlighted phrase</span>
-      <div class="tchip" id="tchip" hidden><i></i>Making room for someone else</div>
-    </div>
-    <div class="cols">${COLLEGES.map((x) => `<div class="col c-${x.c}" data-c="${x.id}"><i></i><span class="label">${x.place}</span><span class="name">${x.name}</span><span class="fact">${x.fact}<span class="tag">On your list</span></span></div>`).join("")}</div>
-  </div>`, "fit");
-    const el = $("#fit"), opened = /* @__PURE__ */ new Set();
-    let finish;
-    const all = new Promise((r) => {
-      finish = r;
-    });
-    el.addEventListener("click", async (e) => {
-      const b = e.target.closest(".ph");
-      if (!b || b.classList.contains("used")) return;
-      const x = COLLEGES.find((q) => q.id === b.dataset.c), col = $(`.col[data-c="${x.id}"]`, el);
-      b.classList.add("used");
-      await travel(b, $("i", col), x.c);
-      $$(".col.latest", el).forEach((o) => o.classList.remove("latest"));
-      col.classList.add("open", "latest");
-      opened.add(x.id);
-      setStamp("Your question for " + x.short);
-      setSay(`<em>“${x.ask}”</em>`);
-      const tip = $("#fittip");
-      if (opened.size < COLLEGES.length) {
-        tip.textContent = `${TAP} the next phrase · ${COLLEGES.length - opened.size} to go`;
-        guide(`That’s Elena’s question for ${x.short}. ${TAP} the next highlighted phrase.`);
-      } else {
-        tip.hidden = true;
-        watch(`That’s Elena’s question for ${x.short}.`);
-        setTimeout(finish, 3200);
-      }
-    });
-    setSay("Seven college names on paper. You tell Bookae what you actually want to find out.");
-    guide(`${TAP} each highlighted phrase in Elena’s journal to see where it leads.`);
-    await all;
-    c.ok();
-    setStamp(STAMP);
-    watch("No chances, no rankings. Her list starts from her own questions.");
-    await say(c, "Four campuses, and for each one, something worth asking.");
-    const pick = $('.col[data-c="uta"]', el);
-    $$(".col.latest", el).forEach((o) => o.classList.remove("latest"));
-    pick.classList.add("latest");
-    if (S.thread) {
-      const chip = $("#tchip");
-      chip.hidden = false;
-      await c.sleep(950);
-      await travel($("i", chip), $("#mission"), "ink");
-      $("#mission").classList.add("on");
-      setSay("That might be your thread, in UT Austin’s own words.");
-    } else setSay("The name a plane ride away is the one you keep coming back to.");
-    guide(`${TAP} “Put UT Austin on my list” to keep it.`);
-    await ask(c, [{ id: "k", label: "Put UT Austin on my list", primary: true }]);
-    watch("UT Austin is on Elena’s list.");
-    pick.classList.add("listed");
-    el.classList.add("picked");
-    await say(c, "On your list, for a reason that’s yours.", 2200);
-    el.classList.add("asking");
-    pick.insertAdjacentHTML("beforeend", `<div class="asks"><span class="label">UT Austin asks for</span><ol>
-    <li><span><b>An essay on any topic.</b> Your Common App personal statement counts.</span></li>
-    <li><span><b>A short answer.</b> “Why are you interested in the major you indicated as your first-choice major?”</span></li>
-    <li><span><b>A short answer.</b> Of all your activities: “Which one are you most proud of and why?”</span></li></ol></div>`);
-    setSay("Bookae already knows what UT Austin asks for. One of the three you can start today.");
-    guide(`This comes from Bookae’s catalog of 1,100+ colleges. ${TAP} “Start my personal statement”.`);
-    await ask(c, [{ id: "ps", label: "Start my personal statement", primary: true }]);
-    go(5);
+    setStamp("Essay room");
+    setSay(kept ? "A question for Elena." : `Back to ${long(D[k].d)}.`);
+    guide(kept ? `${TAP} the question you’d want answered.` : `No thread, and that’s fine. ${TAP} Bookae’s question about that day.`);
+    clearAct();
+    const qi = await new Promise((res) => {
+      bk.onclick = (e) => {
+        const b = e.target.closest(".qbtn");
+        if (b) res(+b.dataset.i);
+      };
+    }).then(c.ok);
+    const end = { id: `${k}/${kept ? P0.tries.indexOf(kept) : "s"}/${qi}`, k, kept, Q: qs[qi] };
+    S.found.add(end.id);
+    S.opened.add(k);
+    await card(c, end, true);
+    return end;
   }
-  const ANSWERS = [
-    {
-      q: "Start where it started. What was happening at the table?",
-      a: "I had already pulled the laptop toward me when the woman across the library table said she wanted to do it herself.",
-      s: "You said it the way it happened."
-    },
-    {
-      q: "Where was your hand?",
-      a: "My hand was still beside the trackpad.",
-      s: "A detail only you would know."
-    },
-    {
-      q: "And then what did you do?",
-      a: "[[I moved the computer back, very slowly,]] as if that would make the first movement less obvious.",
-      s: "That’s the sentence. You didn’t know you had it."
+  async function card(c, end, first) {
+    setMore("");
+    await mount(c, cardHTML(end, first), "card");
+    dayWall(D[end.Q.from] ? end.Q.from : end.k);
+    setRail(3);
+    setStamp("Essay room");
+    if (!first) {
+      setSay(VOW);
+      return;
     }
-  ];
-  const sentence = (x) => x.a.replace(/\[\[/g, '<span class="mk">').replace(/\]\]/g, "</span>");
-  const PARA = `<span class="wo">${ANSWERS.slice(0, -1).map(sentence).join(" ")} </span>${sentence(ANSWERS[ANSWERS.length - 1])}`;
-  async function room(c) {
+    watch(`She’d already said it, ${D[end.Q.from] ? "on " + long(D[end.Q.from].d) : "in " + srcOf(end.Q)}.`);
+    await say(c, VOW, 3200);
+  }
+  async function ending(c, end) {
+    for (; ; ) {
+      setStamp("That was Bookae");
+      setMore(`<p class="lede fin">She talked. Bookae kept the days${end.kept ? ", found a thread" : ""} and asked. The line in quotes is hers.</p>`);
+      guide(`${TAP} “Open another day”. Or try one of your own: talk or type.`);
+      const a = await choose(c, [
+        { id: "again", label: "Open another day", primary: true },
+        { id: "you", label: '<span class="lg">Try a day of your own</span><span class="sm">Your day</span>', icon: "mic" },
+        { id: "ut", label: "What UT Austin asks", quiet: true },
+        { href: LINKS.workspace, label: "Ask Bookae", quiet: true },
+        /* the page says itself whether its answers are live or recorded */
+        { href: LINKS.films, label: "Films", quiet: true }
+      ]);
+      if (a === "again") return;
+      if (a === "ut") await utAsks(c, end);
+      else await yourDay(c);
+      await card(c, end, false);
+    }
+  }
+  async function utAsks(c, end) {
+    const u = end.Q.ut;
     setRail(4);
-    setStamp("November · The personal statement");
-    wall("moss");
-    await mount(c, `<div class="room">
-    <article class="page sheetlike"><header><span class="label">Personal statement</span><span class="label">Elena Morales</span></header>
-      <div class="pbody" id="pbody"><p class="blank">The cursor blinks.</p></div>
-      <footer><span class="label" id="pcount">Nothing on the page yet</span><span class="label vowline">Bookae never writes for you</span></footer>
-    </article>
-    <div class="coachcol">
-      <div class="pin" id="pin"><p class="label">Your days</p><div class="picks" id="picks">${posterHTML("laptop", "", "button")}</div><span class="tip">${TAP} the July 13 day</span></div>
-      <div class="qcard" id="qcard" hidden>
-        <p class="label" id="qn"></p>
-        <p class="q" id="qtext"></p>
-        <p class="aline" id="aline"></p>
-        <div class="qact"><button type="button" class="c-icon c-mic" id="rmic" aria-label="Answer out loud">${IC.mic}</button><span class="tip" id="rtip"></span><button type="button" class="alt" id="ralt">Play her answer</button></div>
-      </div>
-      <button type="button" class="ghost" id="ghost">Write it for me</button>
-    </div></div>`, "room");
-    $("#ghost").addEventListener("click", (e) => {
-      const g = e.currentTarget;
-      g.textContent = "Bookae NEVER writes for you. It asks.";
-      g.classList.remove("no");
-      void g.offsetWidth;
-      g.classList.add("no");
-    });
-    setSay("UT Austin says any topic. The page is empty.");
-    guide(`${TAP} the July 13 day. Bookae starts from what Elena already said.`);
-    await new Promise((r) => $("#picks").addEventListener("click", (e) => {
-      if (e.target.closest(".poster")) r();
-    })).then(c.ok);
-    const m = M.laptop;
-    $("#pin").innerHTML = narrow() ? `<p class="label">${m.d} · ${m.t} · what you said then</p>` : `<blockquote class="said c-${m.c}"><span class="label">${m.d} · what you said then</span>“${m.q}”</blockquote>`;
-    watch("Bookae starts from a day she already told it about.");
-    await say(c, "You said this in July. It’s the day you keep coming back to.", 2600);
-    watch("That’s Bookae’s rule. Watch what it does instead.");
-    await say(c, 'Bookae <em class="nv">never</em> writes for you. It asks.', 3200);
-    const pbody = $("#pbody"), qcard = $("#qcard"), aline = $("#aline"), rmic = $("#rmic"), ralt = $("#ralt"), rtip = $("#rtip");
-    qcard.hidden = false;
-    let para = null, words = 0;
-    const lines = [];
-    S.para = null;
-    for (let i = 0; i < ANSWERS.length; i++) {
-      const A = ANSWERS[i], toks = A.a.replace(/\[\[|\]\]/g, "").split(" ").map((t, k, all) => ({ t, sp: k < all.length - 1 }));
-      $("#qn").textContent = `Bookae asks · ${i + 1} of ${ANSWERS.length}`;
-      $("#qtext").textContent = A.q;
-      for (; ; ) {
-        aline.innerHTML = toks.map((w) => `<span class="tw">${w.t}</span>`).join(" ");
-        rmic.classList.add("ready");
-        rmic.classList.remove("is-live");
-        rtip.hidden = false;
-        ralt.hidden = false;
-        rtip.textContent = `${TAP} the mic, then say the grey line`;
-        guide(`${TAP} the mic and answer as Elena, out loud.`);
-        let micP = null;
-        const how = await new Promise((r) => {
-          rmic.onclick = () => {
-            micP = S.voice === "sim" ? null : openMic();
-            r("mic");
-          };
-          ralt.onclick = () => r("play");
-        });
-        c.ok();
-        rmic.onclick = ralt.onclick = null;
-        rmic.classList.remove("ready");
-        rmic.classList.add("is-live");
-        rtip.hidden = true;
-        ralt.hidden = true;
-        const res = await runTake(c, toks, $$(".tw", aline), how === "mic" ? micP : null, {
-          real: () => guide("Say the grey line out loud. The voice bar shows what Bookae hears."),
-          sim: () => watch("This is a simulation of Elena answering, at talking pace.")
-        });
-        rmic.classList.remove("is-live");
-        if (res === "done") break;
-      }
-      $(".blank", pbody)?.remove();
-      if (!para) {
-        para = document.createElement("p");
-        pbody.appendChild(para);
-      }
-      const mine = tidy(S.spoken || "");
-      S.spoken = "";
-      const lineHTML = mine ? escH(mine) : sentence(A);
-      lines.push(lineHTML);
-      if (mine) {
-        S.para = true;
-        aline.innerHTML = `<span class="tw heard">${escH(mine)}</span>`;
-      }
-      para.insertAdjacentHTML("beforeend", `<span class="line">${lineHTML}</span> `);
-      words += mine ? countWords(mine) : toks.length;
-      if (i === ANSWERS.length - 1) qcard.hidden = true;
-      if (narrow()) aline.innerHTML = "";
-      $("#pcount").textContent = `${words} words · exactly as you said them`;
-      watch("Her answer goes on the page exactly as she said it.");
-      await say(c, A.s, 2400);
-    }
-    qcard.hidden = true;
-    if (S.para) S.para = `<span class="wo">${lines.slice(0, -1).join(" ")} </span>${lines[lines.length - 1]}`;
-    setSay("Three questions, three answers. A first paragraph nobody else could have.");
-    guide(`Try “Write it for me”. Then ${TAP.toLowerCase()} “Skip ahead three weeks”.`);
-    await ask(c, [{ id: "f", label: "Skip ahead three weeks", primary: true }]);
-    go(6);
-  }
-  async function finale(c) {
-    setRail(5);
-    gtag.textContent = "Guide";
-    setStamp("Three weeks later · For UT Austin");
     wall("tomato");
-    watch("The same eleven days, laid out for UT Austin’s three asks. Bookae never wrote a word of it.");
-    const dots2 = ["rasp", "moss", ...REST.map((r) => r[2])];
-    const kept = S.thread ? '<span class="pill kept">Making room for someone else</span>' : "";
-    await mount(c, `<div class="arr">
-    <div class="arr-top"><span class="label">Your days</span><span class="shelf-dots">${dots2.map((col) => `<i class="c-${col}"></i>`).join("")}</span><span class="shelf-n">${dots2.length} days kept</span></div>
-    <div class="pieces">
-      <article class="piece sheetlike"><span class="label">1 · Essay, any topic</span><h3>Your first paragraph</h3><p>${S.para || PARA}</p><span class="src">Every sentence said by you</span></article>
-      <article class="piece sheetlike"><span class="label">2 · Short answer</span><h3>Why this major?</h3><p class="pills"><span class="pill">“how you learn from a small sample”</span><span class="pill">“the paths people make themselves”</span><span class="pill">“geography and something about information”</span></p><span class="src">Not written. Your own lines, side by side.</span></article>
-      <article class="piece sheetlike"><span class="label">3 · Short answer</span><h3>Most proud of?</h3><p>“We made one existing library table a little easier to use. That’s what happened.”</p><p class="pills">${kept}<span class="pill">47 help visits</span><span class="pill n2">31 guide cards</span></p><span class="src">Your words and your counts</span></article>
-    </div></div>`, "arr");
-    $$(".piece", scene).forEach((el, i) => setTimeout(() => el.classList.add("in"), 400 + i * 900));
-    await say(c, "Eleven ordinary days, arranged three ways for UT Austin.", 4600);
-    setSay("A small movement. A story only you could tell.");
-    guide(`Look as long as you like. Then ${TAP.toLowerCase()} “Finish the story”.`);
-    await ask(c, [{ id: "e", label: "Finish the story", primary: true }]);
-    await mount(c, `<div class="end"><div class="endcard" id="endcard">
-      <p class="label">What you just used</p>
-      <ul>
-        <li><b>Voice journal</b>A day, kept by talking. The ums come out; her words stay.</li>
-        <li><b>Connect the dots</b>Think Obsidian’s graph view, for her own days. Bookae suggests the thread; she decides if it’s true.</li>
-        <li><b>School fit</b>A list that starts from her questions, with what each college asks for.</li>
-        <li><b>Essay room</b>Bookae asks, she answers out loud, and her answers are the page.</li>
-      </ul>
-      <p class="fine">Elena is made up. Bookae is live at bookae.ai as a free, invite-only pilot.</p>
-    </div></div>`, "end");
-    wall("bookae");
-    setStamp("You’re a reviewer again");
-    setSay("That was Bookae.");
-    setMore('<p class="vow">Bookae <span class="mk">never</span> writes for you.</p>');
-    actEl.innerHTML = `<div class="ctas"><a class="btn primary" href="${LINKS.workspace}" target="_blank" rel="noopener">Open the live workspace</a><a class="btn" href="${LINKS.films}" target="_blank" rel="noopener">Watch the films</a><button type="button" class="btn quiet" id="again">Play again</button></div>`;
-    $("#again").addEventListener("click", () => go(0));
-    watch("Here’s what you just used, and where to see more.");
+    setMore("");
+    await mount(c, `<div class="ut"><p class="label">The University of Texas at Austin asks first-year applicants for</p><ol>${UT.map((x, i) => `<li${i === u ? ' class="on"' : ""}><span><b>${x.b}</b> ${x.t}</span>${i === u ? `<blockquote class="sheetlike"><span class="label">Her line could start this one</span>“${curl(end.Q.ans)}”</blockquote>` : ""}</li>`).join("")}</ol>${u < 0 ? '<p class="utn">Not every line is for an application. This one is for her college list.</p>' : ""}</div>`, "ut");
+    setStamp("School fit · for the Austin crowd");
+    setSay("What UT Austin asks.");
+    guide(`${TAP} “Back to her card” when you’re ready.`);
+    await choose(c, [{ id: "b", label: "Back to her card", primary: true }]);
   }
-  const SCENES = [land, welcome, days, dots, fit, room, finale];
+  const YCOLS = ["rasp", "moss", "lilac", "tomato"];
+  async function yourDay(c) {
+    const now = /* @__PURE__ */ new Date();
+    const dShort = now.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+    const dLong = now.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+    for (; ; ) {
+      setRail(1);
+      wall("bookae");
+      setMore("");
+      await mount(c, `<div class="you"><div class="ypaper sheetlike">
+      <header><span class="label">Journal</span><span class="label">${dShort}</span><span class="label">Private</span></header>
+      <textarea id="ytext" rows="3" maxlength="200" placeholder="One thing that happened today." aria-label="One thing that happened today"></textarea>
+      <div class="vj-receipt" id="yrc" hidden></div>
+      <div class="c-foot"><button type="button" class="c-icon c-mic ready" id="ymic" aria-label="Talk">${IC.mic}</button><span class="tip" id="ytip">${TAP} to talk, or type</span><button type="button" class="btn primary c-save" id="yprint" disabled>Print my day</button></div>
+      <p class="ynote" id="ynote">Speech-to-text is your browser’s own. This page keeps nothing.</p></div></div>`, "you");
+      setStamp("Now you");
+      setSay("Say one thing that happened today.");
+      guide(`${TAP} the mic and say it, or type it. Then ${TAP.toLowerCase()} “Print my day”.`);
+      actEl.innerHTML = '<button type="button" class="btn quiet" data-back>Back to Elena’s card</button>';
+      const ta = $("#ytext"), mic = $("#ymic"), printB = $("#yprint"), rc = $("#yrc"), note = $("#ynote"), tip = $("#ytip");
+      let via = "typed", out = "";
+      const sync = () => {
+        printB.disabled = ta.value.trim().length < 3;
+        printB.classList.toggle("pulse", !printB.disabled);
+      };
+      ta.oninput = () => {
+        if (via === "said out loud") via = "said, then fixed";
+        rc.hidden = true;
+        sync();
+      };
+      while (!out) {
+        const what = await new Promise((res) => {
+          mic.onclick = () => res(["mic", openMic()]);
+          printB.onclick = () => res(["print"]);
+          actEl.onclick = (e) => {
+            if (e.target.closest("[data-back]")) res(["back"]);
+          };
+        }).then(c.ok);
+        if (what[0] !== "mic") {
+          out = what[0];
+          break;
+        }
+        mic.onclick = null;
+        mic.classList.remove("ready");
+        mic.classList.add("is-live");
+        tip.hidden = true;
+        const fl = $("#vjf"), cardEl = $("#vjcard"), ftext = $("#vjtext"), hintEl = $("#vjhint"), wave = $("#vjwave"), okBtn = $("#vjok"), xBtn = $("#vjx");
+        ftext.textContent = "";
+        cardEl.hidden = true;
+        okBtn.disabled = true;
+        okBtn.classList.remove("pulse");
+        fl.classList.add("is-open");
+        fl.removeAttribute("aria-hidden");
+        fl.inert = false;
+        hintEl.textContent = "Allow the microphone to start.";
+        let cancelled = false, pressed = false, said = "", ums = 0;
+        xBtn.onclick = () => {
+          cancelled = true;
+        };
+        okBtn.onclick = () => {
+          if (!okBtn.disabled) pressed = true;
+        };
+        S.floatKey = (e) => {
+          if (e.key === "Escape") cancelled = true;
+          else if (!okBtn.disabled) pressed = true;
+        };
+        const L = await what[1];
+        c.ok();
+        if (L && L.stt) {
+          S.listener = L;
+          hintEl.textContent = "Enter when you’re done · Esc cancels";
+          guide("Say it out loud. The bar shows exactly what your browser hears.");
+          const levels = [];
+          S.wave = setInterval(() => {
+            levels.push(L.level());
+            if (levels.length > 40) levels.shift();
+            drawWave(wave, levels);
+          }, 50);
+          const how = await hear(c, L, [], [], { card: cardEl, ftext, okBtn }, { cancelled: () => cancelled, pressed: () => pressed, quiet: 2400 });
+          if (how === "done") {
+            okBtn.classList.remove("pulse");
+            okBtn.disabled = true;
+            hintEl.textContent = "Catching your last words…";
+            L.stop();
+            await c.sleep(600);
+            const raw = L.text();
+            said = tidy(raw);
+            ums = (raw.match(/\S+/g) || []).filter((w) => FIL.test(w)).length;
+          } else {
+            L.stop();
+            if (how !== "cancel") note.textContent = "Nothing came through. Try again, or type it.";
+          }
+          S.listener = null;
+        } else {
+          if (L) L.stop();
+          note.textContent = "This browser can’t turn speech into text here. Type it instead.";
+        }
+        xBtn.onclick = okBtn.onclick = null;
+        floatClose();
+        mic.classList.remove("is-live");
+        mic.classList.add("ready");
+        tip.hidden = false;
+        if (said) {
+          const cut = said.length > 200;
+          ta.value = said.slice(0, 200);
+          via = "said out loud";
+          rc.hidden = false;
+          rc.innerHTML = `<span class="vj-receipt-mark" aria-hidden="true"></span><span class="vj-receipt-text"><b>${countWords(ta.value)} ${countWords(ta.value) === 1 ? "word" : "words"}</b>, as your browser heard them${ums ? `, minus ${ums} ${ums === 1 ? "um" : "ums"}` : ""}${cut ? ", cut to fit" : ""}. Fix anything it got wrong, or say it again.</span>`;
+          guide(`Those are your words. Fix anything, then ${TAP.toLowerCase()} “Print my day”.`);
+        } else {
+          guide(`${TAP} the mic and say it, or type it. Then ${TAP.toLowerCase()} “Print my day”.`);
+          if (!L || !L.stt) ta.focus();
+        }
+        sync();
+      }
+      if (out === "back") return;
+      const text = ta.value.trim().replace(/\s+/g, " "), n = countWords(text);
+      let h = 0;
+      for (const ch of text) h = h * 31 + ch.codePointAt(0) >>> 0;
+      const col = YCOLS[h % YCOLS.length], ms = Math.max(0.06, Math.min(0.14, 0.16 * Math.sqrt(22 / text.length)));
+      clearAct();
+      await mount(c, `<div class="you"><div class="pic hero printing c-${col}" id="ypic" style="--ms:${ms.toFixed(3)}"><span class="pic-tl">Today</span><span class="pic-tr">${n} ${n === 1 ? "word" : "words"}<br>${via}</span><b class="pic-mid ymid">${escH(text)}</b><span class="pic-bl">${dLong}</span><i class="printline" aria-hidden="true"></i></div></div>`, "you");
+      watch("Bookae is printing your day.");
+      setStamp("Now you");
+      setSay("Your day, in your words.");
+      await c.sleep(400);
+      $("#ypic").classList.add("go");
+      await c.sleep(850);
+      wall(col);
+      await c.sleep(760);
+      $("#ypic").classList.remove("printing", "go");
+      setMore('<p class="lede">In the app, Bookae draws the picture from what you said, the way it did for Elena’s days. Here it only sets your words.</p>');
+      guide(`${TAP} “Back to Elena’s card”, or say another.`);
+      const a = await choose(c, [{ id: "back", label: "Back to Elena’s card", primary: true }, { id: "more", label: "Say another", quiet: true }]);
+      if (a === "back") return;
+    }
+  }
+  const SCENES = [land, play];
   async function go(i, first) {
     S.i = i;
     S.next = null;
@@ -3814,11 +3877,7 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
       if (!(e instanceof Abort)) throw e;
     }
   }
-  rail.addEventListener("click", (e) => {
-    const b = e.target.closest("[data-go]");
-    if (b) go(+b.dataset.go);
-  });
-  skipBtn.addEventListener("click", () => go(Math.min(S.i + 1, 6)));
+  skipBtn.addEventListener("click", () => go(1));
   actEl.addEventListener("click", (e) => {
     if (e.target.closest("[data-next]")) S.next?.();
   });
@@ -3828,7 +3887,7 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
       S.floatKey(e);
       return;
     }
-    if (e.target.closest?.("button,a") || !["Enter", " ", "ArrowRight"].includes(e.key)) return;
+    if (e.target.closest?.("button,a,textarea,input") || !["Enter", " ", "ArrowRight"].includes(e.key)) return;
     const p = $(".btn.primary, .cta", document.body.dataset.mode === "land" ? scene : actEl) || $("#become");
     if (S.next) {
       e.preventDefault();
@@ -3840,6 +3899,13 @@ body[data-mode=land] :is(.rail, .skip, .guide, .dock) {
   });
   new ResizeObserver(() => S.relayout?.()).observe(scene);
   go(0, true);
+  setTimeout(function next(list = [...START, ...Object.keys(D).filter((k) => !START.includes(k))]) {
+    const k = list.shift();
+    if (!k) return;
+    const i = new Image();
+    i.onload = i.onerror = () => next(list);
+    i.src = `days/${D[k].f}.jpg`;
+  }, 900);
 })();
 </script>
 
